@@ -337,13 +337,23 @@ function ordenarVeiculos() {
   const criterio = document.getElementById("ordem-preco").value;
   if (criterio === "default") return;
 
+  // Ordenamos o array da categoria atual
   veiculos[categoriaAtual].sort((a, b) => {
     const precoA = parseInt(a.preco.replace(/[^0-9]/g, '')) || 0;
     const precoB = parseInt(b.preco.replace(/[^0-9]/g, '')) || 0;
+
     return criterio === "crescente" ? precoA - precoB : precoB - precoA;
   });
+
+ // Remove a cor preta de todos os botões
+document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("btn-active"));
+
+// Adiciona ao botão que clicaste
+const btnAtivo = document.getElementById(`btn-${cat}`);
+if (btnAtivo) btnAtivo.classList.add("btn-active"); // Atualizamos a vista (a função mostrarCategoria já lida com o filtro de marca)
   mostrarCategoria(categoriaAtual);
 }
+
 
 // --- INICIALIZAÇÃO ---
 

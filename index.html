@@ -95,31 +95,37 @@
   
   </style>
 </head>
+    <div class="flex justify-center mb-10">
+        <nav class="flex gap-4 md:gap-8 border-b border-gray-100 dark:border-zinc-900 pb-4 w-full justify-center">
+          <button onclick="mostrarCategoria('carros')" id="btn-carros" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-4 transition-all">Automóveis</button>
+          <button onclick="mostrarCategoria('motas')" id="btn-motas" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-4 transition-all">Motociclos</button>
+          <button onclick="mostrarCategoria('outros')" id="btn-outros" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-4 transition-all">Especiais</button>
+        </nav>
+      </div>
 
-<body class="antialiased dark:bg-zinc-950 dark:text-white">
+      <div class="max-w-7xl mx-auto mb-12">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-zinc-50/50 dark:bg-zinc-900/30 p-4 rounded-sm">
+          
+          <div class="flex items-center gap-4">
+            <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Marca:</span>
+            <div id="filtros-marcas" class="flex gap-2 overflow-x-auto no-scrollbar">
+              </div>
+          </div>
 
-<div id="zoom-overlay" onclick="fecharZoom()" class="fixed inset-0 bg-black/95 z-[200] hidden flex items-center justify-center cursor-zoom-out">
-    <img id="img-zoom" src="" class="max-w-[95%] max-h-[95%] object-contain shadow-2xl transition-transform duration-300">
-    <button class="absolute top-6 right-6 text-white text-3xl">✕</button>
-</div>
+          <div class="flex items-center gap-3">
+            <select id="ordem-preco" onchange="ordenarVeiculos()" class="select-premium">
+              <option value="default">Ordenar por</option>
+              <option value="crescente">Preço: Baixo > Alto</option>
+              <option value="decrescente">Preço: Alto > Baixo</option>
+            </select>
 
-  <div class="max-w-7xl mx-auto px-6 py-12">
-    <header class="text-center mb-20">
-      <span class="text-xs uppercase tracking-[0.3em] text-gray-400 font-semibold">Exclusividade & Performance</span>
-      <h1 class="display-font text-5xl md:text-6xl mt-4 mb-2 italic">Ivo Gomes</h1>
-      <div class="h-px w-20 bg-gray-200 mx-auto my-6"></div>
-      <p class="text-gray-400 font-light text-lg tracking-wide">Automóveis de excelência, criteriosamente selecionados.</p>
-    </header>
-
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
-      <div id="filtros-marcas" class="flex gap-2 overflow-x-auto no-scrollbar py-2">
+            <button id="btn-ver-favoritos" onclick="toggleVerFavoritos()" 
+                    class="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] border border-zinc-200 dark:border-zinc-800 px-5 py-2 transition-all hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black">
+              <span id="fav-icon">❤️</span> (<span id="fav-count">0</span>)
+            </button>
+          </div>
         </div>
-      
-      <button id="btn-ver-favoritos" onclick="toggleVerFavoritos()" 
-              class="flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.2em] border border-zinc-200 dark:border-zinc-800 px-6 py-3 transition-all hover:border-red-500 group">
-        <span id="fav-icon">❤️</span> Meus Favoritos (<span id="fav-count">0</span>)
-      </button>
-    </div>
+      </div>
 
     <main id="lista-veiculos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-12"></main>
   </div>
