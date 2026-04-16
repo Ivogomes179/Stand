@@ -185,7 +185,7 @@ function criarCardHTML(v, index, cat) {
         <img src="${imagem}" 
              onclick="abrirGaleria('${cat}', ${index})" 
              class="w-full h-full object-cover transition duration-700 group-hover:scale-110 
-             ${isVendido ? 'grayscale brightness-[0.4] contrast-[1.2]' : ''}">
+             ${isVendido ? 'grayscale brightness-[0.6] contrast-[1.2]' : ''}">
         
         ${isVendido ? '<div class="absolute inset-0 bg-black/20 pointer-events-none"></div>' : ''}
 
@@ -285,11 +285,16 @@ function fecharZoom() {
 function ordenarVeiculos() {
   const criterio = document.getElementById("ordem-preco").value;
   if (criterio === "default") return;
+
+  // Ordenar a categoria ativa
   veiculos[categoriaAtual].sort((a, b) => {
-    const pA = parseInt(a.preco.replace(/[^0-9]/g, '')) || 0;
-    const pB = parseInt(b.preco.replace(/[^0-9]/g, '')) || 0;
+    // Removemos símbolos e convertemos para número para comparar
+    const pA = parseFloat(a.preco.replace(/[^0-9,.]/g, '').replace(',', '.')) || 0;
+    const pB = parseFloat(b.preco.replace(/[^0-9,.]/g, '').replace(',', '.')) || 0;
     return criterio === "crescente" ? pA - pB : pB - pA;
   });
+
+  // Re-renderizar para mostrar a nova ordem
   mostrarCategoria(categoriaAtual);
 }
 
