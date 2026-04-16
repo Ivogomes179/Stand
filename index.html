@@ -14,25 +14,44 @@
     .btn-active { background-color: #1a1a1a !important; color: white !important; transform: translateY(-2px); }
     #lista-veiculos { transition: all 0.5s ease-in-out; }
     
-    .select-premium {
-      background-color: transparent;
-      border: 1px solid #e5e7eb;
-      padding: 8px 16px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      outline: none;
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      background-size: 12px;
-      padding-right: 40px;
-    }
+    /* Estilo do Seletor */
+.select-premium {
+  background-color: transparent;
+  border: 1px solid #e5e7eb;
+  padding: 8px 16px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #1a1a1a; /* Cor do texto no modo claro */
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  padding-right: 40px;
+}
 
-    .dark .select-premium { border-color: #27272a; color: #ffffff; }
+/* Forçar cores das opções (o que aparece ao clicar) */
+.select-premium option {
+  background-color: #ffffff !important;
+  color: #1a1a1a !important;
+}
+
+/* Ajustes para o MODO ESCURO */
+.dark .select-premium {
+  border-color: #27272a;
+  color: #ffffff; /* Texto branco no botão modo escuro */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ffffff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+}
+
+.dark .select-premium option {
+  background-color: #1a1a1a !important; /* Fundo escuro nas opções */
+  color: #ffffff !important;           /* Texto branco nas opções */
+}
+
     #modal-galeria { backdrop-filter: blur(15px) saturate(180%); -webkit-backdrop-filter: blur(15px) saturate(180%); transition: all 0.4s ease; }
     .card-animado { animation: slideUp 0.6s ease forwards; }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
