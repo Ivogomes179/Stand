@@ -109,20 +109,32 @@ function filtrarPorMarca(marca) {
 }
 
 function toggleFavorito(event, nomeVeiculo) {
-  event.stopPropagation();
+  // Impede que o clique no coração abra a galeria do carro
+  if (event) event.stopPropagation();
+
   const index = favoritos.indexOf(nomeVeiculo);
+  
   if (index === -1) {
-    favoritos.push(nomeVeiculo);
+    favoritos.push(nomeVeiculo); // Adiciona se não existir
   } else {
-    favoritos.splice(index, 1);
+    favoritos.splice(index, 1); // Remove se já existir
   }
+
+  // Guarda na memória do browser
   localStorage.setItem('stand_favs', JSON.stringify(favoritos));
+  
+  // Atualiza o número no botão do topo
   atualizarContagemFavs();
-  // Se estivermos no modo "Ver Favoritos", atualiza a lista na hora
-  const btn = document.getElementById('btn-ver-favoritos');
-  if (btn && btn.classList.contains('bg-red-500')) {
+  
+  // Refresh visual: se estivermos a ver favoritos, remove o card. 
+  // Se não, apenas atualiza o ícone.
+  const btnFav = document.getElementById('btn-ver-favoritos');
+  if (btnFav && btnFav.classList.contains('bg-red-500')) {
     renderizarFavoritos();
   } else {
+    // Apenas redesenha a categoria atual para mostrar o ❤️ preenchido
+    const lista = document.getElementById("lista-veiculos");
+    lista.style.transition = "none"; // Evita o fade-in ao clicar no favorito
     mostrarCategoria(categoriaAtual);
   }
 }
@@ -200,15 +212,19 @@ function criarCardHTML(v, index, cat) {
 
   return `
     <article class="group bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
-      <div class="relative aspect-[4/3] cursor-pointer overflow-hidden" onclick="abrirGaleria('${cat}', ${index})">
-        <img src="${v.imagens[0]}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 ${isVendido ? 'grayscale opacity-50' : ''}">
+      <div class="relative aspect-[4/3] cursor-pointer overflow-hidden">
+        <img src="${v.imagens[0]}" onclick="abrirGaleria('${cat}', ${index})" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 ${isVendido ? 'grayscale opacity-50' : ''}">
         
-        <button onclick="toggleFavorito(event, '${v.nome}')" class="absolute top-4 left-4 z-20 p-2 bg-black/20 backdrop-blur-md rounded-full hover:bg-black/40 transition">
-          <span class="${isFav ? 'text-red-500' : 'text-white opacity-70'} text-sm">${isFav ? '❤️' : '🤍'}</span>
+        <button onclick="toggleFavorito(event, '${v.nome}')" 
+                class="absolute top-4 left-4 z-30 p-2 bg-black/20 backdrop-blur-md rounded-full hover:bg-black/60 transition-all duration-300 group/fav">
+          <span class="${isFav ? 'text-red-500 scale-110' : 'text-white opacity-70 group-hover/fav:opacity-100'} text-sm block transition-transform">
+            ${isFav ? '❤️' : '🤍'}
+          </span>
         </button>
 
         <div class="absolute top-4 right-4 px-3 py-1 text-[9px] uppercase font-bold ${badge.classe}">${badge.texto}</div>
       </div>
+      
       <div class="p-8">
         <h3 class="display-font text-2xl mb-2">${v.nome}</h3>
         <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-6 border-b pb-4">${v.detalhes}</p>
