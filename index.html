@@ -88,31 +88,46 @@
 
     <div class="max-w-7xl mx-auto mb-12">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-zinc-50/50 dark:bg-zinc-900/30 p-4 rounded-sm border border-gray-100 dark:border-zinc-900">
-        
+      <div class="flex flex-col gap-4 w-full">
         <div class="flex items-center gap-4">
           <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Marca:</span>
-          <div id="filtros-marcas" class="flex gap-2 overflow-x-auto no-scrollbar">
-            </div>
+          <div id="filtros-marcas" class="flex gap-2 overflow-x-auto no-scrollbar"></div>
+        </div>
 
-            <div class="flex flex-wrap gap-4 mt-4 pt-4 border-t border-gray-50 dark:border-zinc-900">
-            <div class="flex items-center gap-2">
-              <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Caixa:</span>
-              <select id="filtro-transmissao" onchange="mostrarCategoria(categoriaAtual)" class="select-premium !py-1">
-                <option value="todas">Todas</option>
-                <option value="Automática">Automática</option>
-                <option value="Manual">Manual</option>
-              </select>
-            </div>
-            
-            <div class="flex items-center gap-2">
-              <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Motor:</span>
-              <select id="filtro-combustivel" onchange="mostrarCategoria(categoriaAtual)" class="select-premium !py-1">
-                <option value="todas">Todos</option>
-                <option value="Gasolina">Gasolina</option>
-                <option value="Gasóleo">Gasóleo</option>
-              </select>
-            </div>
+        <div class="flex flex-wrap gap-6 pt-4 border-t border-gray-100 dark:border-zinc-800/50">
+          <div class="flex items-center gap-2">
+            <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Caixa:</span>
+            <select id="filtro-transmissao" onchange="mostrarCategoria(categoriaAtual)" class="select-premium">
+              <option value="todas">Todas</option>
+              <option value="Automática">Automática</option>
+              <option value="Manual">Manual</option>
+            </select>
           </div>
+          
+          <div class="flex items-center gap-2">
+            <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Motor:</span>
+            <select id="filtro-combustivel" onchange="mostrarCategoria(categoriaAtual)" class="select-premium">
+              <option value="todas">Todos</option>
+              <option value="Gasolina">Gasolina</option>
+              <option value="Gasóleo">Gasóleo</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3 shrink-0">
+        <select id="ordem-preco" onchange="ordenarVeiculos()" class="select-premium">
+          <option value="default">Ordenar por</option>
+          <option value="crescente">Preço: Baixo > Alto</option>
+          <option value="decrescente">Preço: Alto > Baixo</option>
+        </select>
+
+        <button id="btn-ver-favoritos" onclick="toggleVerFavoritos()" 
+                class="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] border border-zinc-200 dark:border-zinc-800 px-5 py-2 transition-all hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black">
+          <span id="fav-icon">❤️</span> (<span id="fav-count">0</span>)
+        </button>
+      </div>
+    </div>
         </div>
 
         <div class="flex items-center gap-3">
