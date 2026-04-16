@@ -4,6 +4,8 @@ let categoriaAtual = 'carros';
 let fotoIndice = 0;
 let veiculoAtual = null;
 let filtroMarcaAtual = 'todas';
+let imagensAtuais = [];
+let fotoAtualIdx = 0;
 
 // Recuperar favoritos do LocalStorage
 let favoritos = JSON.parse(localStorage.getItem('stand_favs')) || [];
