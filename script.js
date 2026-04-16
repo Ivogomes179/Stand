@@ -208,20 +208,55 @@ function partilharVeiculo() {
 }
 
 function ordenarVeiculos() {
-  const select = document.getElementById("ordem-preco");
-  const criterio = select.value;
+  const criterio = document.getElementById("ordem-preco").value;
   if (criterio === "default") return;
 
-  // Ordena a categoria atual
+  // 1. Ordenar o array original de dados
   veiculos[categoriaAtual].sort((a, b) => {
-    const precoA = parseFloat(a.preco.replace(/[^0-9]/g, '')) || 0;
-    const precoB = parseFloat(b.preco.replace(/[^0-9]/g, '')) || 0;
+    // Remove tudo o que não é número (ex: "64.990€" vira 64990)
+    const precoA = parseInt(a.preco.replace(/[^0-9]/g, '')) || 0;
+    const precoB = parseInt(b.preco.replace(/[^0-9]/g, '')) || 0;
 
-    return criterio === "crescente" ? precoA - precoB : precoB - precoA;
+    if (criterio === "crescente") return precoA - precoB;
+    if (criterio === "decrescente") return precoB - precoA;
   });
 
-  // Atualiza a visualização sem mudar de categoria
-  mostrarCategoria(categoriaAtual);
+  // 2. Forçar a atualização da lista no ecrã
+  renderizarListaDireta();
+}
+
+// Função auxiliar para atualizar a lista sem animações de delay que quebram a ordenação
+function renderizarListaDireta() {
+  const lista = document.getElementById("lista-veiculos");
+  lista.innerHTML = veiculos[categoriaAtual].map((v, index) => {
+    // Aqui reutilizamos a lógica do card (podes copiar a do teu mostrarCategoria)
+    const isVendido = v.status === 'vendido';
+    const statusLabels = {
+      disponivel: { texto: 'Disponível', classe: 'bg-white/90 text-black' },
+      reservado: { texto: 'Reservado', classe: 'bg-amber-500 text-white' },
+      vendido: { texto: 'Vendido', classe: 'bg-zinc-500 text-white' }
+    };
+    const badge = statusLabels[v.status] || statusLabels.disponivel;
+    
+    return `
+    <article class="group bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
+      <div class="relative aspect-[4/3] cursor-pointer overflow-hidden" onclick="abrirGaleria('${categoriaAtual}', ${index})">
+        <img src="${v.imagens[0]}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 ${isVendido ? 'grayscale opacity-50' : ''}">
+        <div class="absolute top-4 right-4 px-3 py-1 text-[9px] uppercase font-bold ${badge.classe}">${badge.texto}</div>
+      </div>
+      <div class="p-8">
+        <h3 class="display-font text-2xl mb-2">${v.nome}</h3>
+        <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-6 border-b pb-4">${v.detalhes}</p>
+        <div class="flex justify-between items-center gap-4">
+           <div>
+              <span class="text-[9px] text-gray-400 uppercase block tracking-widest">Investimento</span>
+              <span class="text-xl font-light">${isVendido ? '---' : v.preco}</span>
+           </div>
+           <button onclick="abrirGaleria('${categoriaAtual}', ${index})" class="border border-black dark:border-white px-6 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition">Explorar</button>
+        </div>
+      </div>
+    </article>`;
+  }).join("");
 }
 
 // 4. INICIALIZAÇÃO E TECLADO
