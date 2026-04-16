@@ -249,21 +249,7 @@ function criarCardHTML(v, index, cat) {
 // --- GALERIA E ZOOM ---
 
 function abrirGaleria(cat, index) {
-
-   const v = veiculos[cat][index];
-    
-    // Se o carro não tiver imagens, usamos a nossa imagem de reserva
-    const fotosParaMostrar = (v.imagens && v.imagens.length > 0) ? v.imagens : [imgBrevemente];
-    
-    // Agora o resto do código usa 'fotosParaMostrar' em vez de 'v.imagens'
-    fotoAtualIdx = 0;
-    document.getElementById('modal-galeria').classList.remove('hidden');
-    
-    // Atualiza a foto grande no modal
-    const fotoGrande = document.getElementById('foto-grande');
-    fotoGrande.src = fotosParaMostrar[0]; 
-
-  // Se for da lista de favoritos, temos de encontrar o veículo no array original
+  // 1. Identificar o veículo (seja favorito ou categoria normal)
   if (cat === 'favoritos') {
     const todos = [...veiculos.carros, ...veiculos.motas, ...veiculos.outros];
     const filtrados = todos.filter(v => favoritos.includes(v.nome));
@@ -273,23 +259,49 @@ function abrirGaleria(cat, index) {
   }
 
   if (!veiculoAtual) return;
-  fotoIndice = 0;
 
+  // 2. Lógica da Imagem de Reserva (Brevemente)
+  // Se o veículo não tiver imagens, criamos um array com a foto de reserva
+  const fotosExibir = (veiculoAtual.imagens && veiculoAtual.imagens.length > 0) 
+    ? veiculoAtual.imagens 
+    : [imgBrevemente];
+
+  // 3. Reset de índices e abertura do Modal
+  fotoIndice = 0; // Garante que começa na primeira foto
+  document.getElementById('modal-galeria').classList.replace('hidden', 'flex');
+  document.body.style.overflow = 'hidden';
+
+  // 4. Preencher Textos e Imagem Principal
   document.getElementById('modal-nome').innerText = veiculoAtual.nome;
   document.getElementById('modal-detalhes').innerText = veiculoAtual.detalhes;
-  document.getElementById('modal-descricao').innerText = veiculoAtual.descricao || "Sem descrição disponível.";
+  document.getElementById('modal-descricao').innerText = veiculoAtual.descricao || "Contacte-nos para mais informações sobre este exemplar exclusivo.";
+  document.getElementById('foto-grande').src = fotosExibir[0];
 
+  // 5. Especificações Técnicas
   const sCont = document.getElementById('modal-specs');
   sCont.innerHTML = "";
   if(veiculoAtual.specs) {
     Object.entries(veiculoAtual.specs).forEach(([k, val]) => {
-      sCont.innerHTML += `<div class="border border-gray-100 dark:border-zinc-800 p-3">
+      sCont.innerHTML += `
+      <div class="border border-gray-100 dark:border-zinc-800 p-3">
         <span class="block text-[9px] text-gray-400 uppercase tracking-widest mb-1">${k}</span>
         <span class="text-xs font-bold uppercase dark:text-zinc-200">${val}</span>
       </div>`;
     });
   }
 
+  // 6. Gerar Miniaturas (importante para o "Brevemente" aparecer lá em baixo também)
+  const miniaturasContainer = document.getElementById('miniaturas');
+  miniaturasContainer.innerHTML = "";
+  fotosExibir.forEach((img, idx) => {
+    const imgEl = document.createElement('img');
+    imgEl.src = img;
+    imgEl.className = `miniatura-img w-20 h-20 object-cover cursor-pointer border-2 ${idx === 0 ? 'border-black' : 'border-transparent'} hover:opacity-80`;
+    imgEl.onclick = () => mudarFoto(idx); // Garante que o clique na miniatura funciona
+    miniaturasContainer.appendChild(imgEl);
+  });
+
+  // 7. Footer e Botão WhatsApp
   const msg = encodeURIComponent(`Olá Ivo, gostaria de saber mais sobre o ${veiculoAtual.nome}.`);
   document.getElementById('modal-footer-content').innerHTML = `
     <div class="flex flex-col sm:flex-row justify-between items-center gap-6 w-full pt-4">
@@ -300,9 +312,10 @@ function abrirGaleria(cat, index) {
       <a href="https://wa.me/${telefone}?text=${msg}" target="_blank" class="w-full sm:w-auto text-center bg-black dark:bg-white text-white dark:text-black px-12 py-4 text-[10px] uppercase tracking-[0.2em] hover:opacity-80 transition shadow-lg">Solicitar Informações</a>
     </div>`;
 
-  atualizarVisualizacao();
-  document.getElementById('modal-galeria').classList.replace('hidden', 'flex');
-  document.body.style.overflow = 'hidden';
+  // 8. Se tiveres uma função global de atualizar a vista, chama-a
+  if (typeof atualizarVisualizacao === "function") {
+    atualizarVisualizacao();
+  }
 }
 
 function mudarFotoCard(direcao) {
