@@ -15,14 +15,15 @@
     #lista-veiculos { transition: all 0.5s ease-in-out; }
     
     /* Estilo do Seletor */
+/* Estilo do Seletor Principal */
 .select-premium {
-  background-color: transparent;
+  background-color: #ffffff; /* Fundo branco fixo no modo claro */
   border: 1px solid #e5e7eb;
   padding: 8px 16px;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: #1a1a1a; /* Cor do texto no modo claro */
+  color: #1a1a1a !important; /* Texto escuro no modo claro */
   cursor: pointer;
   outline: none;
   appearance: none;
@@ -32,9 +33,10 @@
   background-position: right 12px center;
   background-size: 12px;
   padding-right: 40px;
+  transition: all 0.3s ease;
 }
 
-/* Forçar cores das opções (o que aparece ao clicar) */
+/* Forçar cores das opções (a lista que abre) */
 .select-premium option {
   background-color: #ffffff !important;
   color: #1a1a1a !important;
@@ -42,14 +44,20 @@
 
 /* Ajustes para o MODO ESCURO */
 .dark .select-premium {
+  background-color: #18181b; /* Fundo zinco escuro */
   border-color: #27272a;
-  color: #ffffff; /* Texto branco no botão modo escuro */
+  color: #ffffff !important; /* Texto branco no modo escuro */
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ffffff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
 }
 
 .dark .select-premium option {
-  background-color: #1a1a1a !important; /* Fundo escuro nas opções */
-  color: #ffffff !important;           /* Texto branco nas opções */
+  background-color: #18181b !important;
+  color: #ffffff !important;
+}
+
+/* Efeito Hover para parecer um botão */
+.select-premium:hover {
+  border-color: #c5a059; /* Cor dourada ao passar o rato */
 }
 
     #modal-galeria { backdrop-filter: blur(15px) saturate(180%); -webkit-backdrop-filter: blur(15px) saturate(180%); transition: all 0.4s ease; }

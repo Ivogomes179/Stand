@@ -207,6 +207,23 @@ function partilharVeiculo() {
   }
 }
 
+function ordenarVeiculos() {
+  const select = document.getElementById("ordem-preco");
+  const criterio = select.value;
+  if (criterio === "default") return;
+
+  // Ordena a categoria atual
+  veiculos[categoriaAtual].sort((a, b) => {
+    const precoA = parseFloat(a.preco.replace(/[^0-9]/g, '')) || 0;
+    const precoB = parseFloat(b.preco.replace(/[^0-9]/g, '')) || 0;
+
+    return criterio === "crescente" ? precoA - precoB : precoB - precoA;
+  });
+
+  // Atualiza a visualização sem mudar de categoria
+  mostrarCategoria(categoriaAtual);
+}
+
 // 4. INICIALIZAÇÃO E TECLADO
 window.onload = () => mostrarCategoria('carros');
 
