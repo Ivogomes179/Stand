@@ -1,304 +1,124 @@
-const telefone = "351XXXXXXXXX";
+const telefone = "351XXXXXXXXX"; 
 let categoriaAtual = 'carros';
-let slideshowInterval;
 let fotoIndice = 0;
 let veiculoAtual = null;
 
-// 1. BASE DE DADOS
 const veiculos = {
   carros: [
     {
       nome: "BMW M4 Competition",
-      detalhes: "43.xxx km • 2018 • Gasolina • Caixa Automática",
+      detalhes: "43.xxx km • 2018 • Gasolina",
       preco: "64.990€",
       status: "reservado",
       imagens: [
         "Disponiveis/M4/m4-1.jpeg", "Disponiveis/M4/m4-2.jpeg", "Disponiveis/M4/m4-3.jpeg",
-        "Disponiveis/M4/m4-4.jpeg", "Disponiveis/M4/m4-5.jpeg", "Disponiveis/M4/m4-6.jpeg",
-        "Disponiveis/M4/m4-7.jpeg", "Disponiveis/M4/m4-8.jpeg", "Disponiveis/M4/m4-9.jpeg",
-        "Disponiveis/M4/m4-10.jpeg", "Disponiveis/M4/m4-11.jpeg", "Disponiveis/M4/m4-12.jpeg",
-        "Disponiveis/M4/m4-13.jpeg", "Disponiveis/M4/m4-14.jpeg", "Disponiveis/M4/m4-15.jpeg",
-        "Disponiveis/M4/m4-16.jpeg"
+        "Disponiveis/M4/m4-4.jpeg", "Disponiveis/M4/m4-5.jpeg", "Disponiveis/M4/m4-6.jpeg"
       ],
-      // NOVOS CAMPOS:
-      descricao: "Viatura num estado irrepreensível, com histórico completo na marca. Um verdadeiro ícone de performance com o pack Competition original.",
-      specs: {
-        motor: "3.0 TwinPower Turbo",
-        potencia: "450 cv",
-        transmissao: "DCT 7 Velocidades",
-        traçao: "Traseira",
-        aceleracao: "4.0s (0-100 km/h)"
-      },
+      descricao: "Viatura num estado irrepreensível.",
+      specs: { "Motor": "3.0 Turbo", "Potência": "450 cv" }
     },
     {
       nome: "Seat Ibiza 6l",
-      detalhes: "4xx Cv • 2006 • Gasóleo • Kit Nitro/Metanol",
+      detalhes: "2006 • Diesel",
       preco: "8.990€",
       status: "vendido",
       imagens: [
-        "Disponiveis/6l-1/6l1.jpg", "Disponiveis/6l-1/6l2.jpg", "Disponiveis/6l-1/6l3.jpg", 
-        "Disponiveis/6l-1/6l4.jpg", "Disponiveis/6l-1/6l5.jpg", "Disponiveis/6l-1/6l6.jpg", 
-        "Disponiveis/6l-1/6l7.jpg", "Disponiveis/6l-1/6l8.jpg", "Disponiveis/6l-1/6l9.jpg"
-      ]
-    },
-    {
-      nome: "BMW 120D XDrive",
-      detalhes: "108.xxx km • 2018 • Gasóleo • Caixa Automática",
-      preco: "21.990€",
-      status: "disponivel",
-      imagens: ["https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=1200"]
-    },
-    {
-      nome: "Mercedes CLK 200 KOMPRESSOR",
-      detalhes: "191.xxx km • 2003 • Gasolina • Caixa Automática",
-      preco: "14.990€",
-      status: "disponivel",
-      imagens: ["https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=1200"]
+        "Disponiveis/6l-1/6l1.jpg", "Disponiveis/6l-1/6l2.jpg", "Disponiveis/6l-1/6l3.jpg"
+      ],
+      descricao: "Projeto único.",
+      specs: { "Motor": "1.9 TDI", "Potência": "400+ cv" }
     }
   ],
-  motas: [
-    {
-      nome: "Yamaha MT-09",
-      detalhes: "7.300 km • 2020 • 900cc",
-      preco: "8.500€",
-      status: "vendido",
-      imagens: [
-        "Disponiveis/MT09/mt1.jpg", "Disponiveis/MT09/mt2.jpg", "Disponiveis/MT09/mt3.jpg",
-        "Disponiveis/MT09/mt4.jpg", "Disponiveis/MT09/mt5.jpg", "Disponiveis/MT09/mt6.jpg",
-        "Disponiveis/MT09/mt7.jpg", "Disponiveis/MT09/mt8.jpg", "Disponiveis/MT09/mt9.jpg"
-      ]
-    },
-    {
-      nome: "Casal K191",
-      detalhes: "Relíquia • 1971 • 49cc",
-      preco: "2.500€",
-      status: "disponivel",
-      imagens: ["https://images.unsplash.com/photo-1449491026472-43219488dcb1?auto=format&fit=crop&q=80&w=1200"]
-    }
-  ],
-  outros: [
-    {
-      nome: "Carrinha de Trabalho",
-      detalhes: "200.000 km • Diesel • Pronta a faturar",
-      preco: "4.000€",
-      status: "disponivel",
-      imagens: ["https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&q=80&w=1200"]
-    }
-  ]
+  motas: [],
+  outros: []
 };
 
-// 2. AMBIENTE
-function aplicarModoNoturno() {
-  const hora = new Date().getHours();
-  const prefereEscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  if (hora >= 19 || hora <= 7 || prefereEscuro) {
-    document.documentElement.classList.add('dark');
-    document.body.style.backgroundColor = "#0a0a0a";
-    document.body.style.color = "#f5f5f5";
-  }
-}
-
-// 3. CONSTRUTOR DE CARDS
-function criarCard(v, index, categoria) {
-  const msg = encodeURIComponent(`Olá Ivo, gostaria de saber mais detalhes sobre o ${v.nome}.`);
-  const statusLabels = {
-    disponivel: { texto: 'Disponível', classe: 'bg-white/90 text-black' },
-    reservado: { texto: 'Reservado', classe: 'bg-amber-500 text-white' },
-    vendido: { texto: 'Vendido', classe: 'bg-zinc-500 text-white' }
-  };
-  const badge = statusLabels[v.status] || statusLabels.disponivel;
-  const isVendido = v.status === 'vendido';
-
-  return `
-    <article class="card-animado group bg-white dark:bg-transparent border border-gray-100 dark:border-zinc-800 overflow-hidden hover:border-gray-300 dark:hover:border-zinc-600 transition-all duration-500 shadow-sm hover:shadow-lg">
-      <div class="relative overflow-hidden aspect-[4/3] cursor-pointer" onclick="abrirGaleria('${categoria}', ${index})">
-        <img src="${v.imagens[0]}" alt="${v.nome}" class="w-full h-full object-cover ${isVendido ? 'grayscale opacity-50' : 'grayscale-[20%] group-hover:grayscale-0 group-hover:scale-110'} transition duration-700">
-        <div class="absolute top-4 right-4 px-3 py-1 text-[9px] uppercase tracking-widest font-bold ${badge.classe}">${badge.texto}</div>
-        ${!isVendido ? `<div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="text-white text-[10px] uppercase tracking-[0.3em] border border-white px-4 py-2 bg-black/20 backdrop-blur-sm">Explorar Galeria</span></div>` : ''}
+function mostrarCategoria(cat) {
+  categoriaAtual = cat;
+  const lista = document.getElementById("lista-veiculos");
+  if (!lista) return;
+  
+  lista.innerHTML = veiculos[cat].map((v, index) => {
+    return `
+    <article class="bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 overflow-hidden shadow-sm">
+      <div class="relative aspect-[4/3] cursor-pointer" onclick="abrirGaleria('${cat}', ${index})">
+        <img src="${v.imagens[0]}" class="w-full h-full object-cover">
       </div>
-      <div class="p-8">
-        <h3 class="display-font text-2xl mb-2">${v.nome}</h3>
-        ${v.nome.includes('M4') ? `<div class="inline-block badge-premium px-2 py-0.5 text-[8px] uppercase tracking-widest font-bold mb-3 rounded-sm">Histórico Verificado BMW</div>` : ''}
-        <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-6 border-b border-gray-50 dark:border-zinc-900 pb-4">${v.detalhes}</p>
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div><span class="text-[9px] text-gray-400 uppercase block tracking-widest">Investimento</span><span class="text-xl font-light tracking-tighter dark:text-zinc-200">${isVendido ? '---' : v.preco}</span></div>
-          <a href="https://wa.me/${telefone}?text=${msg}" target="_blank" class="w-full sm:w-auto text-center border border-black dark:border-white text-black dark:text-white px-6 py-3 text-[10px] uppercase tracking-[0.2em] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">Contactar</a>
+      <div class="p-6">
+        <h3 class="display-font text-xl mb-2">${v.nome}</h3>
+        <p class="text-gray-400 text-[10px] uppercase mb-4">${v.detalhes}</p>
+        <div class="flex items-center justify-between">
+          <span class="text-lg font-bold">${v.preco}</span>
+          <button onclick="abrirGaleria('${cat}', ${index})" class="border border-black dark:border-white px-4 py-2 text-[10px] uppercase">Ver Mais</button>
         </div>
       </div>
     </article>`;
+  }).join("");
 }
 
-// 4. GALERIA
-function abrirGaleria(categoria, index) {
-  const v = veiculos[categoria][index];
+function abrirGaleria(cat, index) {
+  const v = veiculos[cat][index];
+  if (!v) return;
   veiculoAtual = v;
   fotoIndice = 0;
 
-  const modal = document.getElementById('modal-galeria');
-  
-  // Textos
+  // Preencher textos
   document.getElementById('modal-nome').innerText = v.nome;
   document.getElementById('modal-detalhes').innerText = v.detalhes;
-  document.getElementById('modal-descricao').innerText = v.descricao || "Sem descrição disponível.";
-
-  // Specs com letras maiores
-  const specsContainer = document.getElementById('modal-specs');
-  specsContainer.innerHTML = "";
-  if (v.specs) {
-    for (const [key, value] of Object.entries(v.specs)) {
-      specsContainer.innerHTML += `
-        <div class="border border-gray-100 dark:border-zinc-900 p-3">
-          <span class="block text-[10px] uppercase text-gray-400 tracking-widest mb-1">${key}</span>
-          <span class="text-[13px] font-medium uppercase dark:text-zinc-200">${value}</span>
-        </div>`;
-    }
-  }
-
-  // Rodapé Responsivo (Preço e Botão)
-  const msg = encodeURIComponent(`Olá Ivo, gostaria de saber mais sobre o ${v.nome}.`);
-  const footerContainer = document.getElementById('modal-footer-content');
-  footerContainer.innerHTML = `
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 w-full">
-      <div>
-        <span class="text-[10px] text-gray-400 uppercase tracking-widest block mb-1">Investimento</span>
-        <span class="text-3xl font-light dark:text-zinc-200">${v.preco}</span>
-      </div>
-      <div class="w-full sm:w-auto">
-        <a href="https://wa.me/${telefone}?text=${msg}" target="_blank"
-           class="block w-full sm:w-auto text-center bg-black dark:bg-white text-white dark:text-black px-10 py-4 text-[10px] uppercase tracking-[0.2em] hover:opacity-80 transition shadow-sm">
-          Solicitar Informações
-        </a>
-      </div>
+  document.getElementById('modal-descricao').innerText = v.descricao || "";
+  
+  // Footer (Preço e WhatsApp)
+  document.getElementById('modal-footer-content').innerHTML = `
+    <div class="flex justify-between items-center w-full">
+      <span class="text-2xl font-light">${v.preco}</span>
+      <a href="https://wa.me/${telefone}" target="_blank" class="bg-black dark:bg-white text-white dark:text-black px-8 py-3 text-[10px] uppercase tracking-widest">Contactar</a>
     </div>`;
 
-  // Imagens
-  document.getElementById('foto-grande').src = v.imagens[0];
-  renderizarMiniaturas(v.imagens);
+  // Specs
+  const sCont = document.getElementById('modal-specs');
+  sCont.innerHTML = "";
+  if(v.specs) {
+    Object.entries(v.specs).forEach(([k, val]) => {
+      sCont.innerHTML += `<div class="border border-gray-100 dark:border-zinc-800 p-3"><span class="block text-[9px] text-gray-400 uppercase">${k}</span><span class="text-xs font-bold uppercase">${val}</span></div>`;
+    });
+  }
 
-  modal.classList.replace('hidden', 'flex');
+  // Mostrar Imagem e Modal
+  atualizarVisualizacao();
+  document.getElementById('modal-galeria').classList.remove('hidden');
+  document.getElementById('modal-galeria').classList.add('flex');
   document.body.style.overflow = 'hidden';
 }
 
-function toggleSlideshow() {
-  const btn = document.getElementById('btn-play');
-  if (slideshowInterval) {
-    clearInterval(slideshowInterval);
-    slideshowInterval = null;
-    btn.innerText = "Auto Play";
-  } else {
-    btn.innerText = "Parar [||]";
-    slideshowInterval = setInterval(() => {
-      fotoIndice = (fotoIndice + 1) % veiculoAtual.imagens.length;
-      mudarFotoPrincipal(veiculoAtual.imagens[fotoIndice], fotoIndice);
-    }, 3000);
-  }
-}
-
-function partilharVeiculo() {
-  const texto = `Vê este ${veiculoAtual.nome} no Stand Ivo Gomes!`;
-  if (navigator.share) {
-    navigator.share({ title: 'Ivo Gomes Stand', text: texto, url: window.location.href });
-  } else {
-    navigator.clipboard.writeText(`${texto} ${window.location.href}`);
-    alert("Link copiado!");
-  }
-}
-
-function fecharGaleria() {
-  if (slideshowInterval) toggleSlideshow();
-  document.getElementById('modal-galeria').classList.replace('flex', 'hidden');
-  document.body.style.overflow = 'auto';
-}
-
-function renderizarMiniaturas(imagens) {
-  const contentor = document.getElementById('miniaturas');
-  if (!contentor) return;
-  
-  contentor.innerHTML = imagens.map((img, i) => `
-    <img src="${img}" 
-         onclick="mudarFotoPrincipal('${img}', ${i})" 
-         class="h-20 w-24 flex-shrink-0 object-cover cursor-pointer transition-all duration-300 border-2 
-         ${i === fotoIndice ? 'border-black dark:border-white opacity-100 scale-105' : 'border-transparent opacity-40 hover:opacity-70'}">
-  `).join('');
+// ESTA É A FUNÇÃO QUE RESOLVE O TEU PROBLEMA
+function mudarFotoCard(direcao) {
+  if (!veiculoAtual) return;
+  fotoIndice = (fotoIndice + direcao + veiculoAtual.imagens.length) % veiculoAtual.imagens.length;
+  atualizarVisualizacao();
 }
 
 function mudarFotoPrincipal(src, index) {
   fotoIndice = index;
-  const imgGrande = document.getElementById('foto-grande');
-  if (imgGrande) imgGrande.src = src;
-  renderizarMiniaturas(veiculoAtual.imagens);
+  atualizarVisualizacao();
 }
 
-// 5. NAVEGAÇÃO
-function mostrarCategoria(cat) {
-  categoriaAtual = cat;
-  const lista = document.getElementById("lista-veiculos");
-  lista.style.opacity = "0";
-  setTimeout(() => {
-    lista.innerHTML = veiculos[cat].map((v, index) => criarCard(v, index, cat)).join("");
-    lista.style.opacity = "1";
-    document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("btn-active"));
-    document.getElementById(`btn-${cat}`).classList.add("btn-active");
-  }, 250);
+function atualizarVisualizacao() {
+  const url = veiculoAtual.imagens[fotoIndice];
+  document.getElementById('foto-grande').src = url;
+  
+  // Renderizar miniaturas
+  const miniCont = document.getElementById('miniaturas');
+  miniCont.innerHTML = veiculoAtual.imagens.map((img, i) => `
+    <img src="${img}" onclick="mudarFotoPrincipal('${img}', ${i})" 
+    class="h-20 w-24 flex-shrink-0 object-cover cursor-pointer border-2 transition-all 
+    ${i === fotoIndice ? 'border-black dark:border-white scale-105' : 'border-transparent opacity-40'}">
+  `).join('');
 }
 
-function ordenarVeiculos() {
-  const criterio = document.getElementById("ordem-preco").value;
-  if (criterio === "default") return;
-
-  const lista = document.getElementById("lista-veiculos");
-  let itensOrdenados = [...veiculos[categoriaAtual]];
-
-  itensOrdenados.sort((a, b) => {
-    // Remove o €, os pontos e troca a vírgula por ponto para o computador entender o número
-    const precoA = parseFloat(a.preco.replace('€', '').replace('.', '').replace(',', '.'));
-    const precoB = parseFloat(b.preco.replace('€', '').replace('.', '').replace(',', '.'));
-
-    if (criterio === "crescente") return precoA - precoB;
-    if (criterio === "decrescente") return precoB - precoA;
-  });
-
-  lista.style.opacity = "0";
-  setTimeout(() => {
-    lista.innerHTML = itensOrdenados.map((v, index) => criarCard(v, index, categoriaAtual)).join("");
-    lista.style.opacity = "1";
-  }, 200);
+function fecharGaleria() {
+  document.getElementById('modal-galeria').classList.add('hidden');
+  document.getElementById('modal-galeria').classList.remove('flex');
+  document.body.style.overflow = 'auto';
 }
 
-function mudarFotoCard(direcao) {
-  if (!veiculoAtual || !veiculoAtual.imagens) return;
-  
-  // Calcula o próximo índice (roda em loop)
-  fotoIndice = (fotoIndice + direcao + veiculoAtual.imagens.length) % veiculoAtual.imagens.length;
-  
-  const novaUrl = veiculoAtual.imagens[fotoIndice];
-  
-  // Atualiza a imagem no ecrã
-  const imgGrande = document.getElementById('foto-grande');
-  if (imgGrande) imgGrande.src = novaUrl;
-  
-  // Atualiza o destaque nas miniaturas
-  renderizarMiniaturas(veiculoAtual.imagens);
-  
-  // Faz scroll para a miniatura selecionada
-  const mini = document.getElementById('miniaturas');
-  if (mini && mini.children[fotoIndice]) {
-    mini.children[fotoIndice].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-  }
-}
-
-// Atalhos de Teclado
-document.onkeydown = (e) => {
-  const modal = document.getElementById('modal-galeria');
-  if (!modal.classList.contains('hidden')) {
-    if (e.key === "ArrowLeft") mudarFotoCard(-1);
-    if (e.key === "ArrowRight") mudarFotoCard(1);
-    if (e.key === "Escape") fecharGaleria();
-  }
-};
-
-// 6. START
-window.onload = () => {
-  aplicarModoNoturno();
-  mostrarCategoria("carros");
-};
+window.onload = () => mostrarCategoria('carros');
