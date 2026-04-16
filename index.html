@@ -9,97 +9,39 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      background-color: #ffffff;
-      font-family: 'Inter', sans-serif;
-      color: #1a1a1a;
-    }
+    body { background-color: #ffffff; font-family: 'Inter', sans-serif; color: #1a1a1a; }
     .display-font { font-family: 'Playfair Display', serif; }
-    .gold-accent { color: #c5a059; }
-    .btn-active {
-      background-color: #1a1a1a !important;
-      color: white !important;
-      transform: translateY(-2px);
+    .btn-active { background-color: #1a1a1a !important; color: white !important; transform: translateY(-2px); }
+    #lista-veiculos { transition: all 0.5s ease-in-out; }
+    
+    .select-premium {
+      background-color: transparent;
+      border: 1px solid #e5e7eb;
+      padding: 8px 16px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 12px;
+      padding-right: 40px;
     }
-    /* Suavidade na transição de categorias */
-    #lista-veiculos {
-      transition: all 0.5s ease-in-out;
-    }
+
+    .dark .select-premium { border-color: #27272a; color: #ffffff; }
+    #modal-galeria { backdrop-filter: blur(15px) saturate(180%); -webkit-backdrop-filter: blur(15px) saturate(180%); transition: all 0.4s ease; }
+    .card-animado { animation: slideUp 0.6s ease forwards; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   </style>
-
-  <meta property="og:title" content="Ivo Gomes | Private Collection">
-<meta property="og:description" content="Automóveis de excelÊncia, criteriosamente selecionados. Performance, história e exclusividade.">
-<meta property="og:image" content="URL_DA_SUA_FOTO_DE_CAPA"> <meta property="og:type" content="website">
-
-<style>
-  /* Estilo do Seletor Principal */
-  .select-premium {
-    background-color: transparent;
-    border: 1px solid #e5e7eb;
-    padding: 8px 16px;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-    outline: none;
-    appearance: none; /* Remove a seta padrão para maior controle */
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 12px;
-    padding-right: 40px;
-  }
-
-  /* Cores específicas para as Opções dentro do menu */
-  .select-premium option {
-    background-color: #ffffff; /* Fundo branco no modo claro */
-    color: #1a1a1a;           /* Texto escuro no modo claro */
-  }
-
-  /* Ajustes para o MODO ESCURO */
-  .dark .select-premium {
-    border-color: #27272a;
-    color: #ffffff;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ffffff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-  }
-
-  .dark .select-premium option {
-    background-color: #1a1a1a; /* Fundo escuro no modo dark */
-    color: #ffffff;           /* Texto branco no modo dark */
-  }
-
-  /* Efeito Vidro Fosco (Glassmorphism) */
-#modal-galeria {
-  backdrop-filter: blur(15px) saturate(180%);
-  -webkit-backdrop-filter: blur(15px) saturate(180%);
-  transition: all 0.4s ease;
-}
-
-/* Badge de Prestígio (Dourado) */
-.badge-premium {
-  background: linear-gradient(135deg, #c5a059 0%, #ecd4a4 50%, #c5a059 100%);
-  color: #1a1a1a;
-  box-shadow: 0 4px 15px rgba(197, 160, 89, 0.2);
-}
-
-/* Animação de entrada dos cards */
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.card-animado {
-  animation: slideUp 0.6s ease forwards;
-}
-</style>
-
 </head>
 
-<body class="antialiased">
+<body class="antialiased dark:bg-zinc-950 dark:text-white">
 
   <div class="max-w-7xl mx-auto px-6 py-12">
-
     <header class="text-center mb-20">
       <span class="text-xs uppercase tracking-[0.3em] text-gray-400 font-semibold">Exclusividade & Performance</span>
       <h1 class="display-font text-5xl md:text-6xl mt-4 mb-2 italic">Ivo Gomes</h1>
@@ -107,141 +49,81 @@
       <p class="text-gray-400 font-light text-lg tracking-wide">Automóveis de excelência, criteriosamente selecionados.</p>
     </header>
 
-    <nav class="flex flex-wrap justify-center gap-4 md:gap-8 mb-10 border-b border-gray-100 pb-6 px-2">
-  <button onclick="mostrarCategoria('carros')" id="btn-carros"
-    class="text-[10px] md:text-sm uppercase tracking-widest hover:text-gray-500 transition-all font-medium py-2 px-3 btn-active">
-    Automóveis
-  </button>
+    <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-10 border-b border-gray-100 dark:border-zinc-900 pb-6">
+      <nav class="flex gap-4 md:gap-8">
+        <button onclick="mostrarCategoria('carros')" id="btn-carros" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-3 btn-active">Automóveis</button>
+        <button onclick="mostrarCategoria('motas')" id="btn-motas" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-3">Motociclos</button>
+        <button onclick="mostrarCategoria('outros')" id="btn-outros" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-3">Especiais</button>
+      </nav>
 
-  <button onclick="mostrarCategoria('motas')" id="btn-motas"
-    class="text-[10px] md:text-sm uppercase tracking-widest hover:text-gray-500 transition-all font-medium py-2 px-3">
-    Motociclos
-  </button>
+      <select id="ordem-preco" onchange="ordenarVeiculos()" class="select-premium">
+        <option value="default">Ordenar por</option>
+        <option value="crescente">Preço: Baixo para Alto</option>
+        <option value="decrescente">Preço: Alto para Baixo</option>
+      </select>
+    </div>
 
-  <button onclick="mostrarCategoria('outros')" id="btn-outros"
-    class="text-[10px] md:text-sm uppercase tracking-widest hover:text-gray-500 transition-all font-medium py-2 px-3">
-    Especiais
-  </button>
-
-  <div class="max-w-7xl mx-auto px-6 mb-8 flex justify-end">
-  <div class="relative">
-    <select id="ordem-preco" onchange="ordenarVeiculos()" 
-            class="bg-transparent border-b border-gray-300 dark:border-zinc-800 text-[10px] uppercase tracking-widest py-2 pr-8 focus:outline-none cursor-pointer appearance-none">
-      <option value="default">Ordenar por</option>
-      <option value="crescente">Preço: Baixo para Alto</option>
-      <option value="decrescente">Preço: Alto para Baixo</option>
-    </select>
-    <span class="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-[8px]">▼</span>
+    <main id="lista-veiculos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-12"></main>
   </div>
-</div>
-</nav>
-
-    <div class="flex justify-end mb-8 px-4">
-  <select id="ordem-preco" onchange="ordenarVeiculos()" class="select-premium">
-    <option value="default">Ordenar por</option>
-    <option value="crescente">Preço: Baixo para Alto</option>
-    <option value="decrescente">Preço: Alto para Baixo</option>
-  </select>
-</div>
-
-    <main id="lista-veiculos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-      </main>
-
-    <footer class="mt-32 pt-12 border-t border-gray-100 text-center text-gray-400">
-      <p class="text-xs tracking-widest uppercase mb-4">Consultoria Automóvel Privada</p>
-      <p class="text-[10px]">© 2026 • IVO GOMES STAND • PORTUGAL</p>
-    </footer>
-
-    <div id="modal-galeria" class="fixed inset-0 bg-white dark:bg-zinc-950 z-[100] hidden flex-col overflow-y-auto">
-  <button onclick="fecharGaleria()" class="fixed top-6 right-6 z-[110] text-2xl p-2 hover:opacity-50 transition">✕</button>
 
   <div id="modal-galeria" class="fixed inset-0 bg-white dark:bg-zinc-950 z-[100] hidden flex-col overflow-y-auto">
-  <button onclick="fecharGaleria()" class="fixed top-6 right-6 z-[110] text-2xl p-2 hover:opacity-50 transition">✕</button>
+    <button onclick="fecharGaleria()" class="fixed top-6 right-6 z-[110] text-2xl p-2 hover:opacity-50 transition">✕</button>
 
-  <div class="max-w-7xl mx-auto w-full p-6 md:p-12">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-8">
-      
-      <div class="space-y-6">
-        <div class="aspect-[4/3] bg-gray-100 dark:bg-zinc-900 overflow-hidden">
-          <img id="foto-grande" src="" class="w-full h-full object-cover transition-opacity duration-500">
-        </div>
-        <div id="miniaturas" class="flex gap-4 overflow-x-auto pb-4 scroll-smooth">
-          </div>
-      </div>
-
-      <div class="flex flex-col min-h-full">
-        <h2 id="modal-nome" class="display-font text-4xl mb-2 uppercase"></h2>
-        <p id="modal-detalhes" class="text-gray-400 text-xs tracking-[0.2em] uppercase mb-8 pb-8 border-b border-gray-100 dark:border-zinc-900"></p>
+    <div class="max-w-7xl mx-auto w-full p-6 md:p-12">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-8">
         
-        <div class="mb-8">
-          <h4 class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">Descrição</h4>
-          <p id="modal-descricao" class="text-sm leading-relaxed text-gray-600 dark:text-zinc-400"></p>
+        <div class="space-y-6">
+          <div class="aspect-[4/3] bg-gray-100 dark:bg-zinc-900 overflow-hidden">
+            <img id="foto-grande" src="" class="w-full h-full object-cover transition-opacity duration-500">
+          </div>
+          <div id="miniaturas" class="flex gap-4 overflow-x-auto pb-4 scroll-smooth"></div>
         </div>
 
-        <div class="mb-10">
-          <h4 class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">Especificações Técnicas</h4>
-          <div id="modal-specs" class="grid grid-cols-2 gap-4">
-            </div>
+        <div class="flex flex-col min-h-full">
+          <h2 id="modal-nome" class="display-font text-4xl mb-2 uppercase"></h2>
+          <p id="modal-detalhes" class="text-gray-400 text-xs tracking-[0.2em] uppercase mb-8 pb-8 border-b border-gray-100 dark:border-zinc-900"></p>
+          
+          <div class="mb-8">
+            <h4 class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">Descrição</h4>
+            <p id="modal-descricao" class="text-sm leading-relaxed text-gray-600 dark:text-zinc-400"></p>
+          </div>
+
+          <div class="mb-10">
+            <h4 class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">Especificações Técnicas</h4>
+            <div id="modal-specs" class="grid grid-cols-2 gap-4"></div>
+          </div>
+
+          <div id="modal-footer-content" class="mt-auto pt-8 border-t border-gray-100 dark:border-zinc-900"></div>
         </div>
-
-        <div id="modal-footer-content" class="mt-auto pt-8 border-t border-gray-100 dark:border-zinc-900">
-        </div>
-      </div>
-
-    </div>
-  </div>
-</div>
-  </div>
-</div>
-
-  </div>
-
-  <script src="script.js?v=3.0"></script>
-
-  <footer class="bg-white dark:bg-zinc-950 border-t border-gray-100 dark:border-zinc-900 pt-16 pb-8 mt-20">
-  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
-    
-    <div>
-      <h4 class="display-font text-xl mb-6 uppercase tracking-widest">Ivo Gomes Stand</h4>
-      <p class="text-gray-400 text-xs leading-relaxed uppercase tracking-wider">
-        Curadoria de ativos automóveis de alta performance e relíquias clássicas. 
-        Transparência e excelência em cada detalhe.
-      </p>
-    </div>
-
-    <div>
-      <h4 class="text-[10px] uppercase tracking-[0.3em] font-bold mb-6 text-gray-400">Contactos</h4>
-      <ul class="text-[11px] space-y-4 uppercase tracking-widest">
-        <li class="flex items-center gap-3">
-          <span class="text-gray-500">📍</span> Portugal, Marco de Canaveses
-        </li>
-        <li class="flex items-center gap-3">
-          <span class="text-gray-500">📱</span> +351 XXX XXX XXX
-        </li>
-        <li class="flex items-center gap-3">
-          <span class="text-gray-500">✉️</span> info@ivogomesstand.pt
-        </li>
-      </ul>
-    </div>
-
-    <div>
-      <h4 class="text-[10px] uppercase tracking-[0.3em] font-bold mb-6 text-gray-400">Siga-nos</h4>
-      <div class="flex gap-6">
-        <a href="#" class="hover:opacity-50 transition-opacity">
-          <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" class="w-5 h-5 grayscale dark:invert" alt="Instagram">
-        </a>
-        <a href="#" class="hover:opacity-50 transition-opacity">
-          <img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" class="w-5 h-5 grayscale dark:invert" alt="Facebook">
-        </a>
       </div>
     </div>
   </div>
 
-  <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-gray-50 dark:border-zinc-900 text-center">
-    <p class="text-[9px] text-gray-400 uppercase tracking-[0.4em]">
-      © 2026 IVO GOMES STAND • TODOS OS DIREITOS RESERVADOS
-    </p>
-  </div>
-</footer>
+  <footer class="bg-white dark:bg-zinc-950 border-t border-gray-100 dark:border-zinc-900 pt-16 pb-8 mt-20 text-center md:text-left">
+    <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
+      <div>
+        <h4 class="display-font text-xl mb-6 uppercase tracking-widest">Ivo Gomes Stand</h4>
+        <p class="text-gray-400 text-xs leading-relaxed uppercase tracking-wider">Curadoria de ativos automóveis de alta performance e relíquias clássicas.</p>
+      </div>
+      <div>
+        <h4 class="text-[10px] uppercase tracking-[0.3em] font-bold mb-6 text-gray-400">Contactos</h4>
+        <ul class="text-[11px] space-y-4 uppercase tracking-widest text-gray-500">
+          <li>📍 Marco de Canaveses, Portugal</li>
+          <li>📱 +351 XXX XXX XXX</li>
+          <li>✉️ info@ivogomesstand.pt</li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="text-[10px] uppercase tracking-[0.3em] font-bold mb-6 text-gray-400">Siga-nos</h4>
+        <div class="flex justify-center md:justify-start gap-6">
+          <a href="#" class="grayscale hover:grayscale-0 transition dark:invert"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" class="w-5 h-5"></a>
+          <a href="#" class="grayscale hover:grayscale-0 transition dark:invert"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" class="w-5 h-5"></a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-16 text-[9px] text-gray-400 tracking-[0.4em]">© 2026 IVO GOMES STAND</div>
+  </footer>
+
+  <script src="script.js?v=7.0"></script>
 </body>
 </html>
