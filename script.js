@@ -1,6 +1,5 @@
 const telefone = "351XXXXXXXXX"; 
-//const imgBrevemente = "https://images.unsplash.com/photo-1601053163359-99450c18d451?q=80&w=800&auto=format&fit=crop";
-const imgBrevemente = "https://www.dreamstime.com/gray-loading-icon-isolated-background-modern-flat-pictogram-business-marketing-internet-concept-trendy-simple-vector-symbol-image217109658"
+const imgBrevemente = loading.jpeg;
 let categoriaAtual = 'carros';
 let fotoIndice = 0;
 let veiculoAtual = null;
@@ -48,14 +47,14 @@ const veiculos = {
       detalhes: "108.xxx km • 2018 • Gasóleo • Caixa Automática",
       preco: "21.990€",
       status: "disponivel",
-      imagens: [loading.png]
+      imagens: []
     },
     {
       nome: "Mercedes CLK 200 KOMPRESSOR",
       detalhes: "191.xxx km • 2003 • Gasolina • Caixa Automática",
       preco: "14.990€",
       status: "disponivel",
-      imagens: [loading.png]
+      imagens: []
     }
   ],
   motas: [
