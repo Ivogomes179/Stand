@@ -33,7 +33,7 @@ const veiculos = {
         "Disponiveis/6l-1/6l7.jpg", "Disponiveis/6l-1/6l8.jpg", "Disponiveis/6l-1/6l9.jpg"
       ],
       descricao: "Projeto de alta performance, focado em provas de aceleração. Viatura totalmente revista.",
-      specs: { motor: "1.9 TDI", turbo: "Híbrido Custom", preparacao: "Nível 3" }
+      specs: { motor: "1.9 TDI Alargado a 2.0", turbo: "28.71", preparacao: "Stage 4" }
     },
     {
       nome: "BMW 120D XDrive",
