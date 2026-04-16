@@ -174,25 +174,40 @@ function criarCardHTML(v, index, cat) {
   const statusLabels = {
     disponivel: { texto: 'Disponível', classe: 'bg-white/90 text-black' },
     reservado: { texto: 'Reservado', classe: 'bg-amber-500 text-white' },
-    vendido: { texto: 'Vendido', classe: 'bg-zinc-500 text-white' }
+    vendido: { texto: 'Vendido', classe: 'bg-black text-white' } // Badge preto para vendidos
   };
   const badge = statusLabels[v.status] || statusLabels.disponivel;
 
   return `
     <article class="group bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
-      <div class="relative aspect-[4/3] cursor-pointer overflow-hidden skeleton">
-        <img src="${imagem}" onclick="abrirGaleria('${cat}', ${index})" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 ${isVendido ? 'grayscale opacity-50' : ''}">
+      <div class="relative aspect-[4/3] cursor-pointer overflow-hidden skeleton bg-zinc-200">
+        
+        <img src="${imagem}" 
+             onclick="abrirGaleria('${cat}', ${index})" 
+             class="w-full h-full object-cover transition duration-700 group-hover:scale-110 
+             ${isVendido ? 'grayscale brightness-[0.4] contrast-[1.2]' : ''}">
+        
+        ${isVendido ? '<div class="absolute inset-0 bg-black/20 pointer-events-none"></div>' : ''}
+
         <button onclick="toggleFavorito(event, '${v.nome}')" class="absolute top-4 left-4 z-20 p-2 bg-black/20 backdrop-blur-md rounded-full text-white text-sm">
           ${isFav ? '❤️' : '🤍'}
         </button>
+        
         <div class="absolute top-4 right-4 px-3 py-1 text-[9px] uppercase font-bold ${badge.classe}">${badge.texto}</div>
       </div>
-      <div class="p-8">
+
+      <div class="p-8 ${isVendido ? 'opacity-60' : ''}">
         <h3 class="display-font text-2xl mb-2">${v.nome}</h3>
         <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-6 border-b pb-4">${v.detalhes}</p>
         <div class="flex justify-between items-center">
-           <div><span class="text-[9px] text-gray-400 block uppercase">Investimento</span><span class="text-xl font-light">${isVendido ? '---' : v.preco}</span></div>
-           <button onclick="abrirGaleria('${cat}', ${index})" class="border border-black dark:border-white px-6 py-2 text-[10px] uppercase hover:bg-black hover:text-white transition">Explorar</button>
+           <div>
+              <span class="text-[9px] text-gray-400 block uppercase">Investimento</span>
+              <span class="text-xl font-light">${isVendido ? '---' : v.preco}</span>
+           </div>
+           <button onclick="abrirGaleria('${cat}', ${index})" 
+             class="border border-black dark:border-white px-6 py-2 text-[10px] uppercase hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition">
+             ${isVendido ? 'Ver Detalhes' : 'Explorar'}
+           </button>
         </div>
       </div>
     </article>`;
