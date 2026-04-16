@@ -14,118 +14,86 @@
     .btn-active { background-color: #1a1a1a !important; color: white !important; transform: translateY(-2px); }
     #lista-veiculos { transition: all 0.5s ease-in-out; }
     
-/* Estilo do Seletor Principal */
-.select-premium {
-  background-color: transparent;
-  border: 1px solid rgba(0,0,0,0.15); /* Borda subtil no modo claro */
-  padding: 6px 12px;
-  font-size: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  color: #6b7280; /* Letras cinza no modo claro */
-  cursor: pointer;
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 8px center;
-  background-size: 10px;
-  padding-right: 30px;
-  transition: all 0.3s ease;
-}
-
-/* Ajustes para o MODO ESCURO */
-.dark .select-premium {
-  border-color: rgba(255,255,255,0.2); /* Mesma cor da borda */
-  color: rgba(255,255,255,0.5) !important; /* Letras da cor da borda */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a1a1aa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-}
-
-/* Quando passas o rato (Hover) para dar feedback */
-.select-premium:hover {
-  border-color: #c5a059;
-  color: #1a1a1a;
-}
-
-.dark .select-premium:hover {
-  border-color: #c5a059;
-  color: #ffffff !important;
-}
-
-/* Estilo das opções quando abertas */
-.select-premium option {
-  background-color: #ffffff !important;
-  color: #1a1a1a !important;
-}
-
-.dark .select-premium option {
-  background-color: #18181b !important;
-  color: #a1a1aa !important;
-}
-
-    #modal-galeria { backdrop-filter: blur(15px) saturate(180%); -webkit-backdrop-filter: blur(15px) saturate(180%); transition: all 0.4s ease; }
-    .card-animado { animation: slideUp 0.6s ease forwards; }
-    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  
-    /* Esconder a barra de scroll mas permitir scroll horizontal */
-    #miniaturas {
-      -ms-overflow-style: none;  /* IE and Edge */
-      scrollbar-width: none;     /* Firefox */
-    }
-    #miniaturas::-webkit-scrollbar {
-      display: none;             /* Chrome, Safari and Opera */
+    .select-premium {
+      background-color: transparent;
+      border: 1px solid rgba(0,0,0,0.15);
+      padding: 6px 12px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #6b7280;
+      cursor: pointer;
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 8px center;
+      background-size: 10px;
+      padding-right: 30px;
+      transition: all 0.3s ease;
     }
 
-    .miniatura-img {
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    .dark .select-premium {
+      border-color: rgba(255,255,255,0.2);
+      color: rgba(255,255,255,0.5) !important;
     }
 
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    #modal-galeria { backdrop-filter: blur(15px) saturate(180%); -webkit-backdrop-filter: blur(15px) saturate(180%); }
     .cursor-zoom-in { cursor: zoom-in; }
     .cursor-zoom-out { cursor: zoom-out; }
-
-    #img-zoom {
-    animation: zoomIn 0.3s ease-out;
-    }
-
-    @keyframes zoomIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-    }
-  
   </style>
 </head>
+
+<body class="antialiased dark:bg-zinc-950 dark:text-white">
+
+  <div id="zoom-overlay" onclick="fecharZoom()" class="fixed inset-0 bg-black/95 z-[200] hidden flex items-center justify-center cursor-zoom-out">
+    <img id="img-zoom" src="" class="max-w-[95%] max-h-[95%] object-contain shadow-2xl">
+    <button class="absolute top-6 right-6 text-white text-3xl">✕</button>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <header class="text-center mb-20">
+      <span class="text-xs uppercase tracking-[0.3em] text-gray-400 font-semibold">Exclusividade & Performance</span>
+      <h1 class="display-font text-5xl md:text-6xl mt-4 mb-2 italic">Ivo Gomes</h1>
+      <div class="h-px w-20 bg-gray-200 mx-auto my-6"></div>
+      <p class="text-gray-400 font-light text-lg tracking-wide">Automóveis de excelência, criteriosamente selecionados.</p>
+    </header>
+
     <div class="flex justify-center mb-10">
-        <nav class="flex gap-4 md:gap-8 border-b border-gray-100 dark:border-zinc-900 pb-4 w-full justify-center">
-          <button onclick="mostrarCategoria('carros')" id="btn-carros" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-4 transition-all">Automóveis</button>
-          <button onclick="mostrarCategoria('motas')" id="btn-motas" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-4 transition-all">Motociclos</button>
-          <button onclick="mostrarCategoria('outros')" id="btn-outros" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-4 transition-all">Especiais</button>
-        </nav>
-      </div>
+      <nav class="flex gap-4 md:gap-8 border-b border-gray-100 dark:border-zinc-900 pb-4 w-full justify-center">
+        <button onclick="mostrarCategoria('carros')" id="btn-carros" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-4 transition-all btn-active">Automóveis</button>
+        <button onclick="mostrarCategoria('motas')" id="btn-motas" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-4 transition-all">Motociclos</button>
+        <button onclick="mostrarCategoria('outros')" id="btn-outros" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-4 transition-all">Especiais</button>
+      </nav>
+    </div>
 
-      <div class="max-w-7xl mx-auto mb-12">
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-zinc-50/50 dark:bg-zinc-900/30 p-4 rounded-sm">
-          
-          <div class="flex items-center gap-4">
-            <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Marca:</span>
-            <div id="filtros-marcas" class="flex gap-2 overflow-x-auto no-scrollbar">
-              </div>
-          </div>
+    <div class="max-w-7xl mx-auto mb-12">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-zinc-50/50 dark:bg-zinc-900/30 p-4 rounded-sm border border-gray-100 dark:border-zinc-900">
+        
+        <div class="flex items-center gap-4">
+          <span class="text-[9px] uppercase tracking-widest text-gray-400 font-bold">Marca:</span>
+          <div id="filtros-marcas" class="flex gap-2 overflow-x-auto no-scrollbar">
+            </div>
+        </div>
 
-          <div class="flex items-center gap-3">
-            <select id="ordem-preco" onchange="ordenarVeiculos()" class="select-premium">
-              <option value="default">Ordenar por</option>
-              <option value="crescente">Preço: Baixo > Alto</option>
-              <option value="decrescente">Preço: Alto > Baixo</option>
-            </select>
+        <div class="flex items-center gap-3">
+          <select id="ordem-preco" onchange="ordenarVeiculos()" class="select-premium">
+            <option value="default">Ordenar por</option>
+            <option value="crescente">Preço: Baixo > Alto</option>
+            <option value="decrescente">Preço: Alto > Baixo</option>
+          </select>
 
-            <button id="btn-ver-favoritos" onclick="toggleVerFavoritos()" 
-                    class="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] border border-zinc-200 dark:border-zinc-800 px-5 py-2 transition-all hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black">
-              <span id="fav-icon">❤️</span> (<span id="fav-count">0</span>)
-            </button>
-          </div>
+          <button id="btn-ver-favoritos" onclick="toggleVerFavoritos()" 
+                  class="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] border border-zinc-200 dark:border-zinc-800 px-5 py-2 transition-all hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black">
+            <span id="fav-icon">❤️</span> (<span id="fav-count">0</span>)
+          </button>
         </div>
       </div>
+    </div>
 
     <main id="lista-veiculos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-12"></main>
   </div>
@@ -135,37 +103,27 @@
 
     <div class="max-w-7xl mx-auto w-full p-6 md:p-12">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-8">
-        
         <div class="space-y-6">
           <div class="relative group aspect-[4/3] bg-zinc-100 dark:bg-zinc-900 rounded-sm overflow-hidden">
-            <img id="foto-grande" src="" onclick="abrirZoom()" class="w-full h-full object-cover transition-opacity duration-500 cursor-zoom-in hover:opacity-90">
-            
-            <button onclick="mudarFotoCard(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/50 text-white p-3 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 hidden md:block">❮</button>
-            <button onclick="mudarFotoCard(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/50 text-white p-3 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 hidden md:block">❯</button>
+            <img id="foto-grande" src="" onclick="abrirZoom()" class="w-full h-full object-cover cursor-zoom-in">
+            <button onclick="mudarFotoCard(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/20 text-white p-3 rounded-full hidden md:block">❮</button>
+            <button onclick="mudarFotoCard(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/20 text-white p-3 rounded-full hidden md:block">❯</button>
           </div>
-          
-          <div id="miniaturas" class="flex gap-4 overflow-x-auto py-4 items-center">
-            </div>
-
-          <button onclick="partilharVeiculo()" class="flex items-center gap-2 text-[10px] uppercase tracking-widest text-zinc-400 hover:text-black dark:hover:text-white transition">
-            <span>🔗</span> Partilhar Anúncio
-          </button>
+          <div id="miniaturas" class="flex gap-4 overflow-x-auto py-4 items-center no-scrollbar"></div>
+          <button onclick="partilharVeiculo()" class="text-[10px] uppercase tracking-widest text-zinc-400 hover:text-black dark:hover:text-white">🔗 Partilhar Anúncio</button>
         </div>
 
-        <div class="flex flex-col min-h-full">
+        <div class="flex flex-col">
           <h2 id="modal-nome" class="display-font text-4xl mb-2 uppercase"></h2>
           <p id="modal-detalhes" class="text-gray-400 text-xs tracking-[0.2em] uppercase mb-8 pb-8 border-b border-gray-100 dark:border-zinc-900"></p>
-          
           <div class="mb-8">
             <h4 class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">Descrição</h4>
             <p id="modal-descricao" class="text-sm leading-relaxed text-gray-600 dark:text-zinc-400"></p>
           </div>
-
           <div class="mb-10">
             <h4 class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">Especificações Técnicas</h4>
             <div id="modal-specs" class="grid grid-cols-2 gap-4"></div>
           </div>
-
           <div id="modal-footer-content" class="mt-auto pt-8 border-t border-gray-100 dark:border-zinc-900"></div>
         </div>
       </div>
@@ -176,27 +134,19 @@
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
       <div>
         <h4 class="display-font text-xl mb-6 uppercase tracking-widest">Ivo Gomes Stand</h4>
-        <p class="text-gray-400 text-xs leading-relaxed uppercase tracking-wider">Curadoria de ativos automóveis de alta performance e relíquias clássicas.</p>
+        <p class="text-gray-400 text-xs leading-relaxed uppercase tracking-wider">Curadoria de ativos automóveis de alta performance.</p>
       </div>
       <div>
         <h4 class="text-[10px] uppercase tracking-[0.3em] font-bold mb-6 text-gray-400">Contactos</h4>
         <ul class="text-[11px] space-y-4 uppercase tracking-widest text-gray-500">
           <li>📍 Marco de Canaveses, Portugal</li>
-          <li>📱 +351 XXX XXX XXX</li>
-          <li>✉️ info@ivogomesstand.pt</li>
+          <li>📱 +351 9XX XXX XXX</li>
         </ul>
-      </div>
-      <div>
-        <h4 class="text-[10px] uppercase tracking-[0.3em] font-bold mb-6 text-gray-400">Siga-nos</h4>
-        <div class="flex justify-center md:justify-start gap-6">
-          <a href="#" class="grayscale hover:grayscale-0 transition dark:invert"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" class="w-5 h-5"></a>
-          <a href="#" class="grayscale hover:grayscale-0 transition dark:invert"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" class="w-5 h-5"></a>
-        </div>
       </div>
     </div>
     <div class="text-center mt-16 text-[9px] text-gray-400 tracking-[0.4em]">© 2026 IVO GOMES STAND</div>
   </footer>
 
-  <script src="script.js?v=9.0"></script>
+  <script src="script.js?v=10.0"></script>
 </body>
 </html>
