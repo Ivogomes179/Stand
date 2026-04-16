@@ -136,21 +136,6 @@
       </div>
     </div>
 
-        <div class="flex items-center gap-3">
-          <select id="ordem-preco" onchange="ordenarVeiculos()" class="select-premium">
-            <option value="default">Ordenar por</option>
-            <option value="crescente">Preço: Baixo > Alto</option>
-            <option value="decrescente">Preço: Alto > Baixo</option>
-          </select>
-
-          <button id="btn-ver-favoritos" onclick="toggleVerFavoritos()" 
-                  class="flex items-center gap-3 text-[10px] uppercase tracking-[0.2em] border border-zinc-200 dark:border-zinc-800 px-5 py-2 transition-all hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black">
-            <span id="fav-icon">❤️</span> (<span id="fav-count">0</span>)
-          </button>
-        </div>
-      </div>
-    </div>
-
     <main id="lista-veiculos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-12"></main>
   </div>
 
