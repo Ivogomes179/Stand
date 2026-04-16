@@ -220,6 +220,7 @@ function renderizarMiniaturas(imagens) {
 function mudarFotoPrincipal(src, index) {
   document.getElementById('foto-grande').src = src;
   fotoIndice = index;
+  renderizarMiniaturas(veiculoAtual.imagens); 
 }
 
 // 5. NAVEGAÇÃO
@@ -257,6 +258,37 @@ function ordenarVeiculos() {
     lista.style.opacity = "1";
   }, 200);
 }
+
+function mudarFotoCard(direcao) {
+  if (!veiculoAtual) return;
+  fotoIndice = (fotoIndice + direcao + veiculoAtual.imagens.length) % veiculoAtual.imagens.length;
+  mudarFotoPrincipal(veiculoAtual.imagens[fotoIndice], fotoIndice);
+  
+  // Ajusta o scroll das miniaturas automaticamente
+  const mini = document.getElementById('miniaturas');
+  const alvo = mini.children[fotoIndice];
+  if (alvo) alvo.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+function partilharVeiculo() {
+  const texto = `Vê este ${veiculoAtual.nome} no Stand Ivo Gomes!`;
+  if (navigator.share) {
+    navigator.share({ title: 'Ivo Gomes Stand', text: texto, url: window.location.href });
+  } else {
+    navigator.clipboard.writeText(`${texto} ${window.location.href}`);
+    alert("Link copiado para a área de transferência!");
+  }
+}
+
+// Atalhos de Teclado
+document.onkeydown = (e) => {
+  const modal = document.getElementById('modal-galeria');
+  if (!modal.classList.contains('hidden')) {
+    if (e.key === "ArrowLeft") mudarFotoCard(-1);
+    if (e.key === "ArrowRight") mudarFotoCard(1);
+    if (e.key === "Escape") fecharGaleria();
+  }
+};
 
 // 6. START
 window.onload = () => {
