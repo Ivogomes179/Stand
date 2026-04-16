@@ -106,22 +106,22 @@
       <p class="text-gray-400 font-light text-lg tracking-wide">Uma curadoria de veículos de exceção.</p>
     </header>
 
-    <nav class="flex justify-center gap-8 mb-16 border-b border-gray-100 pb-6">
-      <button onclick="mostrarCategoria('carros')" id="btn-carros"
-        class="text-sm uppercase tracking-widest hover:text-gray-500 transition-all font-medium py-2 px-4 btn-active">
-        Automóveis
-      </button>
+    <nav class="flex flex-wrap justify-center gap-4 md:gap-8 mb-10 border-b border-gray-100 pb-6 px-2">
+  <button onclick="mostrarCategoria('carros')" id="btn-carros"
+    class="text-[10px] md:text-sm uppercase tracking-widest hover:text-gray-500 transition-all font-medium py-2 px-3 btn-active">
+    Automóveis
+  </button>
 
-      <button onclick="mostrarCategoria('motas')" id="btn-motas"
-        class="text-sm uppercase tracking-widest hover:text-gray-500 transition-all font-medium py-2 px-4">
-        Motociclos
-      </button>
+  <button onclick="mostrarCategoria('motas')" id="btn-motas"
+    class="text-[10px] md:text-sm uppercase tracking-widest hover:text-gray-500 transition-all font-medium py-2 px-3">
+    Motociclos
+  </button>
 
-      <button onclick="mostrarCategoria('outros')" id="btn-outros"
-        class="text-sm uppercase tracking-widest hover:text-gray-500 transition-all font-medium py-2 px-4">
-        Edições Especiais
-      </button>
-    </nav>
+  <button onclick="mostrarCategoria('outros')" id="btn-outros"
+    class="text-[10px] md:text-sm uppercase tracking-widest hover:text-gray-500 transition-all font-medium py-2 px-3">
+    Especiais
+  </button>
+</nav>
 
     <div class="flex justify-end mb-8 px-4">
   <select id="ordem-preco" onchange="ordenarVeiculos()" class="select-premium">

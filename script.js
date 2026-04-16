@@ -128,14 +128,14 @@ function criarCard(v, index, categoria) {
 
         <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-6 border-b border-gray-50 dark:border-zinc-900 pb-4">${v.detalhes}</p>
 
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <span class="text-[9px] text-gray-400 uppercase block tracking-widest">Investimento</span>
-            <span class="text-xl font-light tracking-tighter">${isVendido ? '---' : v.preco}</span>
+            <span class="text-xl font-light tracking-tighter dark:text-zinc-200">${isVendido ? '---' : v.preco}</span>
           </div>
 
           <a href="https://wa.me/${telefone}?text=${msg}" target="_blank"
-             class="border border-black dark:border-white text-black dark:text-white px-6 py-2 text-[10px] uppercase tracking-[0.2em] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all duration-300">
+            class="w-full sm:w-auto text-center border border-black dark:border-white text-black dark:text-white px-6 py-3 text-[10px] uppercase tracking-[0.2em] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
             Contactar
           </a>
         </div>
