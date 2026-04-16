@@ -55,6 +55,20 @@
     #modal-galeria { backdrop-filter: blur(15px) saturate(180%); -webkit-backdrop-filter: blur(15px) saturate(180%); transition: all 0.4s ease; }
     .card-animado { animation: slideUp 0.6s ease forwards; }
     @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  
+    /* Esconder a barra de scroll mas permitir scroll horizontal */
+    #miniaturas {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;     /* Firefox */
+    }
+    #miniaturas::-webkit-scrollbar {
+      display: none;             /* Chrome, Safari and Opera */
+    }
+
+    .miniatura-img {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  
   </style>
 </head>
 
@@ -99,7 +113,7 @@
             <button onclick="mudarFotoCard(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/50 text-white p-3 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 hidden md:block">❯</button>
           </div>
           
-          <div id="miniaturas" class="flex gap-3 overflow-x-auto pb-4 no-scrollbar">
+          <div id="miniaturas" class="flex gap-4 overflow-x-auto py-4 items-center">
             </div>
 
           <button onclick="partilharVeiculo()" class="flex items-center gap-2 text-[10px] uppercase tracking-widest text-zinc-400 hover:text-black dark:hover:text-white transition">

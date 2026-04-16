@@ -106,13 +106,25 @@ function atualizarVisualizacao() {
   const url = veiculoAtual.imagens[fotoIndice];
   document.getElementById('foto-grande').src = url;
   
-  // Renderizar miniaturas
   const miniCont = document.getElementById('miniaturas');
-  miniCont.innerHTML = veiculoAtual.imagens.map((img, i) => `
-    <img src="${img}" onclick="mudarFotoPrincipal('${img}', ${i})" 
-    class="h-20 w-24 flex-shrink-0 object-cover cursor-pointer border-2 transition-all 
-    ${i === fotoIndice ? 'border-black dark:border-white scale-105' : 'border-transparent opacity-40'}">
-  `).join('');
+  miniCont.innerHTML = veiculoAtual.imagens.map((img, i) => {
+    const isActive = i === fotoIndice;
+    return `
+      <div class="relative flex-shrink-0 transition-all duration-500 ${isActive ? 'px-1' : 'px-0'}">
+        <img src="${img}" onclick="mudarFotoPrincipal('${img}', ${i})" 
+             class="miniatura-img h-16 w-24 md:h-20 md:w-28 object-cover cursor-pointer rounded-sm
+             ${isActive 
+               ? 'opacity-100 ring-2 ring-black dark:ring-white scale-105 z-10' 
+               : 'opacity-30 hover:opacity-60 grayscale-[50%] hover:grayscale-0'}">
+      </div>
+    `;
+  }).join('');
+
+  // Scroll suave para a miniatura ativa
+  const alvo = miniCont.children[fotoIndice];
+  if (alvo) {
+    alvo.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  }
 }
 
 function fecharGaleria() {
