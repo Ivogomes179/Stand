@@ -60,6 +60,17 @@
   animation: shimmer 1.5s infinite linear;
 }
 
+#lista-veiculos {
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.animate-fade-in {
+  animation: fadeIn 0.8s ease forwards;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
   </style>
 </head>
 
@@ -170,6 +181,26 @@
       </div>
     </div>
   </div>
+
+<section class="max-w-7xl mx-auto px-6 py-20 border-t border-gray-100 dark:border-zinc-900">
+  <div class="grid md:grid-cols-2 gap-12 items-center">
+    <div>
+      <h2 class="display-font text-4xl mb-4 italic">Visite o nosso espaço</h2>
+      <p class="text-gray-400 text-sm leading-relaxed max-w-md uppercase tracking-wider">
+        Estamos localizados no Marco de Canaveses, com uma seleção exclusiva de viaturas prontas para entrega imediata. Agende a sua visita para um atendimento personalizado.
+      </p>
+    </div>
+    <div class="bg-zinc-50 dark:bg-zinc-900 p-8 rounded-sm border border-gray-100 dark:border-zinc-800 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="text-center md:text-left">
+        <span class="text-[9px] uppercase tracking-widest text-gray-400 block mb-1">Horário de Funcionamento</span>
+        <span class="text-xs font-semibold">Segunda a Sábado: 09h00 - 19h00</span>
+      </div>
+      <a href="https://wa.me/351XXXXXXXXX" class="bg-black dark:bg-white text-white dark:text-black px-8 py-3 text-[10px] uppercase tracking-widest hover:scale-105 transition-transform">
+        Agendar Reunião
+      </a>
+    </div>
+  </div>
+</section>
 
   <footer class="bg-white dark:bg-zinc-950 border-t border-gray-100 dark:border-zinc-900 pt-16 pb-8 mt-20 text-center md:text-left">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
