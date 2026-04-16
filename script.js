@@ -234,8 +234,6 @@ function mostrarCategoria(cat) {
 function criarCardHTML(v, index, cat) {
   const isFav = favoritos.includes(v.nome);
   const isVendido = v.status === 'vendido';
-  
-  // NOVA LÓGICA: Verifica se há imagens. Se não houver, usa a imagem "Brevemente".
   const temImagens = v.imagens && v.imagens.length > 0;
   const imagemParaMostrar = temImagens ? v.imagens[0] : imgBrevemente;
 
@@ -248,25 +246,29 @@ function criarCardHTML(v, index, cat) {
 
   return `
     <article class="group bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 card-animado">
-      <div class="relative aspect-[4/3] cursor-pointer overflow-hidden">
-        
+      
+      <div class="relative aspect-[4/3] cursor-pointer overflow-hidden skeleton dark:bg-zinc-800">
         <img src="${imagemParaMostrar}" 
              onclick="abrirGaleria('${cat}', ${index})" 
+             loading="lazy"
              class="w-full h-full object-cover transition duration-700 group-hover:scale-110 
              ${isVendido ? 'grayscale opacity-50' : ''} 
-             ${!temImagens ? 'opacity-90 dark:opacity-70' : ''}"> <button onclick="toggleFavorito(event, '${v.nome}')" class="absolute top-4 left-4 z-20 p-2 bg-black/20 backdrop-blur-md rounded-full hover:bg-black/40 transition">
+             ${!temImagens ? 'opacity-90' : ''}">
+        
+        <button onclick="toggleFavorito(event, '${v.nome}')" class="absolute top-4 left-4 z-20 p-2 bg-black/20 backdrop-blur-md rounded-full hover:bg-black/40 transition">
           <span class="${isFav ? 'text-red-500' : 'text-white opacity-70'} text-sm">${isFav ? '❤️' : '🤍'}</span>
         </button>
 
         <div class="absolute top-4 right-4 px-3 py-1 text-[9px] uppercase font-bold ${badge.classe}">${badge.texto}</div>
       </div>
+
       <div class="p-8">
         <h3 class="display-font text-2xl mb-2">${v.nome}</h3>
         <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-6 border-b pb-4">${v.detalhes}</p>
-        <div class="flex justify-between items-center gap-4">
+        <div class="flex justify-between items-center">
            <div>
-              <span class="text-[9px] text-gray-400 uppercase block tracking-widest">Investimento</span>
-              <span class="text-xl font-light">${isVendido ? '---' : v.preco}</span>
+              <span class="text-[9px] text-gray-400 block uppercase tracking-widest">Investimento</span>
+              <span class="text-xl font-light dark:text-zinc-200">${isVendido ? '---' : v.preco}</span>
            </div>
            <button onclick="abrirGaleria('${cat}', ${index})" class="border border-black dark:border-white px-6 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition">Explorar</button>
         </div>
@@ -344,7 +346,6 @@ function abrirGaleria(cat, index) {
   if (typeof atualizarVisualizacao === "function") {
     atualizarVisualizacao();
   }
-}
 
 function mudarFotoCard(direcao) {
   if (!veiculoAtual) return;
@@ -443,4 +444,5 @@ document.onkeydown = (e) => {
     if (e.key === "ArrowRight") mudarFotoCard(1);
     if (e.key === "Escape") fecharGaleria();
   }
+}
 };
