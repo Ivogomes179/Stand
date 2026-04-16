@@ -14,16 +14,15 @@
     .btn-active { background-color: #1a1a1a !important; color: white !important; transform: translateY(-2px); }
     #lista-veiculos { transition: all 0.5s ease-in-out; }
     
-    /* Estilo do Seletor */
 /* Estilo do Seletor Principal */
 .select-premium {
   background-color: transparent;
-  border: 1px solid rgba(0,0,0,0.1);
+  border: 1px solid rgba(0,0,0,0.15); /* Borda subtil no modo claro */
   padding: 6px 12px;
   font-size: 10px;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #1a1a1a;
+  letter-spacing: 0.15em;
+  color: #6b7280; /* Letras cinza no modo claro */
   cursor: pointer;
   outline: none;
   appearance: none;
@@ -33,29 +32,36 @@
   background-position: right 8px center;
   background-size: 10px;
   padding-right: 30px;
-}
-
-/* Forçar cores das opções (a lista que abre) */
-.select-premium option {
-  background-color: #ffffff !important;
-  color: #000000 !important;
+  transition: all 0.3s ease;
 }
 
 /* Ajustes para o MODO ESCURO */
 .dark .select-premium {
-  border-color: rgba(255,255,255,0.1);
-  color: #ffffff;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ffffff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  border-color: rgba(255,255,255,0.2); /* Mesma cor da borda */
+  color: rgba(255,255,255,0.5) !important; /* Letras da cor da borda */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a1a1aa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
 }
 
-.dark .select-premium option {
-  background-color: #1a1a1a !important;
+/* Quando passas o rato (Hover) para dar feedback */
+.select-premium:hover {
+  border-color: #c5a059;
+  color: #1a1a1a;
+}
+
+.dark .select-premium:hover {
+  border-color: #c5a059;
   color: #ffffff !important;
 }
 
-/* Efeito Hover para parecer um botão */
-.select-premium:hover {
-  border-color: #c5a059; /* Cor dourada ao passar o rato */
+/* Estilo das opções quando abertas */
+.select-premium option {
+  background-color: #ffffff !important;
+  color: #1a1a1a !important;
+}
+
+.dark .select-premium option {
+  background-color: #18181b !important;
+  color: #a1a1aa !important;
 }
 
     #modal-galeria { backdrop-filter: blur(15px) saturate(180%); -webkit-backdrop-filter: blur(15px) saturate(180%); transition: all 0.4s ease; }
@@ -74,11 +80,28 @@
     .miniatura-img {
       transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
+
+    .cursor-zoom-in { cursor: zoom-in; }
+    .cursor-zoom-out { cursor: zoom-out; }
+
+    #img-zoom {
+    animation: zoomIn 0.3s ease-out;
+    }
+
+    @keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+    }
   
   </style>
 </head>
 
 <body class="antialiased dark:bg-zinc-950 dark:text-white">
+
+<div id="zoom-overlay" onclick="fecharZoom()" class="fixed inset-0 bg-black/95 z-[200] hidden flex items-center justify-center cursor-zoom-out">
+    <img id="img-zoom" src="" class="max-w-[95%] max-h-[95%] object-contain shadow-2xl transition-transform duration-300">
+    <button class="absolute top-6 right-6 text-white text-3xl">✕</button>
+</div>
 
   <div class="max-w-7xl mx-auto px-6 py-12">
     <header class="text-center mb-20">
@@ -96,10 +119,10 @@
       </nav>
 
       <select id="ordem-preco" onchange="ordenarVeiculos()" class="select-premium">
-        <option value="default">Ordenar por</option>
-        <option value="crescente">Preço: Baixo para Alto</option>
-        <option value="decrescente">Preço: Alto para Baixo</option>
-      </select>
+      <option value="default">Ordenar por</option>
+      <option value="crescente">Preço: Baixo para Alto</option>
+      <option value="decrescente">Preço: Alto para Baixo</option>
+    </select>
     </div>
 
     <main id="lista-veiculos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-12"></main>
@@ -113,7 +136,7 @@
         
         <div class="space-y-6">
           <div class="relative group aspect-[4/3] bg-zinc-100 dark:bg-zinc-900 rounded-sm overflow-hidden">
-            <img id="foto-grande" src="" class="w-full h-full object-cover transition-opacity duration-500">
+            <img id="foto-grande" src="" onclick="abrirZoom()" class="w-full h-full object-cover transition-opacity duration-500 cursor-zoom-in hover:opacity-90">
             
             <button onclick="mudarFotoCard(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/50 text-white p-3 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 hidden md:block">❮</button>
             <button onclick="mudarFotoCard(1)" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/20 hover:bg-black/50 text-white p-3 rounded-full backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 hidden md:block">❯</button>

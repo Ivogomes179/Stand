@@ -270,3 +270,22 @@ document.onkeydown = (e) => {
     if (e.key === "Escape") fecharGaleria();
   }
 };
+
+//5. Zoom nas fotos
+function abrirZoom() {
+    const srcOriginal = document.getElementById('foto-grande').src;
+    const imgZoom = document.getElementById('img-zoom');
+    const overlay = document.getElementById('zoom-overlay');
+    
+    imgZoom.src = srcOriginal;
+    overlay.classList.remove('hidden');
+    document.body.style.overflow = 'hidden'; // Bloqueia o scroll de fundo
+}
+
+function fecharZoom() {
+    document.getElementById('zoom-overlay').classList.add('hidden');
+    // Se o modal da galeria ainda estiver aberto, mantemos o overflow hidden
+    if (document.getElementById('modal-galeria').classList.contains('hidden')) {
+        document.body.style.overflow = 'auto';
+    }
+}
