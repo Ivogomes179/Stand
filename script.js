@@ -4,7 +4,7 @@ let slideshowInterval;
 let fotoIndice = 0;
 let veiculoAtual = null;
 
-// 1. BASE DE DADOS (Curadoria de Ativos)
+// 1. BASE DE DADOS
 const veiculos = {
   carros: [
     {
@@ -29,7 +29,7 @@ const veiculos = {
       imagens: [
         "Disponiveis/6l-1/6l1.jpg", "Disponiveis/6l-1/6l2.jpg", "Disponiveis/6l-1/6l3.jpg", 
         "Disponiveis/6l-1/6l4.jpg", "Disponiveis/6l-1/6l5.jpg", "Disponiveis/6l-1/6l6.jpg", 
-        "Disponiveis/6l-1/6l7.jpg", "Disponiveis/6l-1/6l8.jpg", "Disponiveis/6l-1/6l9.jpg", 
+        "Disponiveis/6l-1/6l7.jpg", "Disponiveis/6l-1/6l8.jpg", "Disponiveis/6l-1/6l9.jpg"
       ]
     },
     {
@@ -44,7 +44,7 @@ const veiculos = {
       detalhes: "191.xxx km • 2003 • Gasolina • Caixa Automática",
       preco: "14.990€",
       status: "disponivel",
-      imagens: ["https://www.encycarpedia.com/pt/mercedes/02-clk-coupe-200-kompressor"]
+      imagens: ["https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=1200"]
     }
   ],
   motas: [
@@ -78,7 +78,7 @@ const veiculos = {
   ]
 };
 
-// 2. AMBIENTE E MODO NOTURNO
+// 2. MODO NOTURNO
 function aplicarModoNoturno() {
   const hora = new Date().getHours();
   const prefereEscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -155,12 +155,10 @@ function abrirGaleria(categoria, index) {
   const contentorMiniaturas = document.getElementById('miniaturas');
 
   fotoGrande.src = v.imagens[0];
-  
   contentorMiniaturas.scrollLeft = 0; 
-
   renderizarMiniaturas(v.imagens);
-}
 
+  // Lógica dos botões de controle (CORRIGIDO: Agora dentro da função)
   if (!document.getElementById('controles-extra')) {
     const controles = document.createElement('div');
     controles.id = 'controles-extra';
@@ -174,6 +172,7 @@ function abrirGaleria(categoria, index) {
 
   modal.classList.replace('hidden', 'flex');
   document.body.style.overflow = 'hidden';
+}
 
 function toggleSlideshow() {
   const btn = document.getElementById('btn-play');
