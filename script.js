@@ -1,4 +1,5 @@
 const telefone = "351XXXXXXXXX"; 
+const imgBrevemente = "https://images.unsplash.com/photo-1601053163359-99450c18d451?q=80&w=800&auto=format&fit=crop"
 let categoriaAtual = 'carros';
 let fotoIndice = 0;
 let veiculoAtual = null;
@@ -44,14 +45,14 @@ const veiculos = {
       detalhes: "108.xxx km • 2018 • Gasóleo • Caixa Automática",
       preco: "21.990€",
       status: "disponivel",
-      imagens: ["https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&q=80&w=1200"]
+      imagens: []
     },
     {
       nome: "Mercedes CLK 200 KOMPRESSOR",
       detalhes: "191.xxx km • 2003 • Gasolina • Caixa Automática",
       preco: "14.990€",
       status: "disponivel",
-      imagens: ["https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?auto=format&fit=crop&q=80&w=1200"]
+      imagens: []
     }
   ],
   motas: [
@@ -71,7 +72,7 @@ const veiculos = {
       detalhes: "Relíquia • 1971 • 49cc",
       preco: "2.500€",
       status: "disponivel",
-      imagens: ["https://images.unsplash.com/photo-1449491026472-43219488dcb1?auto=format&fit=crop&q=80&w=1200"]
+      imagens: []
     }
   ],
   outros: [
@@ -80,7 +81,7 @@ const veiculos = {
       detalhes: "200.000 km • Diesel • Pronta a faturar",
       preco: "4.000€",
       status: "disponivel",
-      imagens: ["https://images.unsplash.com/photo-1519003722824-194d4455a60c?auto=format&fit=crop&q=80&w=1200"]
+      imagens: []
     }
   ]
 };
@@ -203,6 +204,11 @@ function mostrarCategoria(cat) {
 function criarCardHTML(v, index, cat) {
   const isFav = favoritos.includes(v.nome);
   const isVendido = v.status === 'vendido';
+  
+  // NOVA LÓGICA: Verifica se há imagens. Se não houver, usa a imagem "Brevemente".
+  const temImagens = v.imagens && v.imagens.length > 0;
+  const imagemParaMostrar = temImagens ? v.imagens[0] : imgBrevemente;
+
   const statusLabels = {
     disponivel: { texto: 'Disponível', classe: 'bg-white/90 text-black' },
     reservado: { texto: 'Reservado', classe: 'bg-amber-500 text-white' },
@@ -211,20 +217,19 @@ function criarCardHTML(v, index, cat) {
   const badge = statusLabels[v.status] || statusLabels.disponivel;
 
   return `
-    <article class="group bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
+    <article class="group bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 card-animado">
       <div class="relative aspect-[4/3] cursor-pointer overflow-hidden">
-        <img src="${v.imagens[0]}" onclick="abrirGaleria('${cat}', ${index})" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 ${isVendido ? 'grayscale opacity-50' : ''}">
         
-        <button onclick="toggleFavorito(event, '${v.nome}')" 
-                class="absolute top-4 left-4 z-30 p-2 bg-black/20 backdrop-blur-md rounded-full hover:bg-black/60 transition-all duration-300 group/fav">
-          <span class="${isFav ? 'text-red-500 scale-110' : 'text-white opacity-70 group-hover/fav:opacity-100'} text-sm block transition-transform">
-            ${isFav ? '❤️' : '🤍'}
-          </span>
+        <img src="${imagemParaMostrar}" 
+             onclick="abrirGaleria('${cat}', ${index})" 
+             class="w-full h-full object-cover transition duration-700 group-hover:scale-110 
+             ${isVendido ? 'grayscale opacity-50' : ''} 
+             ${!temImagens ? 'opacity-90 dark:opacity-70' : ''}"> <button onclick="toggleFavorito(event, '${v.nome}')" class="absolute top-4 left-4 z-20 p-2 bg-black/20 backdrop-blur-md rounded-full hover:bg-black/40 transition">
+          <span class="${isFav ? 'text-red-500' : 'text-white opacity-70'} text-sm">${isFav ? '❤️' : '🤍'}</span>
         </button>
 
         <div class="absolute top-4 right-4 px-3 py-1 text-[9px] uppercase font-bold ${badge.classe}">${badge.texto}</div>
       </div>
-      
       <div class="p-8">
         <h3 class="display-font text-2xl mb-2">${v.nome}</h3>
         <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-6 border-b pb-4">${v.detalhes}</p>
