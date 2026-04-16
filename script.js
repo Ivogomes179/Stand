@@ -212,15 +212,21 @@ function fecharGaleria() {
 
 function renderizarMiniaturas(imagens) {
   const contentor = document.getElementById('miniaturas');
+  if (!contentor) return;
+  
   contentor.innerHTML = imagens.map((img, i) => `
-    <img src="${img}" onclick="mudarFotoPrincipal('${img}', ${i})" class="h-16 w-20 object-cover cursor-pointer hover:opacity-80 transition border-2 ${i === 0 ? 'border-black dark:border-white' : 'border-transparent'}">
+    <img src="${img}" 
+         onclick="mudarFotoPrincipal('${img}', ${i})" 
+         class="h-20 w-24 flex-shrink-0 object-cover cursor-pointer transition-all duration-300 border-2 
+         ${i === fotoIndice ? 'border-black dark:border-white opacity-100 scale-105' : 'border-transparent opacity-40 hover:opacity-70'}">
   `).join('');
 }
 
 function mudarFotoPrincipal(src, index) {
-  document.getElementById('foto-grande').src = src;
   fotoIndice = index;
-  renderizarMiniaturas(veiculoAtual.imagens); 
+  const imgGrande = document.getElementById('foto-grande');
+  if (imgGrande) imgGrande.src = src;
+  renderizarMiniaturas(veiculoAtual.imagens);
 }
 
 // 5. NAVEGAÇÃO
@@ -260,23 +266,24 @@ function ordenarVeiculos() {
 }
 
 function mudarFotoCard(direcao) {
-  if (!veiculoAtual) return;
-  fotoIndice = (fotoIndice + direcao + veiculoAtual.imagens.length) % veiculoAtual.imagens.length;
-  mudarFotoPrincipal(veiculoAtual.imagens[fotoIndice], fotoIndice);
+  if (!veiculoAtual || !veiculoAtual.imagens) return;
   
-  // Ajusta o scroll das miniaturas automaticamente
+  // Calcula o próximo índice (roda em loop)
+  fotoIndice = (fotoIndice + direcao + veiculoAtual.imagens.length) % veiculoAtual.imagens.length;
+  
+  const novaUrl = veiculoAtual.imagens[fotoIndice];
+  
+  // Atualiza a imagem no ecrã
+  const imgGrande = document.getElementById('foto-grande');
+  if (imgGrande) imgGrande.src = novaUrl;
+  
+  // Atualiza o destaque nas miniaturas
+  renderizarMiniaturas(veiculoAtual.imagens);
+  
+  // Faz scroll para a miniatura selecionada
   const mini = document.getElementById('miniaturas');
-  const alvo = mini.children[fotoIndice];
-  if (alvo) alvo.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-}
-
-function partilharVeiculo() {
-  const texto = `Vê este ${veiculoAtual.nome} no Stand Ivo Gomes!`;
-  if (navigator.share) {
-    navigator.share({ title: 'Ivo Gomes Stand', text: texto, url: window.location.href });
-  } else {
-    navigator.clipboard.writeText(`${texto} ${window.location.href}`);
-    alert("Link copiado para a área de transferência!");
+  if (mini && mini.children[fotoIndice]) {
+    mini.children[fotoIndice].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
   }
 }
 
