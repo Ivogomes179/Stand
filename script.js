@@ -1,5 +1,5 @@
 const telefone = "351XXXXXXXXX"; 
-const imgBrevemente = "https://images.unsplash.com/photo-1601053163359-99450c18d451?q=80&w=800&auto=format&fit=crop"
+const imgBrevemente = "https://images.unsplash.com/photo-1601053163359-99450c18d451?q=80&w=800&auto=format&fit=crop";
 let categoriaAtual = 'carros';
 let fotoIndice = 0;
 let veiculoAtual = null;
