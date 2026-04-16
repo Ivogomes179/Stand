@@ -178,6 +178,35 @@ function mostrarCategoria(cat) {
   gerarFiltrosMarcas();
   atualizarContagemFavs();
 
+  const transmissao = document.getElementById('filtro-transmissao').value;
+  const combustivel = document.getElementById('filtro-combustivel').value;
+
+  let veiculosParaExibir = veiculos[cat];
+
+  // Filtro de Marca
+  if (filtroMarcaAtual !== 'todas') {
+    veiculosParaExibir = veiculosParaExibir.filter(v => v.nome.startsWith(filtroMarcaAtual));
+  }
+
+  // NOVO: Filtro de Transmissão e Combustível (procura no texto dos detalhes)
+  if (transmissao !== 'todas') {
+    veiculosParaExibir = veiculosParaExibir.filter(v => v.detalhes.includes(transmissao));
+  }
+  if (combustivel !== 'todas') {
+    veiculosParaExibir = veiculosParaExibir.filter(v => v.detalhes.includes(combustivel));
+  }
+
+  const lista = document.getElementById("lista-veiculos");
+  if (!lista) return;
+
+  lista.innerHTML = veiculosParaExibir.map((v, i) => criarCardHTML(v, i, cat)).join("");
+  
+  // Atualizar botões de navegação
+  document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("btn-active"));
+  const btnAtivo = document.getElementById(`btn-${cat}`);
+  if (btnAtivo) btnAtivo.classList.add("btn-active");
+}
+
   // Se o botão de favoritos estiver ativo ao mudar de categoria, desativamos
   const btnFav = document.getElementById('btn-ver-favoritos');
   if (btnFav) {
@@ -201,7 +230,6 @@ function mostrarCategoria(cat) {
     const btnAtivo = document.getElementById(`btn-${cat}`);
     if (btnAtivo) btnAtivo.classList.add("btn-active");
   }, 250);
-}
 
 function criarCardHTML(v, index, cat) {
   const isFav = favoritos.includes(v.nome);
