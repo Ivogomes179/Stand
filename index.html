@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Ivo Gomes | Private Collection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #ffffff;
+      font-family: 'Inter', sans-serif;
+      color: #1a1a1a;
+    }
+    .display-font { font-family: 'Playfair Display', serif; }
+    .gold-accent { color: #c5a059; }
+    .btn-active {
+      background-color: #1a1a1a !important;
+      color: white !important;
+      transform: translateY(-2px);
+    }
+    /* Suavidade na transição de categorias */
+    #lista-veiculos {
+      transition: all 0.5s ease-in-out;
+    }
+  </style>
+
+  <meta property="og:title" content="Ivo Gomes | Private Collection">
+<meta property="og:description" content="Curadoria de veículos de exceção. Performance, história e exclusividade.">
+<meta property="og:image" content="URL_DA_SUA_FOTO_DE_CAPA"> <meta property="og:type" content="website">
+
+<style>
+  /* Estilo do Seletor Principal */
+  .select-premium {
+    background-color: transparent;
+    border: 1px solid #e5e7eb;
+    padding: 8px 16px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    outline: none;
+    appearance: none; /* Remove a seta padrão para maior controle */
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 12px;
+    padding-right: 40px;
+  }
+
+  /* Cores específicas para as Opções dentro do menu */
+  .select-premium option {
+    background-color: #ffffff; /* Fundo branco no modo claro */
+    color: #1a1a1a;           /* Texto escuro no modo claro */
+  }
+
+  /* Ajustes para o MODO ESCURO */
+  .dark .select-premium {
+    border-color: #27272a;
+    color: #ffffff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23ffffff'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  }
+
+  .dark .select-premium option {
+    background-color: #1a1a1a; /* Fundo escuro no modo dark */
+    color: #ffffff;           /* Texto branco no modo dark */
+  }
+
+  /* Efeito Vidro Fosco (Glassmorphism) */
+#modal-galeria {
+  backdrop-filter: blur(15px) saturate(180%);
+  -webkit-backdrop-filter: blur(15px) saturate(180%);
+  transition: all 0.4s ease;
+}
+
+/* Badge de Prestígio (Dourado) */
+.badge-premium {
+  background: linear-gradient(135deg, #c5a059 0%, #ecd4a4 50%, #c5a059 100%);
+  color: #1a1a1a;
+  box-shadow: 0 4px 15px rgba(197, 160, 89, 0.2);
+}
+
+/* Animação de entrada dos cards */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-animado {
+  animation: slideUp 0.6s ease forwards;
+}
+</style>
+
+</head>
+
+<body class="antialiased">
+
+  <div class="max-w-7xl mx-auto px-6 py-12">
+
+    <header class="text-center mb-20">
+      <span class="text-xs uppercase tracking-[0.3em] text-gray-400 font-semibold">Exclusividade & Performance</span>
+      <h1 class="display-font text-5xl md:text-6xl mt-4 mb-2 italic">Ivo Gomes</h1>
+      <div class="h-px w-20 bg-gray-200 mx-auto my-6"></div>
+      <p class="text-gray-400 font-light text-lg tracking-wide">Uma curadoria de veículos de exceção.</p>
+    </header>
+
+    <nav class="flex justify-center gap-8 mb-16 border-b border-gray-100 pb-6">
+      <button onclick="mostrarCategoria('carros')" id="btn-carros"
+        class="text-sm uppercase tracking-widest hover:text-gray-500 transition-all font-medium py-2 px-4 btn-active">
+        Automóveis
+      </button>
+
+      <button onclick="mostrarCategoria('motas')" id="btn-motas"
+        class="text-sm uppercase tracking-widest hover:text-gray-500 transition-all font-medium py-2 px-4">
+        Motociclos
+      </button>
+
+      <button onclick="mostrarCategoria('outros')" id="btn-outros"
+        class="text-sm uppercase tracking-widest hover:text-gray-500 transition-all font-medium py-2 px-4">
+        Edições Especiais
+      </button>
+    </nav>
+
+    <div class="flex justify-end mb-8 px-4">
+  <select id="ordem-preco" onchange="ordenarVeiculos()" class="select-premium">
+    <option value="default">Ordenar por</option>
+    <option value="crescente">Preço: Baixo para Alto</option>
+    <option value="decrescente">Preço: Alto para Baixo</option>
+  </select>
+</div>
+
+    <main id="lista-veiculos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+      </main>
+
+    <footer class="mt-32 pt-12 border-t border-gray-100 text-center text-gray-400">
+      <p class="text-xs tracking-widest uppercase mb-4">Consultoria Automóvel Privada</p>
+      <p class="text-[10px]">© 2026 • IVO GOMES STAND • PORTUGAL</p>
+    </footer>
+
+    <div id="modal-galeria" class="fixed inset-0 z-50 hidden bg-white/95 backdrop-blur-md flex-col items-center justify-center p-4 dark:bg-black/95">
+  <button onclick="fecharGaleria()" class="absolute top-8 right-8 text-sm uppercase tracking-[0.2em] hover:opacity-50 transition">Fechar [x]</button>
+  
+    <div class="max-w-5xl w-full">
+      <img id="foto-grande" src="" class="w-full h-[70vh] object-contain mb-8">
+      <div id="miniaturas" class="flex justify-center gap-4 overflow-x-auto pb-4">
+        </div>
+    </div>
+  </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
