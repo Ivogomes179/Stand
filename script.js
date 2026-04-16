@@ -78,7 +78,7 @@ const veiculos = {
   ]
 };
 
-// 2. MODO NOTURNO
+// 2. AMBIENTE
 function aplicarModoNoturno() {
   const hora = new Date().getHours();
   const prefereEscuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -97,79 +97,49 @@ function criarCard(v, index, categoria) {
     reservado: { texto: 'Reservado', classe: 'bg-amber-500 text-white' },
     vendido: { texto: 'Vendido', classe: 'bg-zinc-500 text-white' }
   };
-  
   const badge = statusLabels[v.status] || statusLabels.disponivel;
   const isVendido = v.status === 'vendido';
 
   return `
     <article class="card-animado group bg-white dark:bg-transparent border border-gray-100 dark:border-zinc-800 overflow-hidden hover:border-gray-300 dark:hover:border-zinc-600 transition-all duration-500 shadow-sm hover:shadow-lg">
       <div class="relative overflow-hidden aspect-[4/3] cursor-pointer" onclick="abrirGaleria('${categoria}', ${index})">
-        <img src="${v.imagens[0]}" alt="${v.nome}" 
-             class="w-full h-full object-cover ${isVendido ? 'grayscale opacity-50' : 'grayscale-[20%] group-hover:grayscale-0 group-hover:scale-110'} transition duration-700">
-        
-        <div class="absolute top-4 right-4 px-3 py-1 text-[9px] uppercase tracking-widest font-bold ${badge.classe}">
-          ${badge.texto}
-        </div>
-
-        ${!isVendido ? `
-        <div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition flex items-center justify-center">
-          <span class="text-white text-[10px] uppercase tracking-[0.3em] border border-white px-4 py-2 bg-black/20 backdrop-blur-sm">Explorar Galeria</span>
-        </div>` : ''}
+        <img src="${v.imagens[0]}" alt="${v.nome}" class="w-full h-full object-cover ${isVendido ? 'grayscale opacity-50' : 'grayscale-[20%] group-hover:grayscale-0 group-hover:scale-110'} transition duration-700">
+        <div class="absolute top-4 right-4 px-3 py-1 text-[9px] uppercase tracking-widest font-bold ${badge.classe}">${badge.texto}</div>
+        ${!isVendido ? `<div class="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition flex items-center justify-center"><span class="text-white text-[10px] uppercase tracking-[0.3em] border border-white px-4 py-2 bg-black/20 backdrop-blur-sm">Explorar Galeria</span></div>` : ''}
       </div>
-
       <div class="p-8">
         <h3 class="display-font text-2xl mb-2">${v.nome}</h3>
-        
-        ${v.nome.includes('M4') ? `
-          <div class="inline-block badge-premium px-2 py-0.5 text-[8px] uppercase tracking-widest font-bold mb-3 rounded-sm">
-            Histórico Verificado BMW
-          </div>
-        ` : ''}
-
+        ${v.nome.includes('M4') ? `<div class="inline-block badge-premium px-2 py-0.5 text-[8px] uppercase tracking-widest font-bold mb-3 rounded-sm">Histórico Verificado BMW</div>` : ''}
         <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-6 border-b border-gray-50 dark:border-zinc-900 pb-4">${v.detalhes}</p>
-
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <span class="text-[9px] text-gray-400 uppercase block tracking-widest">Investimento</span>
-            <span class="text-xl font-light tracking-tighter dark:text-zinc-200">${isVendido ? '---' : v.preco}</span>
-          </div>
-
-          <a href="https://wa.me/${telefone}?text=${msg}" target="_blank"
-            class="w-full sm:w-auto text-center border border-black dark:border-white text-black dark:text-white px-6 py-3 text-[10px] uppercase tracking-[0.2em] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
-            Contactar
-          </a>
+          <div><span class="text-[9px] text-gray-400 uppercase block tracking-widest">Investimento</span><span class="text-xl font-light tracking-tighter dark:text-zinc-200">${isVendido ? '---' : v.preco}</span></div>
+          <a href="https://wa.me/${telefone}?text=${msg}" target="_blank" class="w-full sm:w-auto text-center border border-black dark:border-white text-black dark:text-white px-6 py-3 text-[10px] uppercase tracking-[0.2em] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">Contactar</a>
         </div>
       </div>
-    </article>
-  `;
+    </article>`;
 }
 
-// 4. GESTÃO DA GALERIA
+// 4. GALERIA
 function abrirGaleria(categoria, index) {
-  const v = veiculos[categoria][index];
-  veiculoAtual = v;
+  veiculoAtual = veiculos[categoria][index];
   fotoIndice = 0;
-
   const modal = document.getElementById('modal-galeria');
   const fotoGrande = document.getElementById('foto-grande');
   const contentorMiniaturas = document.getElementById('miniaturas');
 
-  fotoGrande.src = v.imagens[0];
+  fotoGrande.src = veiculoAtual.imagens[0];
   contentorMiniaturas.scrollLeft = 0; 
-  renderizarMiniaturas(v.imagens);
+  renderizarMiniaturas(veiculoAtual.imagens);
 
-  // Lógica dos botões de controle (CORRIGIDO: Agora dentro da função)
   if (!document.getElementById('controles-extra')) {
     const controles = document.createElement('div');
     controles.id = 'controles-extra';
     controles.className = 'flex gap-6 mt-6 justify-center';
     controles.innerHTML = `
       <button onclick="toggleSlideshow()" id="btn-play" class="text-[10px] uppercase tracking-widest border border-black dark:border-white px-4 py-2 hover:bg-black hover:text-white transition dark:text-white">Auto Play</button>
-      <button onclick="partilharVeiculo()" class="text-[10px] uppercase tracking-widest border border-black dark:border-white px-4 py-2 hover:bg-black hover:text-white transition dark:text-white">Partilhar [↑]</button>
-    `;
+      <button onclick="partilharVeiculo()" class="text-[10px] uppercase tracking-widest border border-black dark:border-white px-4 py-2 hover:bg-black hover:text-white transition dark:text-white">Partilhar [↑]</button>`;
     modal.querySelector('.max-w-5xl').appendChild(controles);
   }
-
   modal.classList.replace('hidden', 'flex');
   document.body.style.overflow = 'hidden';
 }
@@ -208,8 +178,7 @@ function fecharGaleria() {
 function renderizarMiniaturas(imagens) {
   const contentor = document.getElementById('miniaturas');
   contentor.innerHTML = imagens.map((img, i) => `
-    <img src="${img}" onclick="mudarFotoPrincipal('${img}', ${i})" 
-         class="h-16 w-20 object-cover cursor-pointer hover:opacity-80 transition border-2 ${i === 0 ? 'border-black dark:border-white' : 'border-transparent'}">
+    <img src="${img}" onclick="mudarFotoPrincipal('${img}', ${i})" class="h-16 w-20 object-cover cursor-pointer hover:opacity-80 transition border-2 ${i === 0 ? 'border-black dark:border-white' : 'border-transparent'}">
   `).join('');
 }
 
@@ -218,21 +187,16 @@ function mudarFotoPrincipal(src, index) {
   fotoIndice = index;
 }
 
-// 5. NAVEGAÇÃO E ORDENAÇÃO
+// 5. NAVEGAÇÃO
 function mostrarCategoria(cat) {
   categoriaAtual = cat;
-  const seletor = document.getElementById("ordem-preco");
-  if(seletor) seletor.value = "default";
-
   const lista = document.getElementById("lista-veiculos");
   lista.style.opacity = "0";
-
   setTimeout(() => {
     lista.innerHTML = veiculos[cat].map((v, index) => criarCard(v, index, cat)).join("");
     lista.style.opacity = "1";
     document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("btn-active"));
-    const btnAtivo = document.getElementById(`btn-${cat}`);
-    if(btnAtivo) btnAtivo.classList.add("btn-active");
+    document.getElementById(`btn-${cat}`).classList.add("btn-active");
   }, 250);
 }
 
@@ -240,13 +204,11 @@ function ordenarVeiculos() {
   const criterio = document.getElementById("ordem-preco").value;
   const lista = document.getElementById("lista-veiculos");
   let itensOrdenados = [...veiculos[categoriaAtual]];
-
   if (criterio === "crescente") {
     itensOrdenados.sort((a, b) => parseFloat(a.preco.replace(/[^0-9,-]+/g,"")) - parseFloat(b.preco.replace(/[^0-9,-]+/g,"")));
   } else if (criterio === "decrescente") {
     itensOrdenados.sort((a, b) => parseFloat(b.preco.replace(/[^0-9,-]+/g,"")) - parseFloat(a.preco.replace(/[^0-9,-]+/g,"")));
   }
-
   lista.style.opacity = "0";
   setTimeout(() => {
     lista.innerHTML = itensOrdenados.map((v, index) => criarCard(v, index, categoriaAtual)).join("");
@@ -254,7 +216,7 @@ function ordenarVeiculos() {
   }, 200);
 }
 
-// 6. INICIALIZAÇÃO
+// 6. START
 window.onload = () => {
   aplicarModoNoturno();
   mostrarCategoria("carros");
