@@ -142,6 +142,9 @@
     <div id="modal-galeria" class="fixed inset-0 bg-white dark:bg-zinc-950 z-[100] hidden flex-col overflow-y-auto">
   <button onclick="fecharGaleria()" class="fixed top-6 right-6 z-[110] text-2xl p-2 hover:opacity-50 transition">✕</button>
 
+  <div id="modal-galeria" class="fixed inset-0 bg-white dark:bg-zinc-950 z-[100] hidden flex-col overflow-y-auto">
+  <button onclick="fecharGaleria()" class="fixed top-6 right-6 z-[110] text-2xl p-2 hover:opacity-50 transition">✕</button>
+
   <div class="max-w-7xl mx-auto w-full p-6 md:p-12">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-8">
       
@@ -149,11 +152,11 @@
         <div class="aspect-[4/3] bg-gray-100 dark:bg-zinc-900 overflow-hidden">
           <img id="foto-grande" src="" class="w-full h-full object-cover transition-opacity duration-500">
         </div>
-        <div id="miniaturas" class="flex gap-4 overflow-x-auto pb-2 scroll-smooth">
+        <div id="miniaturas" class="flex gap-4 overflow-x-auto pb-4 scroll-smooth">
           </div>
       </div>
 
-      <div class="flex flex-col">
+      <div class="flex flex-col min-h-full">
         <h2 id="modal-nome" class="display-font text-4xl mb-2 uppercase"></h2>
         <p id="modal-detalhes" class="text-gray-400 text-xs tracking-[0.2em] uppercase mb-8 pb-8 border-b border-gray-100 dark:border-zinc-900"></p>
         
@@ -168,17 +171,13 @@
             </div>
         </div>
 
-        <div class="mt-auto pt-8 border-t border-gray-100 dark:border-zinc-900 flex items-center justify-between">
-          <div>
-            <span class="text-[10px] text-gray-400 uppercase tracking-widest block">Investimento</span>
-            <span id="modal-preco" class="text-3xl font-light"></span>
+        <div id="modal-footer-content" class="mt-auto pt-8 border-t border-gray-100 dark:border-zinc-900">
           </div>
-          <div id="modal-link-whatsapp">
-            </div>
-        </div>
       </div>
 
     </div>
+  </div>
+</div>
   </div>
 </div>
 

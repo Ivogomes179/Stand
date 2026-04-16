@@ -136,39 +136,44 @@ function abrirGaleria(categoria, index) {
 
   const modal = document.getElementById('modal-galeria');
   
-  // Preencher Texto e Preço
+  // Textos
   document.getElementById('modal-nome').innerText = v.nome;
   document.getElementById('modal-detalhes').innerText = v.detalhes;
-  document.getElementById('modal-preco').innerText = v.preco;
   document.getElementById('modal-descricao').innerText = v.descricao || "Sem descrição disponível.";
 
-  // Preencher Specs
+  // Specs com letras maiores
   const specsContainer = document.getElementById('modal-specs');
   specsContainer.innerHTML = "";
-  // Procure este bloco dentro da função abrirGaleria no script.js
-if (v.specs) {
-  for (const [key, value] of Object.entries(v.specs)) {
-    specsContainer.innerHTML += `
-      <div class="border border-gray-100 dark:border-zinc-900 p-3">
-        <span class="block text-[10px] uppercase text-gray-400 tracking-widest mb-1">${key}</span>
-        <span class="text-[13px] font-medium uppercase dark:text-zinc-200">${value}</span>
-      </div>`;
+  if (v.specs) {
+    for (const [key, value] of Object.entries(v.specs)) {
+      specsContainer.innerHTML += `
+        <div class="border border-gray-100 dark:border-zinc-900 p-3">
+          <span class="block text-[10px] uppercase text-gray-400 tracking-widest mb-1">${key}</span>
+          <span class="text-[13px] font-medium uppercase dark:text-zinc-200">${value}</span>
+        </div>`;
+    }
   }
-}
 
-  // Preencher Fotos
-  document.getElementById('foto-grande').src = v.imagens[0];
-  const contentorMiniaturas = document.getElementById('miniaturas');
-  contentorMiniaturas.scrollLeft = 0; 
-  renderizarMiniaturas(v.imagens);
-
-  // Ajustar botão WhatsApp no Modal
+  // Rodapé Responsivo (Preço e Botão)
   const msg = encodeURIComponent(`Olá Ivo, gostaria de saber mais sobre o ${v.nome}.`);
-  document.getElementById('modal-link-whatsapp').innerHTML = `
-    <a href="https://wa.me/${telefone}?text=${msg}" target="_blank"
-       class="bg-black dark:bg-white text-white dark:text-black px-8 py-4 text-[10px] uppercase tracking-[0.2em] hover:opacity-80 transition">
-      Solicitar Informações
-    </a>`;
+  const footerContainer = document.getElementById('modal-footer-content');
+  footerContainer.innerHTML = `
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 w-full">
+      <div>
+        <span class="text-[10px] text-gray-400 uppercase tracking-widest block mb-1">Investimento</span>
+        <span class="text-3xl font-light dark:text-zinc-200">${v.preco}</span>
+      </div>
+      <div class="w-full sm:w-auto">
+        <a href="https://wa.me/${telefone}?text=${msg}" target="_blank"
+           class="block w-full sm:w-auto text-center bg-black dark:bg-white text-white dark:text-black px-10 py-4 text-[10px] uppercase tracking-[0.2em] hover:opacity-80 transition shadow-sm">
+          Solicitar Informações
+        </a>
+      </div>
+    </div>`;
+
+  // Imagens
+  document.getElementById('foto-grande').src = v.imagens[0];
+  renderizarMiniaturas(v.imagens);
 
   modal.classList.replace('hidden', 'flex');
   document.body.style.overflow = 'hidden';
