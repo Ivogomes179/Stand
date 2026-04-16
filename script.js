@@ -145,15 +145,16 @@ function abrirGaleria(categoria, index) {
   // Preencher Specs
   const specsContainer = document.getElementById('modal-specs');
   specsContainer.innerHTML = "";
-  if (v.specs) {
-    for (const [key, value] of Object.entries(v.specs)) {
-      specsContainer.innerHTML += `
-        <div class="border border-gray-100 dark:border-zinc-900 p-3">
-          <span class="block text-[8px] uppercase text-gray-400 tracking-tighter">${key}</span>
-          <span class="text-[11px] font-medium uppercase">${value}</span>
-        </div>`;
-    }
+  // Procure este bloco dentro da função abrirGaleria no script.js
+if (v.specs) {
+  for (const [key, value] of Object.entries(v.specs)) {
+    specsContainer.innerHTML += `
+      <div class="border border-gray-100 dark:border-zinc-900 p-3">
+        <span class="block text-[10px] uppercase text-gray-400 tracking-widest mb-1">${key}</span>
+        <span class="text-[13px] font-medium uppercase dark:text-zinc-200">${value}</span>
+      </div>`;
   }
+}
 
   // Preencher Fotos
   document.getElementById('foto-grande').src = v.imagens[0];
