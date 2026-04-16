@@ -174,7 +174,6 @@ function abrirGaleria(categoria, index) {
 
   modal.classList.replace('hidden', 'flex');
   document.body.style.overflow = 'hidden';
-}
 
 function toggleSlideshow() {
   const btn = document.getElementById('btn-play');
