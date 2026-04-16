@@ -237,13 +237,20 @@ function mostrarCategoria(cat) {
 
 function ordenarVeiculos() {
   const criterio = document.getElementById("ordem-preco").value;
+  if (criterio === "default") return;
+
   const lista = document.getElementById("lista-veiculos");
   let itensOrdenados = [...veiculos[categoriaAtual]];
-  if (criterio === "crescente") {
-    itensOrdenados.sort((a, b) => parseFloat(a.preco.replace(/[^0-9,-]+/g,"")) - parseFloat(b.preco.replace(/[^0-9,-]+/g,"")));
-  } else if (criterio === "decrescente") {
-    itensOrdenados.sort((a, b) => parseFloat(b.preco.replace(/[^0-9,-]+/g,"")) - parseFloat(a.preco.replace(/[^0-9,-]+/g,"")));
-  }
+
+  itensOrdenados.sort((a, b) => {
+    // Remove o €, os pontos e troca a vírgula por ponto para o computador entender o número
+    const precoA = parseFloat(a.preco.replace('€', '').replace('.', '').replace(',', '.'));
+    const precoB = parseFloat(b.preco.replace('€', '').replace('.', '').replace(',', '.'));
+
+    if (criterio === "crescente") return precoA - precoB;
+    if (criterio === "decrescente") return precoB - precoA;
+  });
+
   lista.style.opacity = "0";
   setTimeout(() => {
     lista.innerHTML = itensOrdenados.map((v, index) => criarCard(v, index, categoriaAtual)).join("");

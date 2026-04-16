@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
   <meta charset="UTF-8">
   <title>Ivo Gomes | Private Collection</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -121,6 +122,18 @@
     class="text-[10px] md:text-sm uppercase tracking-widest hover:text-gray-500 transition-all font-medium py-2 px-3">
     Especiais
   </button>
+
+  <div class="max-w-7xl mx-auto px-6 mb-8 flex justify-end">
+  <div class="relative">
+    <select id="ordem-preco" onchange="ordenarVeiculos()" 
+            class="bg-transparent border-b border-gray-300 dark:border-zinc-800 text-[10px] uppercase tracking-widest py-2 pr-8 focus:outline-none cursor-pointer appearance-none">
+      <option value="default">Ordenar por</option>
+      <option value="crescente">Preço: Baixo para Alto</option>
+      <option value="decrescente">Preço: Alto para Baixo</option>
+    </select>
+    <span class="absolute right-0 top-1/2 -translate-y-1/2 pointer-events-none text-[8px]">▼</span>
+  </div>
+</div>
 </nav>
 
     <div class="flex justify-end mb-8 px-4">
@@ -172,7 +185,7 @@
         </div>
 
         <div id="modal-footer-content" class="mt-auto pt-8 border-t border-gray-100 dark:border-zinc-900">
-          </div>
+        </div>
       </div>
 
     </div>
