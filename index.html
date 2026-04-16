@@ -27,7 +27,7 @@
   </style>
 
   <meta property="og:title" content="Ivo Gomes | Private Collection">
-<meta property="og:description" content="Curadoria de veículos de exceção. Performance, história e exclusividade.">
+<meta property="og:description" content="Automóveis de excelÊncia, criteriosamente selecionados. Performance, história e exclusividade.">
 <meta property="og:image" content="URL_DA_SUA_FOTO_DE_CAPA"> <meta property="og:type" content="website">
 
 <style>
@@ -139,15 +139,48 @@
       <p class="text-[10px]">© 2026 • IVO GOMES STAND • PORTUGAL</p>
     </footer>
 
-    <div id="modal-galeria" class="fixed inset-0 z-50 hidden bg-white/95 backdrop-blur-md flex-col items-center justify-center p-4 dark:bg-black/95">
-  <button onclick="fecharGaleria()" class="absolute top-8 right-8 text-sm uppercase tracking-[0.2em] hover:opacity-50 transition">Fechar [x]</button>
-  
-    <div class="max-w-5xl w-full">
-      <img id="foto-grande" src="" class="w-full h-[70vh] object-contain mb-8">
-      <div id="miniaturas" class="flex justify-start md:justify-center gap-4 overflow-x-auto pb-4 w-full scroll-smooth">
-</div>
+    <div id="modal-galeria" class="fixed inset-0 bg-white dark:bg-zinc-950 z-[100] hidden flex-col overflow-y-auto">
+  <button onclick="fecharGaleria()" class="fixed top-6 right-6 z-[110] text-2xl p-2 hover:opacity-50 transition">✕</button>
+
+  <div class="max-w-7xl mx-auto w-full p-6 md:p-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-8">
+      
+      <div class="space-y-6">
+        <div class="aspect-[4/3] bg-gray-100 dark:bg-zinc-900 overflow-hidden">
+          <img id="foto-grande" src="" class="w-full h-full object-cover transition-opacity duration-500">
+        </div>
+        <div id="miniaturas" class="flex gap-4 overflow-x-auto pb-2 scroll-smooth">
+          </div>
+      </div>
+
+      <div class="flex flex-col">
+        <h2 id="modal-nome" class="display-font text-4xl mb-2 uppercase"></h2>
+        <p id="modal-detalhes" class="text-gray-400 text-xs tracking-[0.2em] uppercase mb-8 pb-8 border-b border-gray-100 dark:border-zinc-900"></p>
+        
+        <div class="mb-8">
+          <h4 class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">Descrição</h4>
+          <p id="modal-descricao" class="text-sm leading-relaxed text-gray-600 dark:text-zinc-400"></p>
+        </div>
+
+        <div class="mb-10">
+          <h4 class="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4">Especificações Técnicas</h4>
+          <div id="modal-specs" class="grid grid-cols-2 gap-4">
+            </div>
+        </div>
+
+        <div class="mt-auto pt-8 border-t border-gray-100 dark:border-zinc-900 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] text-gray-400 uppercase tracking-widest block">Investimento</span>
+            <span id="modal-preco" class="text-3xl font-light"></span>
+          </div>
+          <div id="modal-link-whatsapp">
+            </div>
+        </div>
+      </div>
+
     </div>
   </div>
+</div>
 
   </div>
 
@@ -168,7 +201,7 @@
       <h4 class="text-[10px] uppercase tracking-[0.3em] font-bold mb-6 text-gray-400">Contactos</h4>
       <ul class="text-[11px] space-y-4 uppercase tracking-widest">
         <li class="flex items-center gap-3">
-          <span class="text-gray-500">📍</span> Portugal, Vila Nova de Gaia
+          <span class="text-gray-500">📍</span> Portugal, Marco de Canaveses
         </li>
         <li class="flex items-center gap-3">
           <span class="text-gray-500">📱</span> +351 XXX XXX XXX
@@ -194,7 +227,7 @@
 
   <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-gray-50 dark:border-zinc-900 text-center">
     <p class="text-[9px] text-gray-400 uppercase tracking-[0.4em]">
-      © 2024 IVO GOMES STAND • TODOS OS DIREITOS RESERVADOS
+      © 2026 IVO GOMES STAND • TODOS OS DIREITOS RESERVADOS
     </p>
   </div>
 </footer>

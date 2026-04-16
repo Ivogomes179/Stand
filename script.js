@@ -130,25 +130,45 @@ function criarCard(v, index, categoria) {
 
 // 4. GALERIA
 function abrirGaleria(categoria, index) {
-  veiculoAtual = veiculos[categoria][index];
+  const v = veiculos[categoria][index];
+  veiculoAtual = v;
   fotoIndice = 0;
+
   const modal = document.getElementById('modal-galeria');
-  const fotoGrande = document.getElementById('foto-grande');
-  const contentorMiniaturas = document.getElementById('miniaturas');
+  
+  // Preencher Texto e Preço
+  document.getElementById('modal-nome').innerText = v.nome;
+  document.getElementById('modal-detalhes').innerText = v.detalhes;
+  document.getElementById('modal-preco').innerText = v.preco;
+  document.getElementById('modal-descricao').innerText = v.descricao || "Sem descrição disponível.";
 
-  fotoGrande.src = veiculoAtual.imagens[0];
-  contentorMiniaturas.scrollLeft = 0; 
-  renderizarMiniaturas(veiculoAtual.imagens);
-
-  if (!document.getElementById('controles-extra')) {
-    const controles = document.createElement('div');
-    controles.id = 'controles-extra';
-    controles.className = 'flex gap-6 mt-6 justify-center';
-    controles.innerHTML = `
-      <button onclick="toggleSlideshow()" id="btn-play" class="text-[10px] uppercase tracking-widest border border-black dark:border-white px-4 py-2 hover:bg-black hover:text-white transition dark:text-white">Auto Play</button>
-      <button onclick="partilharVeiculo()" class="text-[10px] uppercase tracking-widest border border-black dark:border-white px-4 py-2 hover:bg-black hover:text-white transition dark:text-white">Partilhar [↑]</button>`;
-    modal.querySelector('.max-w-5xl').appendChild(controles);
+  // Preencher Specs
+  const specsContainer = document.getElementById('modal-specs');
+  specsContainer.innerHTML = "";
+  if (v.specs) {
+    for (const [key, value] of Object.entries(v.specs)) {
+      specsContainer.innerHTML += `
+        <div class="border border-gray-100 dark:border-zinc-900 p-3">
+          <span class="block text-[8px] uppercase text-gray-400 tracking-tighter">${key}</span>
+          <span class="text-[11px] font-medium uppercase">${value}</span>
+        </div>`;
+    }
   }
+
+  // Preencher Fotos
+  document.getElementById('foto-grande').src = v.imagens[0];
+  const contentorMiniaturas = document.getElementById('miniaturas');
+  contentorMiniaturas.scrollLeft = 0; 
+  renderizarMiniaturas(v.imagens);
+
+  // Ajustar botão WhatsApp no Modal
+  const msg = encodeURIComponent(`Olá Ivo, gostaria de saber mais sobre o ${v.nome}.`);
+  document.getElementById('modal-link-whatsapp').innerHTML = `
+    <a href="https://wa.me/${telefone}?text=${msg}" target="_blank"
+       class="bg-black dark:bg-white text-white dark:text-black px-8 py-4 text-[10px] uppercase tracking-[0.2em] hover:opacity-80 transition">
+      Solicitar Informações
+    </a>`;
+
   modal.classList.replace('hidden', 'flex');
   document.body.style.overflow = 'hidden';
 }
