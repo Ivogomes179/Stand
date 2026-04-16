@@ -2,6 +2,10 @@ const telefone = "351XXXXXXXXX";
 let categoriaAtual = 'carros';
 let fotoIndice = 0;
 let veiculoAtual = null;
+let filtroMarcaAtual = 'todas';
+
+// Recuperar favoritos do LocalStorage
+let favoritos = JSON.parse(localStorage.getItem('stand_favs')) || [];
 
 // 1. BASE DE DADOS COMPLETA
 const veiculos = {
@@ -81,42 +85,101 @@ const veiculos = {
   ]
 };
 
-// 2. LOGICA DE CATEGORIAS
+// --- LÓGICA DE FILTROS E FAVORITOS ---
+
+function gerarFiltrosMarcas() {
+  const marcas = ['todas', ...new Set(veiculos[categoriaAtual].map(v => v.nome.split(' ')[0]))];
+  const cont = document.getElementById('filtros-marcas');
+  if (!cont) return;
+  
+  cont.innerHTML = marcas.map(marca => `
+    <button onclick="filtrarPorMarca('${marca}')" 
+      class="px-4 py-1 text-[9px] uppercase tracking-widest border transition-all
+      ${filtroMarcaAtual === marca 
+        ? 'bg-black text-white border-black dark:bg-white dark:text-black' 
+        : 'border-zinc-200 dark:border-zinc-800 text-zinc-400 hover:border-zinc-400'}">
+      ${marca}
+    </button>
+  `).join('');
+}
+
+function filtrarPorMarca(marca) {
+  filtroMarcaAtual = marca;
+  mostrarCategoria(categoriaAtual);
+}
+
+function toggleFavorito(event, nomeVeiculo) {
+  event.stopPropagation();
+  const index = favoritos.indexOf(nomeVeiculo);
+  if (index === -1) {
+    favoritos.push(nomeVeiculo);
+  } else {
+    favoritos.splice(index, 1);
+  }
+  localStorage.setItem('stand_favs', JSON.stringify(favoritos));
+  atualizarContagemFavs();
+  // Se estivermos no modo "Ver Favoritos", atualiza a lista na hora
+  const btn = document.getElementById('btn-ver-favoritos');
+  if (btn && btn.classList.contains('bg-red-500')) {
+    renderizarFavoritos();
+  } else {
+    mostrarCategoria(categoriaAtual);
+  }
+}
+
+function atualizarContagemFavs() {
+  const favCount = document.getElementById('fav-count');
+  if (favCount) favCount.innerText = favoritos.length;
+}
+
+function toggleVerFavoritos() {
+  const btn = document.getElementById('btn-ver-favoritos');
+  const isAtivo = btn.classList.toggle('bg-red-500');
+  btn.classList.toggle('text-white');
+  
+  if (isAtivo) {
+    renderizarFavoritos();
+  } else {
+    mostrarCategoria(categoriaAtual);
+  }
+}
+
+function renderizarFavoritos() {
+  const lista = document.getElementById("lista-veiculos");
+  const todos = [...veiculos.carros, ...veiculos.motas, ...veiculos.outros];
+  const filtrados = todos.filter(v => favoritos.includes(v.nome));
+  
+  if (filtrados.length === 0) {
+    lista.innerHTML = `<p class="col-span-full text-center py-20 text-gray-400 uppercase text-[10px] tracking-widest">Nenhum favorito guardado.</p>`;
+    return;
+  }
+  lista.innerHTML = filtrados.map((v, i) => criarCardHTML(v, i, 'favoritos')).join("");
+}
+
+// --- RENDERIZAÇÃO E CATEGORIAS ---
+
 function mostrarCategoria(cat) {
   categoriaAtual = cat;
+  gerarFiltrosMarcas();
+  atualizarContagemFavs();
+
+  // Se o botão de favoritos estiver ativo ao mudar de categoria, desativamos
+  const btnFav = document.getElementById('btn-ver-favoritos');
+  if (btnFav) {
+    btnFav.classList.remove('bg-red-500', 'text-white');
+  }
+
+  let veiculosParaExibir = veiculos[cat];
+  if (filtroMarcaAtual !== 'todas') {
+    veiculosParaExibir = veiculosParaExibir.filter(v => v.nome.startsWith(filtroMarcaAtual));
+  }
+
   const lista = document.getElementById("lista-veiculos");
   if (!lista) return;
 
   lista.style.opacity = "0";
   setTimeout(() => {
-    lista.innerHTML = veiculos[cat].map((v, index) => {
-      const isVendido = v.status === 'vendido';
-      const statusLabels = {
-        disponivel: { texto: 'Disponível', classe: 'bg-white/90 text-black' },
-        reservado: { texto: 'Reservado', classe: 'bg-amber-500 text-white' },
-        vendido: { texto: 'Vendido', classe: 'bg-zinc-500 text-white' }
-      };
-      const badge = statusLabels[v.status] || statusLabels.disponivel;
-      
-      return `
-      <article class="group bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
-        <div class="relative aspect-[4/3] cursor-pointer overflow-hidden" onclick="abrirGaleria('${cat}', ${index})">
-          <img src="${v.imagens[0]}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 ${isVendido ? 'grayscale opacity-50' : ''}">
-          <div class="absolute top-4 right-4 px-3 py-1 text-[9px] uppercase font-bold ${badge.classe}">${badge.texto}</div>
-        </div>
-        <div class="p-8">
-          <h3 class="display-font text-2xl mb-2">${v.nome}</h3>
-          <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-6 border-b pb-4">${v.detalhes}</p>
-          <div class="flex justify-between items-center gap-4">
-             <div>
-                <span class="text-[9px] text-gray-400 uppercase block tracking-widest">Investimento</span>
-                <span class="text-xl font-light">${isVendido ? '---' : v.preco}</span>
-             </div>
-             <button onclick="abrirGaleria('${cat}', ${index})" class="border border-black dark:border-white px-6 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition">Explorar</button>
-          </div>
-        </div>
-      </article>`;
-    }).join("");
+    lista.innerHTML = veiculosParaExibir.map((v, i) => criarCardHTML(v, i, cat)).join("");
     lista.style.opacity = "1";
     
     document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("btn-active"));
@@ -125,16 +188,60 @@ function mostrarCategoria(cat) {
   }, 250);
 }
 
-// 3. GALERIA PREMIUM
+function criarCardHTML(v, index, cat) {
+  const isFav = favoritos.includes(v.nome);
+  const isVendido = v.status === 'vendido';
+  const statusLabels = {
+    disponivel: { texto: 'Disponível', classe: 'bg-white/90 text-black' },
+    reservado: { texto: 'Reservado', classe: 'bg-amber-500 text-white' },
+    vendido: { texto: 'Vendido', classe: 'bg-zinc-500 text-white' }
+  };
+  const badge = statusLabels[v.status] || statusLabels.disponivel;
+
+  return `
+    <article class="group bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
+      <div class="relative aspect-[4/3] cursor-pointer overflow-hidden" onclick="abrirGaleria('${cat}', ${index})">
+        <img src="${v.imagens[0]}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 ${isVendido ? 'grayscale opacity-50' : ''}">
+        
+        <button onclick="toggleFavorito(event, '${v.nome}')" class="absolute top-4 left-4 z-20 p-2 bg-black/20 backdrop-blur-md rounded-full hover:bg-black/40 transition">
+          <span class="${isFav ? 'text-red-500' : 'text-white opacity-70'} text-sm">${isFav ? '❤️' : '🤍'}</span>
+        </button>
+
+        <div class="absolute top-4 right-4 px-3 py-1 text-[9px] uppercase font-bold ${badge.classe}">${badge.texto}</div>
+      </div>
+      <div class="p-8">
+        <h3 class="display-font text-2xl mb-2">${v.nome}</h3>
+        <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-6 border-b pb-4">${v.detalhes}</p>
+        <div class="flex justify-between items-center gap-4">
+           <div>
+              <span class="text-[9px] text-gray-400 uppercase block tracking-widest">Investimento</span>
+              <span class="text-xl font-light">${isVendido ? '---' : v.preco}</span>
+           </div>
+           <button onclick="abrirGaleria('${cat}', ${index})" class="border border-black dark:border-white px-6 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition">Explorar</button>
+        </div>
+      </div>
+    </article>`;
+}
+
+// --- GALERIA E ZOOM ---
+
 function abrirGaleria(cat, index) {
-  veiculoAtual = veiculos[cat][index];
+  // Se for da lista de favoritos, temos de encontrar o veículo no array original
+  if (cat === 'favoritos') {
+    const todos = [...veiculos.carros, ...veiculos.motas, ...veiculos.outros];
+    const filtrados = todos.filter(v => favoritos.includes(v.nome));
+    veiculoAtual = filtrados[index];
+  } else {
+    veiculoAtual = veiculos[cat][index];
+  }
+
+  if (!veiculoAtual) return;
   fotoIndice = 0;
 
   document.getElementById('modal-nome').innerText = veiculoAtual.nome;
   document.getElementById('modal-detalhes').innerText = veiculoAtual.detalhes;
   document.getElementById('modal-descricao').innerText = veiculoAtual.descricao || "Sem descrição disponível.";
 
-  // Specs
   const sCont = document.getElementById('modal-specs');
   sCont.innerHTML = "";
   if(veiculoAtual.specs) {
@@ -146,7 +253,6 @@ function abrirGaleria(cat, index) {
     });
   }
 
-  // Footer Dinâmico
   const msg = encodeURIComponent(`Olá Ivo, gostaria de saber mais sobre o ${veiculoAtual.nome}.`);
   document.getElementById('modal-footer-content').innerHTML = `
     <div class="flex flex-col sm:flex-row justify-between items-center gap-6 w-full pt-4">
@@ -175,7 +281,6 @@ function mudarFotoPrincipal(src, index) {
 
 function atualizarVisualizacao() {
   document.getElementById('foto-grande').src = veiculoAtual.imagens[fotoIndice];
-  
   const miniCont = document.getElementById('miniaturas');
   miniCont.innerHTML = veiculoAtual.imagens.map((img, i) => {
     const isActive = i === fotoIndice;
@@ -187,7 +292,6 @@ function atualizarVisualizacao() {
       </div>`;
   }).join('');
 
-  // Scroll automático para a miniatura ativa
   const alvo = miniCont.children[fotoIndice];
   if (alvo) alvo.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
 }
@@ -197,13 +301,19 @@ function fecharGaleria() {
   document.body.style.overflow = 'auto';
 }
 
-function partilharVeiculo() {
-  const texto = `Vê este ${veiculoAtual.nome} no Stand Ivo Gomes!`;
-  if (navigator.share) {
-    navigator.share({ title: 'Ivo Gomes Stand', text: texto, url: window.location.href });
+function abrirZoom() {
+  const srcOriginal = document.getElementById('foto-grande').src;
+  document.getElementById('img-zoom').src = srcOriginal;
+  document.getElementById('zoom-overlay').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+}
+
+function fecharZoom() {
+  document.getElementById('zoom-overlay').classList.add('hidden');
+  if (!document.getElementById('modal-galeria').classList.contains('hidden')) {
+    document.body.style.overflow = 'hidden';
   } else {
-    navigator.clipboard.writeText(`${texto} ${window.location.href}`);
-    alert("Link copiado para a área de transferência!");
+    document.body.style.overflow = 'auto';
   }
 }
 
@@ -211,81 +321,33 @@ function ordenarVeiculos() {
   const criterio = document.getElementById("ordem-preco").value;
   if (criterio === "default") return;
 
-  // 1. Ordenar o array original de dados
   veiculos[categoriaAtual].sort((a, b) => {
-    // Remove tudo o que não é número (ex: "64.990€" vira 64990)
     const precoA = parseInt(a.preco.replace(/[^0-9]/g, '')) || 0;
     const precoB = parseInt(b.preco.replace(/[^0-9]/g, '')) || 0;
-
-    if (criterio === "crescente") return precoA - precoB;
-    if (criterio === "decrescente") return precoB - precoA;
+    return criterio === "crescente" ? precoA - precoB : precoB - precoA;
   });
-
-  // 2. Forçar a atualização da lista no ecrã
-  renderizarListaDireta();
+  mostrarCategoria(categoriaAtual);
 }
 
-// Função auxiliar para atualizar a lista sem animações de delay que quebram a ordenação
-function renderizarListaDireta() {
-  const lista = document.getElementById("lista-veiculos");
-  lista.innerHTML = veiculos[categoriaAtual].map((v, index) => {
-    // Aqui reutilizamos a lógica do card (podes copiar a do teu mostrarCategoria)
-    const isVendido = v.status === 'vendido';
-    const statusLabels = {
-      disponivel: { texto: 'Disponível', classe: 'bg-white/90 text-black' },
-      reservado: { texto: 'Reservado', classe: 'bg-amber-500 text-white' },
-      vendido: { texto: 'Vendido', classe: 'bg-zinc-500 text-white' }
-    };
-    const badge = statusLabels[v.status] || statusLabels.disponivel;
-    
-    return `
-    <article class="group bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
-      <div class="relative aspect-[4/3] cursor-pointer overflow-hidden" onclick="abrirGaleria('${categoriaAtual}', ${index})">
-        <img src="${v.imagens[0]}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110 ${isVendido ? 'grayscale opacity-50' : ''}">
-        <div class="absolute top-4 right-4 px-3 py-1 text-[9px] uppercase font-bold ${badge.classe}">${badge.texto}</div>
-      </div>
-      <div class="p-8">
-        <h3 class="display-font text-2xl mb-2">${v.nome}</h3>
-        <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-6 border-b pb-4">${v.detalhes}</p>
-        <div class="flex justify-between items-center gap-4">
-           <div>
-              <span class="text-[9px] text-gray-400 uppercase block tracking-widest">Investimento</span>
-              <span class="text-xl font-light">${isVendido ? '---' : v.preco}</span>
-           </div>
-           <button onclick="abrirGaleria('${categoriaAtual}', ${index})" class="border border-black dark:border-white px-6 py-2 text-[10px] uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition">Explorar</button>
-        </div>
-      </div>
-    </article>`;
-  }).join("");
-}
+// --- INICIALIZAÇÃO ---
 
-// 4. INICIALIZAÇÃO E TECLADO
-window.onload = () => mostrarCategoria('carros');
+window.onload = () => {
+  mostrarCategoria('carros');
+  atualizarContagemFavs();
+};
 
 document.onkeydown = (e) => {
   const modal = document.getElementById('modal-galeria');
+  const zoom = document.getElementById('zoom-overlay');
+  
+  if (!zoom.classList.contains('hidden')) {
+    if (e.key === "Escape") fecharZoom();
+    return;
+  }
+
   if (!modal.classList.contains('hidden')) {
     if (e.key === "ArrowLeft") mudarFotoCard(-1);
     if (e.key === "ArrowRight") mudarFotoCard(1);
     if (e.key === "Escape") fecharGaleria();
   }
 };
-
-//5. Zoom nas fotos
-function abrirZoom() {
-    const srcOriginal = document.getElementById('foto-grande').src;
-    const imgZoom = document.getElementById('img-zoom');
-    const overlay = document.getElementById('zoom-overlay');
-    
-    imgZoom.src = srcOriginal;
-    overlay.classList.remove('hidden');
-    document.body.style.overflow = 'hidden'; // Bloqueia o scroll de fundo
-}
-
-function fecharZoom() {
-    document.getElementById('zoom-overlay').classList.add('hidden');
-    // Se o modal da galeria ainda estiver aberto, mantemos o overflow hidden
-    if (document.getElementById('modal-galeria').classList.contains('hidden')) {
-        document.body.style.overflow = 'auto';
-    }
-}

@@ -111,18 +111,14 @@
       <p class="text-gray-400 font-light text-lg tracking-wide">Automóveis de excelência, criteriosamente selecionados.</p>
     </header>
 
-    <div class="flex flex-col md:flex-row justify-between items-center gap-6 mb-10 border-b border-gray-100 dark:border-zinc-900 pb-6">
-      <nav class="flex gap-4 md:gap-8">
-        <button onclick="mostrarCategoria('carros')" id="btn-carros" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-3 btn-active">Automóveis</button>
-        <button onclick="mostrarCategoria('motas')" id="btn-motas" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-3">Motociclos</button>
-        <button onclick="mostrarCategoria('outros')" id="btn-outros" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-3">Especiais</button>
-      </nav>
-
-      <select id="ordem-preco" onchange="ordenarVeiculos()" class="select-premium">
-      <option value="default">Ordenar por</option>
-      <option value="crescente">Preço: Baixo para Alto</option>
-      <option value="decrescente">Preço: Alto para Baixo</option>
-    </select>
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
+      <div id="filtros-marcas" class="flex gap-2 overflow-x-auto no-scrollbar py-2">
+        </div>
+      
+      <button id="btn-ver-favoritos" onclick="toggleVerFavoritos()" 
+              class="flex items-center justify-center gap-3 text-[10px] uppercase tracking-[0.2em] border border-zinc-200 dark:border-zinc-800 px-6 py-3 transition-all hover:border-red-500 group">
+        <span id="fav-icon">❤️</span> Meus Favoritos (<span id="fav-count">0</span>)
+      </button>
     </div>
 
     <main id="lista-veiculos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-12"></main>
