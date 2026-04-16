@@ -1,5 +1,6 @@
 const telefone = "351XXXXXXXXX"; 
-const imgBrevemente = "https://images.unsplash.com/photo-1601053163359-99450c18d451?q=80&w=800&auto=format&fit=crop";
+//const imgBrevemente = "https://images.unsplash.com/photo-1601053163359-99450c18d451?q=80&w=800&auto=format&fit=crop";
+const imgBrevemente = "https://www.dreamstime.com/gray-loading-icon-isolated-background-modern-flat-pictogram-business-marketing-internet-concept-trendy-simple-vector-symbol-image217109658"
 let categoriaAtual = 'carros';
 let fotoIndice = 0;
 let veiculoAtual = null;
