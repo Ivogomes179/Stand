@@ -178,30 +178,46 @@ function mostrarCategoria(cat) {
   gerarFiltrosMarcas();
   atualizarContagemFavs();
 
-  const transmissao = document.getElementById('filtro-transmissao').value;
-  const combustivel = document.getElementById('filtro-combustivel').value;
+  const elTrans = document.getElementById('filtro-transmissao');
+  const elComb = document.getElementById('filtro-combustivel');
+  const transmissao = elTrans ? elTrans.value.toLowerCase() : 'todas';
+  const combustivel = elComb ? elComb.value.toLowerCase() : 'todas';
 
-  let veiculosParaExibir = veiculos[cat];
+  // Garantir que temos um array, mesmo que a categoria esteja vazia
+  let veiculosParaExibir = veiculos[cat] || [];
 
-  // Filtro de Marca
+  // 1. Filtro de Marca
   if (filtroMarcaAtual !== 'todas') {
-    veiculosParaExibir = veiculosParaExibir.filter(v => v.nome.startsWith(filtroMarcaAtual));
+    veiculosParaExibir = veiculosParaExibir.filter(v => 
+      v.nome.toLowerCase().includes(filtroMarcaAtual.toLowerCase())
+    );
   }
 
-  // NOVO: Filtro de Transmissão e Combustível (procura no texto dos detalhes)
+  // 2. Filtro de Transmissão (Busca inteligente)
   if (transmissao !== 'todas') {
-    veiculosParaExibir = veiculosParaExibir.filter(v => v.detalhes.includes(transmissao));
+    veiculosParaExibir = veiculosParaExibir.filter(v => 
+      v.detalhes.toLowerCase().includes(transmissao)
+    );
   }
+
+  // 3. Filtro de Combustível (Busca inteligente)
   if (combustivel !== 'todas') {
-    veiculosParaExibir = veiculosParaExibir.filter(v => v.detalhes.includes(combustivel));
+    veiculosParaExibir = veiculosParaExibir.filter(v => 
+      v.detalhes.toLowerCase().includes(combustivel)
+    );
   }
 
   const lista = document.getElementById("lista-veiculos");
   if (!lista) return;
 
-  lista.innerHTML = veiculosParaExibir.map((v, i) => criarCardHTML(v, i, cat)).join("");
+  // Renderização final
+  if (veiculosParaExibir.length === 0) {
+    lista.innerHTML = `<p class="col-span-full text-center py-20 text-gray-400 uppercase text-[10px] tracking-widest">Nenhum veículo encontrado.</p>`;
+  } else {
+    lista.innerHTML = veiculosParaExibir.map((v, i) => criarCardHTML(v, i, cat)).join("");
+  }
   
-  // Atualizar botões de navegação
+  // Atualizar botões do menu superior
   document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("btn-active"));
   const btnAtivo = document.getElementById(`btn-${cat}`);
   if (btnAtivo) btnAtivo.classList.add("btn-active");
