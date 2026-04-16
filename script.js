@@ -146,11 +146,20 @@ function criarCard(v, index, categoria) {
 
 // 4. GESTÃO DA GALERIA
 function abrirGaleria(categoria, index) {
-  veiculoAtual = veiculos[categoria][index];
+  const v = veiculos[categoria][index];
+  veiculoAtual = v;
   fotoIndice = 0;
+
   const modal = document.getElementById('modal-galeria');
-  document.getElementById('foto-grande').src = veiculoAtual.imagens[0];
-  renderizarMiniaturas(veiculoAtual.imagens);
+  const fotoGrande = document.getElementById('foto-grande');
+  const contentorMiniaturas = document.getElementById('miniaturas');
+
+  fotoGrande.src = v.imagens[0];
+  
+  contentorMiniaturas.scrollLeft = 0; 
+
+  renderizarMiniaturas(v.imagens);
+}
 
   if (!document.getElementById('controles-extra')) {
     const controles = document.createElement('div');
