@@ -19,7 +19,16 @@ const veiculos = {
         "Disponiveis/M4/m4-10.jpeg", "Disponiveis/M4/m4-11.jpeg", "Disponiveis/M4/m4-12.jpeg",
         "Disponiveis/M4/m4-13.jpeg", "Disponiveis/M4/m4-14.jpeg", "Disponiveis/M4/m4-15.jpeg",
         "Disponiveis/M4/m4-16.jpeg"
-      ]
+      ],
+      // NOVOS CAMPOS:
+      descricao: "Viatura num estado irrepreensível, com histórico completo na marca. Um verdadeiro ícone de performance com o pack Competition original.",
+      specs: {
+        motor: "3.0 TwinPower Turbo",
+        potencia: "450 cv",
+        transmissao: "DCT 7 Velocidades",
+        traçao: "Traseira",
+        aceleracao: "4.0s (0-100 km/h)"
+      },
     },
     {
       nome: "Seat Ibiza 6l",
