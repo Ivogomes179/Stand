@@ -247,6 +247,20 @@ function criarCardHTML(v, index, cat) {
 // --- GALERIA E ZOOM ---
 
 function abrirGaleria(cat, index) {
+
+   const v = veiculos[cat][index];
+    
+    // Se o carro não tiver imagens, usamos a nossa imagem de reserva
+    const fotosParaMostrar = (v.imagens && v.imagens.length > 0) ? v.imagens : [imgBrevemente];
+    
+    // Agora o resto do código usa 'fotosParaMostrar' em vez de 'v.imagens'
+    fotoAtualIdx = 0;
+    document.getElementById('modal-galeria').classList.remove('hidden');
+    
+    // Atualiza a foto grande no modal
+    const fotoGrande = document.getElementById('foto-grande');
+    fotoGrande.src = fotosParaMostrar[0]; 
+
   // Se for da lista de favoritos, temos de encontrar o veículo no array original
   if (cat === 'favoritos') {
     const todos = [...veiculos.carros, ...veiculos.motas, ...veiculos.outros];
