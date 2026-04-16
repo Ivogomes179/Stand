@@ -1,5 +1,5 @@
 const telefone = "351XXXXXXXXX"; 
-const imgBrevemente = loading.jpeg;
+const imgBrevemente = "loading.jpeg";
 let categoriaAtual = 'carros';
 let fotoIndice = 0;
 let veiculoAtual = null;
@@ -330,9 +330,12 @@ function mudarFotoPrincipal(src, index) {
 }
 
 function atualizarVisualizacao() {
-  document.getElementById('foto-grande').src = veiculoAtual.imagens[fotoIndice];
+  const fotosAtuais = (veiculoAtual.imagens && veiculoAtual.imagens.length > 0) ? veiculoAtual.imagens : [imgBrevemente];
+  
+  document.getElementById('foto-grande').src = fotosAtuais[fotoIndice];
+  
   const miniCont = document.getElementById('miniaturas');
-  miniCont.innerHTML = veiculoAtual.imagens.map((img, i) => {
+  miniCont.innerHTML = fotosAtuais.map((img, i) => {
     const isActive = i === fotoIndice;
     return `
       <div class="flex-shrink-0 transition-all duration-300 ${isActive ? 'scale-105' : 'scale-100'}">
@@ -375,9 +378,11 @@ function ordenarVeiculos() {
   veiculos[categoriaAtual].sort((a, b) => {
     const precoA = parseInt(a.preco.replace(/[^0-9]/g, '')) || 0;
     const precoB = parseInt(b.preco.replace(/[^0-9]/g, '')) || 0;
-
     return criterio === "crescente" ? precoA - precoB : precoB - precoA;
   });
+
+  // Mostra a categoria novamente para aplicar a nova ordem
+  mostrarCategoria(categoriaAtual);
 
  // Remove a cor preta de todos os botões
 document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("btn-active"));
