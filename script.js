@@ -37,41 +37,40 @@ const veiculos = {
                 "Disponiveis/6l-1/6l7.jpg", "Disponiveis/6l-1/6l8.jpg", "Disponiveis/6l-1/6l9.jpg",
       ],
       descricao: `Exterior:
-            Parachoques Cupra frente
-            Parachoques Cupra atrás
+            Parachoques Dianteiro e Traseiro Cupra
             Aleron Cupra
             Jantes OZ superleggera 16
             Coils AP
 
             Interior:
-            Tecto e pilares preto
+            Teto e pilares em preto
             Volante cupra sem botões
-            Manete mudanças Fr
-            Backets sparco
+            Manete Fr
+            Backets Sparco
             Rádio 2din
 
             Motor:
             Bloco 2.0
-            Pistons abertos com tratamento ceramic
+            Pistons abertos com tratamento cerâmico
             Bielas maxspeed
             Junta original de 1 mosca
             Cabeça tralhada
-            Molas valvulas
+            Molas válvulas
             Came 280°
             Tuches mecânicas
             Pernos Cabeça ARP
             Injetores BE +160%
             Linha 76mm
             Tubagens ic 70mm
-            Balão admissão 100mm
+            Admissão 100mm
             Sensor map 4bar
             Kit methanol
             Kit nitro
-            Turbo bmw VK2270
+            Turbo 28.71 VKLR
             IC semelhante ao S3 mas de maior capacidade
-            2 radiadores Gasoleo
+            2 radiadores Gasóleo
             1 radiador Óleo
-            Caixa velocidades FJW com reforço da 4º + veio primario e rolamentos `,
+            Caixa velocidades FJW com reforço da 4º + veio primário e rolamentos `,
       specs: { motor: "1.9 TDI", potencia: "4xx cv", turbo: "28.71", ano: "2006" }
     },
     {
