@@ -25,16 +25,54 @@ const veiculos = {
         "Disponiveis/M4/m4-16.jpeg"
       ],
       descricao: "Viatura num estado irrepreensível, com histórico completo na marca.",
-      specs: { motor: "3.0 TwinPower Turbo", potencia: "450 cv", transmissao: "DCT 7 Velocidades" }
+      specs: { motor: "3.0 TwinPower Turbo", potencia: "450 cv", transmissao: "DCT 7 Velocidades", ano: "2018" }
     },
     {
       nome: "Seat Ibiza 6l",
       detalhes: "4xx Cv • 2006 • Gasóleo • Manual",
       preco: "8.990€",
       status: "vendido",
-      imagens: ["Disponiveis/6l-1/6l1.jpg"],
-      descricao: "Projeto de alta performance.",
-      specs: { motor: "1.9 TDI", turbo: "28.71" }
+      imagens: ["Disponiveis/6l-1/6l1.jpg", "Disponiveis/6l-1/6l2.jpg", "Disponiveis/6l-1/6l3.jpg",
+                "Disponiveis/6l-1/6l4.jpg", "Disponiveis/6l-1/6l5.jpg", "Disponiveis/6l-1/6l6.jpg",
+                "Disponiveis/6l-1/6l7.jpg", "Disponiveis/6l-1/6l8.jpg", "Disponiveis/6l-1/6l9.jpg",
+      ],
+      descricao: `Exterior:
+            Parachoques Cupra frente
+            Parachoques Cupra atrás
+            Aleron Cupra
+            Jantes OZ superleggera 16
+            Coils AP
+
+            Interior:
+            Tecto e pilares preto
+            Volante cupra sem botões
+            Manete mudanças Fr
+            Backets sparco
+            Rádio 2din
+
+            Motor:
+            Bloco 2.0
+            Pistons abertos com tratamento ceramic
+            Bielas maxspeed
+            Junta original de 1 mosca
+            Cabeça tralhada
+            Molas valvulas
+            Came 280°
+            Tuches mecânicas
+            Pernos Cabeça ARP
+            Injetores BE +160%
+            Linha 76mm
+            Tubagens ic 70mm
+            Balão admissão 100mm
+            Sensor map 4bar
+            Kit methanol
+            Kit nitro
+            Turbo bmw VK2270
+            IC semelhante ao S3 mas de maior capacidade
+            2 radiadores Gasoleo
+            1 radiador Óleo
+            Caixa velocidades FJW com reforço da 4º + veio primario e rolamentos `,
+      specs: { motor: "1.9 TDI", potencia: "4xx cv", turbo: "28.71", ano: "2006" }
     },
     {
       nome: "BMW 120D XDrive",
