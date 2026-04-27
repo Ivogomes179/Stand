@@ -18,7 +18,11 @@ const veiculos = {
       status: "reservado",
       imagens: [
         "Disponiveis/M4/m4-1.jpeg", "Disponiveis/M4/m4-2.jpeg", "Disponiveis/M4/m4-3.jpeg",
-        "Disponiveis/M4/m4-4.jpeg", "Disponiveis/M4/m4-5.jpeg", "Disponiveis/M4/m4-6.jpeg"
+        "Disponiveis/M4/m4-4.jpeg", "Disponiveis/M4/m4-5.jpeg", "Disponiveis/M4/m4-6.jpeg",
+        "Disponiveis/M4/m4-7.jpeg", "Disponiveis/M4/m4-8.jpeg", "Disponiveis/M4/m4-9.jpeg",
+        "Disponiveis/M4/m4-10.jpeg", "Disponiveis/M4/m4-11.jpeg", "Disponiveis/M4/m4-12.jpeg",
+        "Disponiveis/M4/m4-13.jpeg", "Disponiveis/M4/m4-14.jpeg", "Disponiveis/M4/m4-15.jpeg",
+        "Disponiveis/M4/m4-16.jpeg"
       ],
       descricao: "Viatura num estado irrepreensível, com histórico completo na marca.",
       specs: { motor: "3.0 TwinPower Turbo", potencia: "450 cv", transmissao: "DCT 7 Velocidades" }
@@ -64,13 +68,13 @@ const veiculos = {
     }
   ],
   outros: [
-    {
-      nome: "Carrinha de Trabalho",
-      detalhes: "200.000 km • Gasóleo • Manual",
-      preco: "4.000€",
-      status: "disponivel",
-      imagens: []
-    }
+  //  {
+  //    nome: "Carrinha de Trabalho",
+  //    detalhes: "200.000 km • Gasóleo • Manual",
+  //    preco: "4.000€",
+  //    status: "disponivel",
+  //    imagens: []
+  //  }
   ]
 };
 
