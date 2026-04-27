@@ -79,7 +79,8 @@ const veiculos = {
       detalhes: "108.xxx km • 2018 • Gasóleo • Caixa Automática",
       preco: "21.990€",
       status: "disponivel",
-      imagens: []
+      imagens: ["Disponiveis/120d/20250422_151955.jpg", "Disponiveis/120d/20250422_151809.jpg", "Disponiveis/120d/20250422_151740.jpg", "Disponiveis/120d/20250422_151733.jpg", "Disponiveis/120d/20250422_151713.jpg", "Disponiveis/120d/20250422_151703.jpg", "Disponiveis/120d/20250422_151634.jpg", "Disponiveis/120d/20250422_151614.jpg", "Disponiveis/120d/20250422_151601.jpg", "Disponiveis/120d/20250422_150840.jpg", "Disponiveis/120d/20250422_145800.jpg", "Disponiveis/120d/20250422_145748.jpg", "Disponiveis/120d/20250422_145732.jpg", "Disponiveis/120d/20250422_145725.jpg", "Disponiveis/120d/20250422_145714.jpg", "Disponiveis/120d/20250422_145702.jpg", "Disponiveis/120d/20250422_145651.jpg", "Disponiveis/120d/20250422_145640.jpg"
+      ]
     },
     {
       nome: "Mercedes CLK 200 KOMPRESSOR",
@@ -95,7 +96,7 @@ const veiculos = {
       detalhes: "7.300 km • 2020 • Gasolina • Manual",
       preco: "8.500€",
       status: "vendido",
-      imagens: ["Disponiveis/MT09/mt1.jpg"]
+      imagens: ["Disponiveis/MT09/mt1.jpg", "Disponiveis/MT09/mt2.jpg", "Disponiveis/MT09/mt3.jpg", "Disponiveis/MT09/mt4.jpg", "Disponiveis/MT09/mt5.jpg", "Disponiveis/MT09/mt6.jpg", "Disponiveis/MT09/mt7.jpg", "Disponiveis/MT09/mt8.jpg", "Disponiveis/MT09/mt9.jpg"]
     },
     {
       nome: "Casal K191",
