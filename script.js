@@ -341,55 +341,34 @@ function abrirGaleria(cat, index) {
   if (!veiculoAtual) return;
   fotoIndice = 0;
 
+  // Abrir o modal e travar o scroll
   document.getElementById('modal-galeria').classList.replace('hidden', 'flex');
   document.body.style.overflow = 'hidden';
 
+  // Preencher Textos Principais
   document.getElementById('modal-nome').innerText = veiculoAtual.nome;
   document.getElementById('modal-detalhes').innerText = veiculoAtual.detalhes;
   document.getElementById('modal-descricao').innerText = veiculoAtual.descricao || "Contacte-nos para mais informações.";
   
-  // --- LISTA MESTRA ESTILO LISTA TÉCNICA (Mais limpo e legível) ---
+  // --- LISTA TÉCNICA (ESPECIFICAÇÕES) ---
   const camposReferencia = {
-    versao: "Versão/Modelo",
-    ano: "Ano/Mês",
-    quilometros: "Quilometragem",
-    categoria: "Tipo de Veículo",
-    origem: "País de Origem",
-    primeiroRegisto: "1º Registo",
-    proprietarios: "Nº de Proprietários",
-    cilindrada: "Cilindrada (cc)",
-    potencia: "Potência (cv/kW)",
-    caixa: "Transmissão",
-    mudancas: "Nº de Velocidades",
-    combustivel: "Combustível",
-    tracao: "Tração",
-    aceleracao: "0-100 km/h",
-    consumo: "Consumo Médio",
-    emissoes: "Classe de Emissões",
-    cor: "Cor Exterior",
-    pintura: "Acabamento",
-    estofos: "Estofos/Material",
-    corInterior: "Cor do Interior",
-    jantes: "Jantes (Pol.)",
-    portas: "Nº de Portas",
-    lugares: "Nº de Lugares",
-    iuc: "IUC (Anual)",
-    inspecao: "Inspeção até",
-    garantia: "Garantia",
-    historico: "Livro de Revisões",
-    chave: "Nº de Chaves",
-    naoFumador: "Viatura Não Fumador",
-    estado: "Estado Geral"
+    versao: "Versão/Modelo", ano: "Ano/Mês", quilometros: "Quilometragem",
+    categoria: "Tipo de Veículo", origem: "País de Origem", primeiroRegisto: "1º Registo",
+    proprietarios: "Nº de Proprietários", cilindrada: "Cilindrada (cc)", potencia: "Potência (cv/kW)",
+    caixa: "Transmissão", mudancas: "Nº de Velocidades", combustivel: "Combustível",
+    tracao: "Tração", aceleracao: "0-100 km/h", consumo: "Consumo Médio",
+    emissoes: "Classe de Emissões", cor: "Cor Exterior", pintura: "Acabamento",
+    estofos: "Estofos/Material", corInterior: "Cor do Interior", jantes: "Jantes (Pol.)",
+    portas: "Nº de Portas", lugares: "Nº de Lugares", iuc: "IUC (Anual)",
+    inspecao: "Inspeção até", garantia: "Garantia", historico: "Livro de Revisões",
+    chave: "Nº de Chaves", naoFumador: "Viatura Não Fumador", estado: "Estado Geral"
   };
 
   const sCont = document.getElementById('modal-specs');
   sCont.innerHTML = "";
 
-  // Alteramos para um estilo de lista corrida com 2 colunas em ecrãs grandes
   Object.entries(camposReferencia).forEach(([chave, label], index) => {
     const valor = (veiculoAtual.specs && veiculoAtual.specs[chave]) ? veiculoAtual.specs[chave] : "---";
-    
-    // Criamos uma linha com borda apenas no fundo e fundo alternado para leitura fácil
     sCont.innerHTML += `
       <div class="flex justify-between items-center py-3 px-2 border-b border-gray-100 dark:border-zinc-800 ${index % 2 === 0 ? 'bg-zinc-50/50 dark:bg-zinc-900/10' : ''}">
         <span class="text-[9px] text-gray-400 uppercase tracking-widest font-medium">${label}</span>
@@ -397,27 +376,31 @@ function abrirGaleria(cat, index) {
       </div>`;
   });
 
+  // --- PREÇO E BOTÃO WHATSAPP (COLUNA DIREITA) ---
   const msg = encodeURIComponent(`Olá Ivo, gostaria de saber mais sobre o ${veiculoAtual.nome}.`);
+  const containerComercial = document.getElementById('modal-preco-container');
   
-  // Injetamos o conteúdo na caixa lateral (ou no footer mobile)
-  const conteudoComercial = `
-    <div class="flex flex-col gap-4">
-      <div>
-        <span class="text-[10px] text-gray-400 uppercase block tracking-[0.2em] mb-1 font-medium">Investimento</span>
-        <span class="text-4xl font-light dark:text-zinc-200">${veiculoAtual.preco}</span>
-      </div>
-      <div class="mt-4">
-        <a href="https://wa.me/${telefone}?text=${msg}" target="_blank" 
-           class="block w-full text-center bg-black dark:bg-white text-white dark:text-black px-6 py-5 text-[10px] uppercase tracking-widest hover:opacity-90 transition-all font-bold shadow-xl">
+  if (containerComercial) {
+    containerComercial.innerHTML = `
+      <div class="space-y-6">
+        <div>
+          <span class="text-[9px] text-gray-400 uppercase block tracking-[0.3em] mb-2 font-medium italic">Investimento</span>
+          <span class="text-5xl font-light tracking-tighter dark:text-zinc-100">${veiculoAtual.preco}</span>
+        </div>
+        <a href="https://wa.me/351XXXXXXXXX?text=${msg}" target="_blank" 
+           class="block w-full text-center bg-black dark:bg-white text-white dark:text-black px-6 py-5 text-[10px] uppercase tracking-[0.2em] hover:opacity-80 transition-all font-bold shadow-xl">
            Solicitar Informações
         </a>
-        <p class="text-[8px] text-gray-400 text-center mt-3 uppercase tracking-tighter">Resposta imediata via WhatsApp</p>
+        <p class="text-[8px] text-gray-400 text-center uppercase tracking-widest leading-relaxed">
+          Resposta imediata via WhatsApp <br> Atendimento Privado
+        </p>
       </div>
-    </div>`;
+    `;
+  }
 
-  document.getElementById('modal-preco-container').innerHTML = conteudoComercial;
-
-  atualizarVisualizacao();
+  // --- CARREGAR FOTOS ---
+  // Esta função é vital para as imagens aparecerem!
+  atualizarVisualizacao(); 
 }
 
 function atualizarVisualizacao() {
