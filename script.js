@@ -82,7 +82,17 @@ const veiculos = {
             2 radiadores Gasóleo
             1 radiador Óleo
             Caixa velocidades FJW com reforço da 4º + veio primário e rolamentos `,
-      specs: { motor: "1.9 TDI", potencia: "4xx cv", turbo: "28.71", ano: "2006" }
+      specs: {
+            ano: "2006", 
+            quilometros: "267.000 km", 
+            cilindrada: "1.9 TDI (Alargado a 2.0)", // O que tinhas como 'motor'
+            potencia: "4xx cv", 
+            caixa: "Manual (6 Velocidades)", // O que tinhas como 'transmissao'
+            combustivel: "Gasóleo",
+            tracao: "Dianteira",
+            cor: "Preto",
+            portas: "2"
+      }
     },
     {
       nome: "BMW 120D XDrive",
