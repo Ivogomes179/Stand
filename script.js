@@ -398,14 +398,24 @@ function abrirGaleria(cat, index) {
   });
 
   const msg = encodeURIComponent(`Olá Ivo, gostaria de saber mais sobre o ${veiculoAtual.nome}.`);
-  document.getElementById('modal-footer-content').innerHTML = `
-    <div class="flex flex-col sm:flex-row justify-between items-center gap-6 w-full pt-6">
+  
+  // Injetamos o conteúdo na caixa lateral (ou no footer mobile)
+  const conteudoComercial = `
+    <div class="flex flex-col gap-4">
       <div>
-        <span class="text-[10px] text-gray-400 uppercase block tracking-widest">Investimento</span>
-        <span class="text-3xl font-light dark:text-zinc-200">${veiculoAtual.preco}</span>
+        <span class="text-[10px] text-gray-400 uppercase block tracking-[0.2em] mb-1 font-medium">Investimento</span>
+        <span class="text-4xl font-light dark:text-zinc-200">${veiculoAtual.preco}</span>
       </div>
-      <a href="https://wa.me/${telefone}?text=${msg}" target="_blank" class="w-full sm:w-auto text-center bg-black dark:bg-white text-white dark:text-black px-12 py-4 text-[10px] uppercase tracking-widest hover:opacity-80 transition shadow-lg">Solicitar Informações</a>
+      <div class="mt-4">
+        <a href="https://wa.me/${telefone}?text=${msg}" target="_blank" 
+           class="block w-full text-center bg-black dark:bg-white text-white dark:text-black px-6 py-5 text-[10px] uppercase tracking-widest hover:opacity-90 transition-all font-bold shadow-xl">
+           Solicitar Informações
+        </a>
+        <p class="text-[8px] text-gray-400 text-center mt-3 uppercase tracking-tighter">Resposta imediata via WhatsApp</p>
+      </div>
     </div>`;
+
+  document.getElementById('modal-preco-container').innerHTML = conteudoComercial;
 
   atualizarVisualizacao();
 }
