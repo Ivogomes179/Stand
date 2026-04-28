@@ -403,6 +403,59 @@ function abrirGaleria(cat, index) {
   atualizarVisualizacao(); 
 }
 
+// 1. FUNÇÃO PARA CARREGAR A FOTO ATUAL
+function atualizarVisualizacao() {
+  if (!veiculoAtual || !veiculoAtual.fotos || veiculoAtual.fotos.length === 0) {
+    console.error("Erro: Veículo sem fotos ou não definido.");
+    return;
+  }
+
+  const imgPrincipal = document.getElementById('foto-principal');
+  const contador = document.getElementById('contador-fotos');
+  const imgZoom = document.getElementById('img-zoom');
+
+  // Atualiza a imagem principal no Modal
+  if (imgPrincipal) {
+    imgPrincipal.src = veiculoAtual.fotos[fotoIndice];
+  }
+
+  // Atualiza o contador (ex: 1 / 12)
+  if (contador) {
+    contador.innerText = `${fotoIndice + 1} / ${veiculoAtual.fotos.length}`;
+  }
+
+  // Atualiza a imagem de zoom (se o zoom estiver aberto)
+  if (imgZoom) {
+    imgZoom.src = veiculoAtual.fotos[fotoIndice];
+  }
+}
+
+// 2. FUNÇÃO PARA OS BOTÕES DAS SETAS (ESQUERDA / DIREITA)
+function mudarFoto(direcao) {
+  if (!veiculoAtual || !veiculoAtual.fotos) return;
+
+  fotoIndice += direcao;
+
+  // Lógica de Loop: se passar da última, volta à primeira e vice-versa
+  if (fotoIndice >= veiculoAtual.fotos.length) {
+    fotoIndice = 0;
+  }
+  if (fotoIndice < 0) {
+    fotoIndice = veiculoAtual.fotos.length - 1;
+  }
+
+  atualizarVisualizacao();
+}
+
+// 3. FUNÇÃO PARA FECHAR O MODAL E LIMPAR TUDO
+function fecharGaleria() {
+  const modal = document.getElementById('modal-galeria');
+  modal.classList.replace('flex', 'hidden');
+  document.body.style.overflow = 'auto'; // Devolve o scroll ao site
+  veiculoAtual = null; // Limpa a seleção
+}
+
+/*
 function atualizarVisualizacao() {
   const fotos = (veiculoAtual.imagens && veiculoAtual.imagens.length > 0) ? veiculoAtual.imagens : [imgBrevemente];
   document.getElementById('foto-grande').src = fotos[fotoIndice];
@@ -424,6 +477,7 @@ function fecharGaleria() {
   document.getElementById('modal-galeria').classList.replace('flex', 'hidden');
   document.body.style.overflow = 'auto';
 }
+*/
 
 function abrirZoom() {
   document.getElementById('img-zoom').src = document.getElementById('foto-grande').src;
