@@ -348,23 +348,15 @@ function abrirGaleria(cat, index) {
   document.getElementById('modal-detalhes').innerText = veiculoAtual.detalhes;
   document.getElementById('modal-descricao').innerText = veiculoAtual.descricao || "Contacte-nos para mais informações.";
   
-  // --- NOVA LÓGICA DE ESPECIFICAÇÕES ESTILO STANDVIRTUAL ---
-  const sCont = document.getElementById('modal-specs');
-  sCont.innerHTML = "";
-
-  // Definimos a ordem e os nomes bonitos dos campos
- // --- LISTA MESTRA AUTOSCOUT24 (Versão Final Operacional) ---
+  // --- LISTA MESTRA ESTILO LISTA TÉCNICA (Mais limpo e legível) ---
   const camposReferencia = {
-    // INFO BÁSICA
     versao: "Versão/Modelo",
     ano: "Ano/Mês",
     quilometros: "Quilometragem",
-    categoria: "Tipo de Veículo", // ex: Sedan, SUV, Cabrio
+    categoria: "Tipo de Veículo",
     origem: "País de Origem",
     primeiroRegisto: "1º Registo",
     proprietarios: "Nº de Proprietários",
-
-    // MOTOR E PERFORMANCE
     cilindrada: "Cilindrada (cc)",
     potencia: "Potência (cv/kW)",
     caixa: "Transmissão",
@@ -373,18 +365,14 @@ function abrirGaleria(cat, index) {
     tracao: "Tração",
     aceleracao: "0-100 km/h",
     consumo: "Consumo Médio",
-    emissoes: "Classe de Emissões", // ex: Euro 6
-
-    // EXTERIOR E INTERIOR
+    emissoes: "Classe de Emissões",
     cor: "Cor Exterior",
-    pintura: "Acabamento", // ex: Metalizado, Mate
+    pintura: "Acabamento",
     estofos: "Estofos/Material",
     corInterior: "Cor do Interior",
     jantes: "Jantes (Pol.)",
     portas: "Nº de Portas",
     lugares: "Nº de Lugares",
-
-    // DOCUMENTAÇÃO E EXTRAS
     iuc: "IUC (Anual)",
     inspecao: "Inspeção até",
     garantia: "Garantia",
@@ -397,20 +385,21 @@ function abrirGaleria(cat, index) {
   const sCont = document.getElementById('modal-specs');
   sCont.innerHTML = "";
 
-  Object.entries(camposReferencia).forEach(([chave, label]) => {
+  // Alteramos para um estilo de lista corrida com 2 colunas em ecrãs grandes
+  Object.entries(camposReferencia).forEach(([chave, label], index) => {
     const valor = (veiculoAtual.specs && veiculoAtual.specs[chave]) ? veiculoAtual.specs[chave] : "---";
     
+    // Criamos uma linha com borda apenas no fundo e fundo alternado para leitura fácil
     sCont.innerHTML += `
-      <div class="border border-gray-100 dark:border-zinc-800 p-3 bg-zinc-50/30 dark:bg-zinc-900/10 flex flex-col justify-center min-h-[65px]">
-        <span class="block text-[7.5px] text-gray-400 uppercase tracking-[0.2em] mb-1 leading-tight">${label}</span>
-        <span class="text-[10px] font-bold uppercase tracking-tight dark:text-zinc-200 break-words">${valor}</span>
+      <div class="flex justify-between items-center py-3 px-2 border-b border-gray-100 dark:border-zinc-800 ${index % 2 === 0 ? 'bg-zinc-50/50 dark:bg-zinc-900/10' : ''}">
+        <span class="text-[9px] text-gray-400 uppercase tracking-widest font-medium">${label}</span>
+        <span class="text-[11px] font-bold uppercase tracking-tight dark:text-zinc-200 text-right ml-4">${valor}</span>
       </div>`;
   });
-  // --- FIM DA NOVA LÓGICA ---
 
   const msg = encodeURIComponent(`Olá Ivo, gostaria de saber mais sobre o ${veiculoAtual.nome}.`);
   document.getElementById('modal-footer-content').innerHTML = `
-    <div class="flex flex-col sm:flex-row justify-between items-center gap-6 w-full pt-4">
+    <div class="flex flex-col sm:flex-row justify-between items-center gap-6 w-full pt-6">
       <div>
         <span class="text-[10px] text-gray-400 uppercase block tracking-widest">Investimento</span>
         <span class="text-3xl font-light dark:text-zinc-200">${veiculoAtual.preco}</span>
