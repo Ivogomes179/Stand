@@ -203,6 +203,14 @@ function toggleFavorito(event, nomeVeiculo) {
   mostrarCategoria(categoriaAtual);
 }
 
+function limparFiltros() {
+    document.getElementById('ordem-preco').value = 'default';
+    document.getElementById('filtro-combustivel').value = 'todas';
+    document.getElementById('filtro-transmissao').value = 'todas';
+    filtroMarcaAtual = 'todas';
+    mostrarCategoria(categoriaAtual);
+}
+
 function atualizarContagemFavs() {
   const favCount = document.getElementById('fav-count');
   if (favCount) favCount.innerText = favoritos.length;
