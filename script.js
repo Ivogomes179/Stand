@@ -262,27 +262,34 @@ function mostrarCategoria(cat) {
   const lista = document.getElementById("lista-veiculos");
   if (!lista) return;
 
-  // --- NOVO: Contador e Animação ---
+  // --- NOVO: ESTADO DE CARREGAMENTO (SKELETONS) ---
+  // Mostramos 3 blocos de skeleton enquanto o "servidor" (timeout) processa
+  lista.innerHTML = `
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+    <div class="skeleton"></div>
+  `;
+
   const total = filtrados.length;
-  const textoContador = `<div class="col-span-full mb-4 opacity-0 animate-fade-in">
+  const textoContador = `<div class="col-span-full mb-4">
     <span class="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-medium">
       ${total} ${total === 1 ? 'veículo encontrado' : 'veículos encontrados'}
     </span>
   </div>`;
 
-  // Reset da animação
+  // Preparamos a lista para a animação de entrada
   lista.classList.remove('opacity-100');
-  lista.classList.add('opacity-0', 'translate-y-4');
+  lista.classList.add('opacity-0', 'translate-y-4', 'transition-all', 'duration-500');
 
   setTimeout(() => {
     lista.innerHTML = total === 0 
       ? `<p class="col-span-full text-center py-20 text-gray-400 uppercase text-[10px] tracking-widest">Nenhum veículo encontrado.</p>`
       : textoContador + filtrados.map((v, i) => criarCardHTML(v, i, cat)).join("");
     
-    // Ativa a animação de entrada
+    // Ativa a animação de entrada final
     lista.classList.replace('opacity-0', 'opacity-100');
     lista.classList.replace('translate-y-4', 'translate-y-0');
-  }, 150);
+  }, 400); // Aumentei para 400ms para o efeito Shimmer ser bem visível e elegante
 
   // Atualizar botões do menu
   document.querySelectorAll("nav button").forEach(btn => btn.classList.remove("btn-active"));
