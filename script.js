@@ -405,44 +405,37 @@ function abrirGaleria(cat, index) {
 
 // 1. FUNÇÃO PARA CARREGAR A FOTO ATUAL
 function atualizarVisualizacao() {
-  if (!veiculoAtual || !veiculoAtual.fotos || veiculoAtual.fotos.length === 0) {
-    console.error("Erro: Veículo sem fotos ou não definido.");
-    return;
-  }
+  // Mudamos .fotos para .imagens para coincidir com a tua base de dados
+  const listaImagens = (veiculoAtual && veiculoAtual.imagens && veiculoAtual.imagens.length > 0) 
+                       ? veiculoAtual.imagens 
+                       : [imgBrevemente];
 
   const imgPrincipal = document.getElementById('foto-principal');
   const contador = document.getElementById('contador-fotos');
   const imgZoom = document.getElementById('img-zoom');
 
-  // Atualiza a imagem principal no Modal
   if (imgPrincipal) {
-    imgPrincipal.src = veiculoAtual.fotos[fotoIndice];
+    imgPrincipal.src = listaImagens[fotoIndice];
   }
 
-  // Atualiza o contador (ex: 1 / 12)
   if (contador) {
-    contador.innerText = `${fotoIndice + 1} / ${veiculoAtual.fotos.length}`;
+    contador.innerText = `${fotoIndice + 1} / ${listaImagens.length}`;
   }
 
-  // Atualiza a imagem de zoom (se o zoom estiver aberto)
   if (imgZoom) {
-    imgZoom.src = veiculoAtual.fotos[fotoIndice];
+    imgZoom.src = listaImagens[fotoIndice];
   }
 }
 
 // 2. FUNÇÃO PARA OS BOTÕES DAS SETAS (ESQUERDA / DIREITA)
 function mudarFoto(direcao) {
-  if (!veiculoAtual || !veiculoAtual.fotos) return;
+  const listaImagens = (veiculoAtual && veiculoAtual.imagens) ? veiculoAtual.imagens : [];
+  if (listaImagens.length === 0) return;
 
   fotoIndice += direcao;
 
-  // Lógica de Loop: se passar da última, volta à primeira e vice-versa
-  if (fotoIndice >= veiculoAtual.fotos.length) {
-    fotoIndice = 0;
-  }
-  if (fotoIndice < 0) {
-    fotoIndice = veiculoAtual.fotos.length - 1;
-  }
+  if (fotoIndice >= listaImagens.length) fotoIndice = 0;
+  if (fotoIndice < 0) fotoIndice = listaImagens.length - 1;
 
   atualizarVisualizacao();
 }
@@ -480,8 +473,12 @@ function fecharGaleria() {
 */
 
 function abrirZoom() {
-  document.getElementById('img-zoom').src = document.getElementById('foto-grande').src;
-  document.getElementById('zoom-overlay').classList.remove('hidden');
+  const principal = document.getElementById('foto-principal');
+  const zoomImg = document.getElementById('img-zoom');
+  if (principal && zoomImg) {
+    zoomImg.src = principal.src;
+    document.getElementById('zoom-overlay').classList.remove('hidden');
+  }
 }
 
 function fecharZoom() {
