@@ -140,6 +140,8 @@
             <div id="contador-fotos" class="absolute bottom-6 right-6 text-[10px] text-white bg-black/40 px-3 py-1 backdrop-blur-sm uppercase tracking-widest"></div>
           </div>
 
+          <div id="modal-miniaturas" class="flex gap-2 overflow-x-auto no-scrollbar pb-4 mb-12"></div>
+
           <div class="mb-16">
             <h3 class="text-[10px] uppercase tracking-[0.4em] text-gray-400 mb-6 font-bold border-b border-gray-100 dark:border-zinc-800 pb-2">Descrição</h3>
             <p id="modal-descricao" class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed italic"></p>
@@ -152,16 +154,26 @@
         </div>
 
         <div class="lg:col-span-4">
-          <div class="lg:sticky lg:top-12 space-y-8">
-            <div id="modal-preco-container" class="bg-zinc-50 dark:bg-zinc-900 p-8 border border-gray-100 dark:border-zinc-800">
+          <div class="lg:sticky lg:top-12 space-y-6">
+            
+            <div id="modal-preco-container" class="bg-white dark:bg-zinc-900 p-10 border border-gray-100 dark:border-zinc-800 shadow-[0_20px_50px_rgba(0,0,0,0.05)] rounded-sm">
               </div>
             
-            <div class="p-8 border border-dashed border-gray-200 dark:border-zinc-800">
-              <p class="text-[9px] text-gray-400 uppercase tracking-widest mb-4 font-bold">Compromisso Ivo Gomes</p>
-              <ul class="space-y-3 text-[10px] uppercase tracking-tighter text-gray-500">
-                <li>• Garantia de 18 Meses</li>
-                <li>• Revisão Completa efetuada</li>
-                <li>• Higienização profissional</li>
+            <div class="px-8 py-6 border-l-2 border-zinc-100 dark:border-zinc-800 ml-2">
+              <p class="text-[10px] text-gray-400 uppercase tracking-[0.2em] mb-4 font-bold italic">Standard de Qualidade</p>
+              <ul class="space-y-4 text-[11px] uppercase tracking-tighter text-gray-500">
+                <li class="flex items-center gap-3">
+                    <span class="w-1 h-1 bg-zinc-400 rounded-full"></span> 
+                    Garantia de 18 Meses Total
+                </li>
+                <li class="flex items-center gap-3">
+                    <span class="w-1 h-1 bg-zinc-400 rounded-full"></span> 
+                    Check-up 120 Pontos efetuado
+                </li>
+                <li class="flex items-center gap-3">
+                    <span class="w-1 h-1 bg-zinc-400 rounded-full"></span> 
+                    Higienização de Detalhe
+                </li>
               </ul>
             </div>
           </div>

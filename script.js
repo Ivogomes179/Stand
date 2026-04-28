@@ -376,24 +376,40 @@ function abrirGaleria(cat, index) {
       </div>`;
   });
 
-  // --- PREÇO E BOTÃO WHATSAPP (COLUNA DIREITA) ---
-  const msg = encodeURIComponent(`Olá Ivo, gostaria de saber mais sobre o ${veiculoAtual.nome}.`);
+  // --- PREÇO E BOTÃO PREMIUM (COLUNA DIREITA) ---
+  const msg = encodeURIComponent(`Olá Ivo, gostaria de obter informações detalhadas sobre o ${veiculoAtual.nome}.`);
   const containerComercial = document.getElementById('modal-preco-container');
   
   if (containerComercial) {
     containerComercial.innerHTML = `
-      <div class="space-y-6">
-        <div>
-          <span class="text-[9px] text-gray-400 uppercase block tracking-[0.3em] mb-2 font-medium italic">Investimento</span>
-          <span class="text-5xl font-light tracking-tighter dark:text-zinc-100">${veiculoAtual.preco}</span>
+      <div class="flex flex-col space-y-8">
+        <div class="space-y-1">
+          <span class="text-[10px] text-gray-400 uppercase block tracking-[0.4em] font-semibold italic">Valor de Aquisição</span>
+          <div class="flex items-baseline gap-1">
+             <span class="text-5xl font-light tracking-tighter dark:text-zinc-100">${veiculoAtual.preco}</span>
+          </div>
+          <p class="text-[9px] text-zinc-400 uppercase tracking-widest pt-2 italic">Iva incluído e dedutível (se aplicável)</p>
         </div>
-        <a href="https://wa.me/351XXXXXXXXX?text=${msg}" target="_blank" 
-           class="block w-full text-center bg-black dark:bg-white text-white dark:text-black px-6 py-5 text-[10px] uppercase tracking-[0.2em] hover:opacity-80 transition-all font-bold shadow-xl">
-           Solicitar Informações
-        </a>
-        <p class="text-[8px] text-gray-400 text-center uppercase tracking-widest leading-relaxed">
-          Resposta imediata via WhatsApp <br> Atendimento Privado
-        </p>
+
+        <div class="h-px bg-gradient-to-r from-transparent via-zinc-200 dark:via-zinc-800 to-transparent"></div>
+
+        <div class="space-y-4">
+          <a href="https://wa.me/351XXXXXXXXX?text=${msg}" target="_blank" 
+             class="group relative flex items-center justify-center w-full bg-black dark:bg-white text-white dark:text-black py-6 overflow-hidden transition-all duration-500 hover:shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
+             <div class="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000"></div>
+             
+             <span class="relative text-[11px] uppercase tracking-[0.3em] font-bold">Solicitar Proposta</span>
+          </a>
+          
+          <button class="w-full py-4 text-[9px] uppercase tracking-widest border border-zinc-200 dark:border-zinc-800 text-zinc-500 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors">
+            Agendar Visita Privada
+          </button>
+        </div>
+
+        <div class="flex items-center justify-center gap-4 opacity-50">
+           <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" class="w-3 h-3 grayscale" alt="">
+           <span class="text-[8px] uppercase tracking-[0.2em] text-gray-500">Private Collection 2026</span>
+        </div>
       </div>
     `;
   }
@@ -405,26 +421,46 @@ function abrirGaleria(cat, index) {
 
 // 1. FUNÇÃO PARA CARREGAR A FOTO ATUAL
 function atualizarVisualizacao() {
-  // Mudamos .fotos para .imagens para coincidir com a tua base de dados
-  const listaImagens = (veiculoAtual && veiculoAtual.imagens && veiculoAtual.imagens.length > 0) 
-                       ? veiculoAtual.imagens 
-                       : [imgBrevemente];
+    const listaImagens = (veiculoAtual && veiculoAtual.imagens && veiculoAtual.imagens.length > 0) 
+                         ? veiculoAtual.imagens 
+                         : [imgBrevemente];
 
-  const imgPrincipal = document.getElementById('foto-principal');
-  const contador = document.getElementById('contador-fotos');
-  const imgZoom = document.getElementById('img-zoom');
+    const imgPrincipal = document.getElementById('foto-principal');
+    const contador = document.getElementById('contador-fotos');
+    const miniaturasCont = document.getElementById('modal-miniaturas');
 
-  if (imgPrincipal) {
-    imgPrincipal.src = listaImagens[fotoIndice];
-  }
+    // 1. Atualiza a Foto Principal
+    if (imgPrincipal) {
+        imgPrincipal.src = listaImagens[fotoIndice];
+    }
 
-  if (contador) {
-    contador.innerText = `${fotoIndice + 1} / ${listaImagens.length}`;
-  }
+    // 2. Atualiza o Contador
+    if (contador) {
+        contador.innerText = `${fotoIndice + 1} / ${listaImagens.length}`;
+    }
 
-  if (imgZoom) {
-    imgZoom.src = listaImagens[fotoIndice];
-  }
+    // 3. Gera e Atualiza as Miniaturas
+    if (miniaturasCont) {
+        miniaturasCont.innerHTML = listaImagens.map((img, i) => `
+            <div onclick="irParaFoto(${i})" 
+                 class="relative min-w-[100px] h-20 cursor-pointer overflow-hidden border-2 transition-all duration-300
+                 ${i === fotoIndice ? 'border-black dark:border-white opacity-100' : 'border-transparent opacity-40 hover:opacity-70'}">
+                <img src="${img}" class="w-full h-full object-cover">
+            </div>
+        `).join('');
+        
+        // Scroll automático suave para a miniatura selecionada
+        const ativa = miniaturasCont.children[fotoIndice];
+        if (ativa) {
+            ativa.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+    }
+}
+
+// Função auxiliar para clicar na miniatura
+function irParaFoto(index) {
+    fotoIndice = index;
+    atualizarVisualizacao();
 }
 
 // 2. FUNÇÃO PARA OS BOTÕES DAS SETAS (ESQUERDA / DIREITA)
