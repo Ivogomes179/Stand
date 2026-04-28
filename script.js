@@ -100,7 +100,39 @@ const veiculos = {
       preco: "21.990€",
       status: "disponivel",
       imagens: ["Disponiveis/120d/20250422_151955.jpg", "Disponiveis/120d/20250422_151809.jpg", "Disponiveis/120d/20250422_151740.jpg", "Disponiveis/120d/20250422_151733.jpg", "Disponiveis/120d/20250422_151713.jpg", "Disponiveis/120d/20250422_151703.jpg", "Disponiveis/120d/20250422_151634.jpg", "Disponiveis/120d/20250422_151614.jpg", "Disponiveis/120d/20250422_151601.jpg", "Disponiveis/120d/20250422_150840.jpg", "Disponiveis/120d/20250422_145800.jpg", "Disponiveis/120d/20250422_145748.jpg", "Disponiveis/120d/20250422_145732.jpg", "Disponiveis/120d/20250422_145725.jpg", "Disponiveis/120d/20250422_145714.jpg", "Disponiveis/120d/20250422_145702.jpg", "Disponiveis/120d/20250422_145651.jpg", "Disponiveis/120d/20250422_145640.jpg"
-      ]
+      ],
+      specs: {
+        versao: "",
+        ano: "",
+        quilometros: "",
+        categoria: "",
+        origem: "",
+        primeiroRegisto: "",
+        proprietarios: "",
+        cilindrada: "",
+        potencia: "",
+        caixa: "",
+        mudancas: "",
+        combustivel: "",
+        tracao: "",
+        aceleracao: "",
+        consumo: "",
+        emissoes: "",
+        cor: "",
+        pintura: "",
+        estofos: "",
+        corInterior: "",
+        jantes: "",
+        portas: "",
+        lugares: "",
+        iuc: "",
+        inspecao: "",
+        garantia: "",
+        historico: "",
+        chave: "",
+        naoFumador: "",
+        estado: ""
+      }
     },
     {
       nome: "Mercedes CLK 200 KOMPRESSOR",
@@ -321,28 +353,57 @@ function abrirGaleria(cat, index) {
   sCont.innerHTML = "";
 
   // Definimos a ordem e os nomes bonitos dos campos
+ // --- LISTA MESTRA AUTOSCOUT24 (Versão Final Operacional) ---
   const camposReferencia = {
-    versao: "Versão/Pack",
+    // INFO BÁSICA
+    versao: "Versão/Modelo",
     ano: "Ano/Mês",
     quilometros: "Quilometragem",
-    cilindrada: "Cilindrada",
-    potencia: "Potência",
+    categoria: "Tipo de Veículo", // ex: Sedan, SUV, Cabrio
+    origem: "País de Origem",
+    primeiroRegisto: "1º Registo",
+    proprietarios: "Nº de Proprietários",
+
+    // MOTOR E PERFORMANCE
+    cilindrada: "Cilindrada (cc)",
+    potencia: "Potência (cv/kW)",
     caixa: "Transmissão",
+    mudancas: "Nº de Velocidades",
     combustivel: "Combustível",
     tracao: "Tração",
+    aceleracao: "0-100 km/h",
+    consumo: "Consumo Médio",
+    emissoes: "Classe de Emissões", // ex: Euro 6
+
+    // EXTERIOR E INTERIOR
     cor: "Cor Exterior",
-    portas: "Portas/Lugares"
+    pintura: "Acabamento", // ex: Metalizado, Mate
+    estofos: "Estofos/Material",
+    corInterior: "Cor do Interior",
+    jantes: "Jantes (Pol.)",
+    portas: "Nº de Portas",
+    lugares: "Nº de Lugares",
+
+    // DOCUMENTAÇÃO E EXTRAS
+    iuc: "IUC (Anual)",
+    inspecao: "Inspeção até",
+    garantia: "Garantia",
+    historico: "Livro de Revisões",
+    chave: "Nº de Chaves",
+    naoFumador: "Viatura Não Fumador",
+    estado: "Estado Geral"
   };
 
-  // Percorremos a lista de referência para garantir que todos aparecem
+  const sCont = document.getElementById('modal-specs');
+  sCont.innerHTML = "";
+
   Object.entries(camposReferencia).forEach(([chave, label]) => {
-    // Procura o valor no veículo. Se não existir, coloca "---"
     const valor = (veiculoAtual.specs && veiculoAtual.specs[chave]) ? veiculoAtual.specs[chave] : "---";
     
     sCont.innerHTML += `
-      <div class="border border-gray-100 dark:border-zinc-800 p-3 bg-zinc-50/30 dark:bg-zinc-900/10">
-        <span class="block text-[8px] text-gray-400 uppercase tracking-[0.2em] mb-1">${label}</span>
-        <span class="text-[11px] font-bold uppercase tracking-tight dark:text-zinc-200">${valor}</span>
+      <div class="border border-gray-100 dark:border-zinc-800 p-3 bg-zinc-50/30 dark:bg-zinc-900/10 flex flex-col justify-center min-h-[65px]">
+        <span class="block text-[7.5px] text-gray-400 uppercase tracking-[0.2em] mb-1 leading-tight">${label}</span>
+        <span class="text-[10px] font-bold uppercase tracking-tight dark:text-zinc-200 break-words">${valor}</span>
       </div>`;
   });
   // --- FIM DA NOVA LÓGICA ---
