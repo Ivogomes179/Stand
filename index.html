@@ -75,6 +75,7 @@
         <button onclick="mostrarCategoria('carros')" id="btn-carros" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-4 transition-all btn-active">Automóveis</button>
         <button onclick="mostrarCategoria('motas')" id="btn-motas" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-4 transition-all">Motociclos</button>
         <button onclick="mostrarCategoria('outros')" id="btn-outros" class="text-[10px] md:text-sm uppercase tracking-widest font-medium py-2 px-4 transition-all">Especiais</button>
+        <button onclick="document.getElementById('importacao').scrollIntoView({ behavior: 'smooth' })" class="text-[10px] uppercase tracking-[0.2em] text-gray-500 hover:text-black dark:hover:text-white transition">Importação</button>
       </nav>
     </div>
 
@@ -117,9 +118,65 @@
         </div>
       </div>
     </div>
-
     <main id="lista-veiculos" class="grid md:grid-cols-2 lg:grid-cols-3 gap-12 mb-20"></main>
   </div>
+
+  <section id="importacao" class="py-24 bg-zinc-50 dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
+      <div class="max-w-6xl mx-auto px-6">
+          <div class="grid lg:grid-cols-2 gap-16 items-center">
+              
+              <div class="space-y-8">
+                  <div>
+                      <span class="text-[10px] uppercase tracking-[0.4em] text-gray-400 font-bold italic">Global Sourcing</span>
+                      <h2 class="display-font text-4xl mt-4 leading-tight">O automóvel dos seus sonhos,<br>em qualquer lugar da Europa.</h2>
+                      <p class="text-gray-500 text-sm mt-6 leading-relaxed max-w-md">
+                          Através do nosso serviço de importação personalizada, acedemos ao mercado europeu para encontrar a configuração exata que procura, garantindo transparência total e segurança jurídica.
+                      </p>
+                  </div>
+
+                  <div class="space-y-6">
+                      <div class="flex gap-6">
+                          <span class="text-zinc-300 dark:text-zinc-800 text-3xl font-light">01</span>
+                          <div>
+                              <h4 class="text-[11px] uppercase tracking-widest font-bold">Curadoria & Seleção</h4>
+                              <p class="text-[10px] text-gray-400 uppercase mt-1 leading-relaxed">Filtramos as melhores unidades com histórico comprovado e sem sinistros.</p>
+                          </div>
+                      </div>
+                      <div class="flex gap-6">
+                          <span class="text-zinc-300 dark:text-zinc-800 text-3xl font-light">02</span>
+                          <div>
+                              <h4 class="text-[11px] uppercase tracking-widest font-bold">Inspeção & Logística</h4>
+                              <p class="text-[10px] text-gray-400 uppercase mt-1 leading-relaxed">Transporte especializado em camião fechado e verificação técnica no destino.</p>
+                          </div>
+                      </div>
+                      <div class="flex gap-6">
+                          <span class="text-zinc-300 dark:text-zinc-800 text-3xl font-light">03</span>
+                          <div>
+                              <h4 class="text-[11px] uppercase tracking-widest font-bold">Legalização Chave-na-mão</h4>
+                              <p class="text-[10px] text-gray-400 uppercase mt-1 leading-relaxed">Tratamos de toda a burocracia, alfândega e atribuição de matrícula.</p>
+                          </div>
+                      </div>
+                  </div>
+
+                  <a href="https://wa.me/351XXXXXXXXX?text=Olá Ivo, gostaria de saber mais sobre o serviço de importação." 
+                    class="inline-block bg-black dark:bg-white text-white dark:text-black px-10 py-5 text-[10px] uppercase tracking-[0.3em] font-bold hover:opacity-80 transition-all shadow-2xl">
+                    Consultar Especialista
+                  </a>
+              </div>
+
+              <div class="relative">
+                  <div class="aspect-[3/4] overflow-hidden bg-zinc-200 dark:bg-zinc-900 shadow-2xl">
+                      <img src="teu-caminho/foto-importacao.jpg" class="w-full h-full object-cover opacity-80 mix-blend-multiply dark:mix-blend-normal" alt="Serviço de Importação">
+                  </div>
+                  <div class="absolute -bottom-6 -left-6 bg-white dark:bg-zinc-900 p-8 shadow-xl border border-zinc-100 dark:border-zinc-800 max-w-[240px]">
+                      <p class="text-[9px] text-zinc-400 uppercase tracking-widest mb-2 font-bold italic">Garantia de Entrega</p>
+                      <p class="text-[11px] leading-relaxed text-zinc-600">Entregamos a viatura em sua casa, totalmente legalizada e com garantia europeia.</p>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+  </section>
 
   <div id="modal-galeria" class="fixed inset-0 bg-white dark:bg-zinc-950 z-[100] hidden flex-col overflow-y-auto">
     <button onclick="fecharGaleria()" class="fixed top-6 right-6 z-[110] bg-black/5 dark:bg-white/5 p-4 rounded-full hover:rotate-90 transition-transform">
