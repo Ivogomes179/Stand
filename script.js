@@ -17,7 +17,7 @@ const veiculos = {
       preco: "64.990€",
       status: "reservado",
       imagens: [
-        "Disponiveis/M4/m4-1.jpeg", "Disponiveis/M4/m4-2.jpeg", "Disponiveis/M4/m4-3.jpeg",
+        "Disponiveis/M4/m4-1.jpeg", "Disponiveis/M4/m4-2.jpeg", "Disponiveis/M4/m4-3.jpeg", 
         "Disponiveis/M4/m4-4.jpeg", "Disponiveis/M4/m4-5.jpeg", "Disponiveis/M4/m4-6.jpeg",
         "Disponiveis/M4/m4-7.jpeg", "Disponiveis/M4/m4-8.jpeg", "Disponiveis/M4/m4-9.jpeg",
         "Disponiveis/M4/m4-10.jpeg", "Disponiveis/M4/m4-11.jpeg", "Disponiveis/M4/m4-12.jpeg",
@@ -25,7 +25,18 @@ const veiculos = {
         "Disponiveis/M4/m4-16.jpeg"
       ],
       descricao: "Viatura num estado irrepreensível, com histórico completo na marca.",
-      specs: { motor: "3.0 TwinPower Turbo", potencia: "450 cv", transmissao: "DCT 7 Velocidades", ano: "2018" }
+      specs: { 
+        versao: "Competition", // O que era Pack Competition
+        ano: "2018", 
+        quilometros: "43.000 km", 
+        cilindrada: "3.0 TwinPower Turbo", // O que tinhas como 'motor'
+        potencia: "450 cv", 
+        caixa: "DCT 7 Velocidades", // O que tinhas como 'transmissao'
+        combustivel: "Gasolina",
+        tracao: "Traseira",
+        cor: "Mineral Grey",
+        portas: "2"
+      }
     },
     {
       nome: "Seat Ibiza 6l",
@@ -295,19 +306,45 @@ function abrirGaleria(cat, index) {
   document.getElementById('modal-detalhes').innerText = veiculoAtual.detalhes;
   document.getElementById('modal-descricao').innerText = veiculoAtual.descricao || "Contacte-nos para mais informações.";
   
+  // --- NOVA LÓGICA DE ESPECIFICAÇÕES ESTILO STANDVIRTUAL ---
   const sCont = document.getElementById('modal-specs');
   sCont.innerHTML = "";
-  if(veiculoAtual.specs) {
-    Object.entries(veiculoAtual.specs).forEach(([k, val]) => {
-      sCont.innerHTML += `<div class="border p-3"><span class="block text-[9px] text-gray-400 uppercase">${k}</span><span class="text-xs font-bold uppercase">${val}</span></div>`;
-    });
-  }
+
+  // Definimos a ordem e os nomes bonitos dos campos
+  const camposReferencia = {
+    versao: "Versão/Pack",
+    ano: "Ano/Mês",
+    quilometros: "Quilometragem",
+    cilindrada: "Cilindrada",
+    potencia: "Potência",
+    caixa: "Transmissão",
+    combustivel: "Combustível",
+    tracao: "Tração",
+    cor: "Cor Exterior",
+    portas: "Portas/Lugares"
+  };
+
+  // Percorremos a lista de referência para garantir que todos aparecem
+  Object.entries(camposReferencia).forEach(([chave, label]) => {
+    // Procura o valor no veículo. Se não existir, coloca "---"
+    const valor = (veiculoAtual.specs && veiculoAtual.specs[chave]) ? veiculoAtual.specs[chave] : "---";
+    
+    sCont.innerHTML += `
+      <div class="border border-gray-100 dark:border-zinc-800 p-3 bg-zinc-50/30 dark:bg-zinc-900/10">
+        <span class="block text-[8px] text-gray-400 uppercase tracking-[0.2em] mb-1">${label}</span>
+        <span class="text-[11px] font-bold uppercase tracking-tight dark:text-zinc-200">${valor}</span>
+      </div>`;
+  });
+  // --- FIM DA NOVA LÓGICA ---
 
   const msg = encodeURIComponent(`Olá Ivo, gostaria de saber mais sobre o ${veiculoAtual.nome}.`);
   document.getElementById('modal-footer-content').innerHTML = `
     <div class="flex flex-col sm:flex-row justify-between items-center gap-6 w-full pt-4">
-      <div><span class="text-[10px] text-gray-400 uppercase block">Investimento</span><span class="text-3xl font-light">${veiculoAtual.preco}</span></div>
-      <a href="https://wa.me/${telefone}?text=${msg}" target="_blank" class="bg-black dark:bg-white text-white dark:text-black px-12 py-4 text-[10px] uppercase tracking-widest hover:opacity-80 transition">Solicitar Informações</a>
+      <div>
+        <span class="text-[10px] text-gray-400 uppercase block tracking-widest">Investimento</span>
+        <span class="text-3xl font-light dark:text-zinc-200">${veiculoAtual.preco}</span>
+      </div>
+      <a href="https://wa.me/${telefone}?text=${msg}" target="_blank" class="w-full sm:w-auto text-center bg-black dark:bg-white text-white dark:text-black px-12 py-4 text-[10px] uppercase tracking-widest hover:opacity-80 transition shadow-lg">Solicitar Informações</a>
     </div>`;
 
   atualizarVisualizacao();
