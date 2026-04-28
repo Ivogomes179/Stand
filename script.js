@@ -304,42 +304,57 @@ function criarCardHTML(v, index, cat) {
   const statusLabels = {
     disponivel: { texto: 'Disponível', classe: 'bg-white/90 text-black' },
     reservado: { texto: 'Reservado', classe: 'bg-amber-500 text-white' },
-    vendido: { texto: 'Vendido', classe: 'bg-black text-white' } // Badge preto para vendidos
+    vendido: { texto: 'Vendido', classe: 'bg-black text-white' }
   };
   const badge = statusLabels[v.status] || statusLabels.disponivel;
 
   return `
-    <article class="group bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
-      <div class="relative aspect-[4/3] cursor-pointer overflow-hidden skeleton bg-zinc-200">
+    <article class="group bg-white dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 w-full max-w-sm">
+      
+      <div class="relative aspect-[4/3] overflow-hidden bg-zinc-100 dark:bg-zinc-800">
         
+        <div class="absolute inset-0 skeleton"></div>
+
         <img src="${imagem}" 
              onclick="abrirGaleria('${cat}', ${index})" 
-             class="w-full h-full object-cover transition duration-700 group-hover:scale-110 
-             ${isVendido ? 'grayscale brightness-[0.6] contrast-[1.2]' : ''}">
-        
-        ${isVendido ? '<div class="absolute inset-0 bg-black/20 pointer-events-none"></div>' : ''}
+             class="absolute inset-0 w-full h-full object-cover transition duration-700 group-hover:scale-110 z-10 cursor-pointer
+             ${isVendido ? 'grayscale brightness-[0.6] contrast-[1.2]' : ''}"
+             onload="this.previousElementSibling.style.display='none'"> 
 
-        <button onclick="toggleFavorito(event, '${v.nome}')" class="absolute top-4 left-4 z-20 p-2 bg-black/20 backdrop-blur-md rounded-full text-white text-sm">
+        ${isVendido ? '<div class="absolute inset-0 bg-black/20 z-15 pointer-events-none"></div>' : ''}
+
+        <button onclick="toggleFavorito(event, '${v.nome}')" 
+                class="absolute top-3 left-3 z-20 p-2 bg-black/20 backdrop-blur-md rounded-full text-white text-xs hover:bg-black/40 transition">
           ${isFav ? '❤️' : '🤍'}
         </button>
         
-        <div class="absolute top-4 right-4 px-3 py-1 text-[9px] uppercase font-bold ${badge.classe}">${badge.texto}</div>
+        <div class="absolute top-3 right-3 z-20 px-2 py-1 text-[8px] md:text-[9px] uppercase font-bold tracking-[0.2em] shadow-lg ${badge.classe}">
+          ${badge.texto}
+        </div>
       </div>
 
-      <div class="p-8 ${isVendido ? 'opacity-60' : ''}">
-        <h3 class="display-font text-2xl mb-2">${v.nome}</h3>
-        <p class="text-gray-400 text-[10px] uppercase tracking-widest mb-6 border-b pb-4">${v.detalhes}</p>
-        <div class="flex justify-between items-center">
+      <div class="p-5 md:p-6 ${isVendido ? 'opacity-60' : ''}">
+        <div class="flex justify-between items-start mb-2">
+          <h3 class="text-xs md:text-sm uppercase tracking-widest font-bold text-zinc-800 dark:text-zinc-200">${v.nome}</h3>
+        </div>
+        
+        <p class="text-[9px] md:text-[10px] text-zinc-400 uppercase tracking-[0.1em] border-b border-gray-50 dark:border-zinc-800 pb-4 mb-4">
+          ${v.detalhes}
+        </p>
+
+        <div class="flex justify-between items-end">
            <div>
-              <span class="text-[9px] text-gray-400 block uppercase">Investimento</span>
-              <span class="text-xl font-light">${isVendido ? '---' : v.preco}</span>
+              <span class="text-[8px] text-zinc-400 block uppercase tracking-tighter mb-1">Investimento</span>
+              <span class="text-base md:text-lg font-light tracking-tighter">${isVendido ? '---' : v.preco}</span>
            </div>
+           
            <button onclick="abrirGaleria('${cat}', ${index})" 
-             class="border border-black dark:border-white px-6 py-2 text-[10px] uppercase hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition">
-             ${isVendido ? 'Ver Detalhes' : 'Explorar'}
+                   class="border border-zinc-200 dark:border-zinc-700 px-4 py-2 text-[9px] uppercase tracking-widest hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-all">
+             ${isVendido ? 'Dossiê' : 'Explorar'}
            </button>
         </div>
       </div>
+
     </article>`;
 }
 

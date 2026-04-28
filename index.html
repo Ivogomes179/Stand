@@ -43,8 +43,20 @@
   100% { background-position: 800px 0; }
 }
 
+/* Garante que a imagem mantenha uma proporção elegante (3:2) e não corte */
+.card-image-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2; /* Proporção clássica de fotografia automóvel */
+  overflow: hidden;
+}
+
+/* Ajuste do Skeleton para bater certo com o tamanho do card real */
 .skeleton {
-  background: #f1f1f2; /* zinc-100 */
+  width: 100%;
+  height: 100%;
+  /* Removemos o aspect-ratio e a margin daqui, pois o contentor pai (div) já controla isso */
+  background: #f1f1f2;
   background-image: linear-gradient(
     to right, 
     #f1f1f2 0%, 
@@ -53,16 +65,14 @@
     #f1f1f2 100%
   );
   background-repeat: no-repeat;
-  background-size: 1600px 100%; /* Ajustado para cobrir a largura total */
+  background-size: 1600px 100%;
   animation: shimmer 2s infinite linear;
   border-radius: 2px;
-  width: 100%;
-  height: 350px; /* Ajusta conforme a altura dos teus cards */
 }
 
-/* Ajuste crucial para o Modo Escuro */
+/* Ajuste para Modo Escuro */
 .dark .skeleton {
-  background: #18181b; /* zinc-950 */
+  background: #18181b;
   background-image: linear-gradient(
     to right, 
     #18181b 0%, 
@@ -72,7 +82,11 @@
   );
 }
 
-    #lista-veiculos { transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+/* Limitar a altura máxima do card no PC para não ocupar o ecrã todo */
+#lista-veiculos > div {
+  max-width: 400px; /* Evita que o anúncio fique gigante em ecrãs ultra-wide */
+  width: 100%;
+}
   </style>
 </head>
 
